@@ -2,7 +2,7 @@
 import { computed, reactive, ref, shallowRef, watch } from 'vue';
 import { CitySketch, useCityModel } from '@empresa/city-sketch/vue';
 import { THEME_PRESETS, resolveTheme } from '@empresa/city-sketch/theme';
-import { PARAM_SPECS, serializeSvg, type GenerationInput, type Poi, type ThemePresetName } from '@empresa/city-sketch';
+import { PARAM_SPECS, serializeSvg, serializeIsoSvg, type GenerationInput, type Poi, type ThemePresetName } from '@empresa/city-sketch';
 
 const seed = ref('demo-1');
 const mode = ref<GenerationInput['mode']>('tensor');
@@ -11,6 +11,12 @@ const sketchTechnique = ref<'none' | 'rough' | 'filter'>('none');
 const sketchIntensity = ref(0.5);
 const showLots = ref(true);
 const showLabels = ref(true);
+const view = ref<'2d' | 'iso'>('2d');
+const isoRotation = ref(35);
+const isoPitch = ref(55);
+const isoHeight = ref(1);
+const isoFit = ref<'contain' | 'cover'>('cover');
+const isoOptions = computed(() => ({ rotation: isoRotation.value, pitch: isoPitch.value, heightScale: isoHeight.value, fit: isoFit.value, zoom: 1.35 }));
 
 const numeric = reactive<Record<string, number>>({
   density: 0.5,
@@ -75,7 +81,7 @@ function randomSeed(): void {
 
 function exportSvg(): void {
   if (!model.value) return;
-  const { svg } = serializeSvg(model.value, theme.value);
+  const { svg } = view.value === 'iso' ? serializeIsoSvg(model.value, theme.value, isoOptions.value) : serializeSvg(model.value, theme.value);
   const blob = new Blob([svg], { type: 'image/svg+xml' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -115,6 +121,20 @@ watch(mode, () => {
           <option value="hybrid">hybrid</option>
         </select>
       </label>
+
+      <div class="pg-field">
+        <span>Vista</span>
+        <div class="pg-row pg-seg">
+          <button type="button" :class="{ on: view === '2d' }" @click="view = '2d'">2D croquis</button>
+          <button type="button" :class="{ on: view === 'iso' }" @click="view = 'iso'">3D isométrica</button>
+        </div>
+      </div>
+      <template v-if="view === 'iso'">
+        <label class="pg-field pg-slider"><span>Rotación <b>{{ isoRotation }}°</b></span><input v-model.number="isoRotation" type="range" min="0" max="360" step="1" /></label>
+        <label class="pg-field pg-slider"><span>Inclinación <b>{{ isoPitch }}°</b></span><input v-model.number="isoPitch" type="range" min="20" max="89" step="1" /></label>
+        <label class="pg-field pg-slider"><span>Altura <b>{{ isoHeight }}</b></span><input v-model.number="isoHeight" type="range" min="0.2" max="3" step="0.1" /></label>
+        <label class="pg-field"><span>Encuadre</span><select v-model="isoFit"><option value="cover">cover (recorte)</option><option value="contain">contain (todo)</option></select></label>
+      </template>
 
       <label class="pg-field">
         <span>Tema</span>
@@ -177,6 +197,8 @@ watch(mode, () => {
           :theme="theme"
           :show-lots="showLots"
           :show-labels="showLabels"
+          :view="view"
+          :iso="isoOptions"
           @store:hover="hovered = $event.poi"
           @store:select="selected = $event.poi"
           @block:select="selectedBlock = $event.id"

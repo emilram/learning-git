@@ -7,6 +7,7 @@ import { computed, useId } from 'vue';
 import type { Block, CityModel, Poi, Street, Theme } from '../core/types';
 import { polygonPath, polylinePath } from '../core/svg/paths';
 import { patternDefs, poiSymbolDef, serializeSvg, sketchFilterDef } from '../core/svg/serialize';
+import { serializeIsoSvg, type IsoOptions } from '../core/svg/iso';
 import { baseStylesheet, themeVariables, variablesToCss } from '../theme/css';
 
 const props = withDefaults(
@@ -17,8 +18,11 @@ const props = withDefaults(
     showLabels?: boolean;
     showPois?: boolean;
     precision?: number;
+    /** 2d: render por template. iso: vista 2.5D con edificios (string del serializador). */
+    view?: '2d' | 'iso';
+    iso?: Partial<IsoOptions>;
   }>(),
-  { showLots: true, showLabels: true, showPois: true, precision: 2 },
+  { showLots: true, showLabels: true, showPois: true, precision: 2, view: '2d', iso: () => ({}) },
 );
 
 const emit = defineEmits<{
@@ -39,8 +43,13 @@ const defs = computed(
 );
 const filterAttr = computed(() => (props.theme.sketch.technique === 'filter' ? `url(#${prefix.value}-sketch)` : undefined));
 const useRough = computed(() => props.theme.sketch.technique === 'rough');
-/** Con rough.js se delega al serializador (misma salida que la exportacion). */
-const roughSvg = computed(() => (props.model && useRough.value ? serializeSvg(props.model, props.theme, { idPrefix: prefix.value }).svg : ''));
+const useString = computed(() => useRough.value || props.view === 'iso');
+/** Con rough.js o vista iso se delega al serializador (misma salida que la exportacion). */
+const roughSvg = computed(() => {
+  if (!props.model || !useString.value) return '';
+  if (props.view === 'iso') return serializeIsoSvg(props.model, props.theme, { ...props.iso, idPrefix: prefix.value }).svg;
+  return serializeSvg(props.model, props.theme, { idPrefix: prefix.value }).svg;
+});
 
 const viewBox = computed(() => (props.model ? `0 0 ${props.model.bounds.w} ${props.model.bounds.h}` : '0 0 1 1'));
 const description = computed(() =>
@@ -87,7 +96,7 @@ function onClick(e: MouseEvent): void {
 </script>
 
 <template>
-  <div v-if="model && useRough" class="cs-rough-host" v-html="roughSvg" @pointermove="onPointerMove" @click="onClick" />
+  <div v-if="model && useString" class="cs-rough-host" v-html="roughSvg" @pointermove="onPointerMove" @click="onClick" />
   <svg
     v-else-if="model"
     :class="`${prefix}-root cs-svg`"

@@ -36,12 +36,16 @@ const { model } = useCityModel(() => ({ seed: 'demo-1', mode: 'grid-jitter' }));
 </template>
 ```
 
+## Vista 3D isométrica
+
+`serializeIsoSvg(model, theme, { rotation, pitch, heightScale, fit, lotHeight })` extruye los lotes como edificios con sombreado por cara (algoritmo del pintor + backface culling), dibuja las tiendas como edificios destacados con pin y etiqueta, y proyecta calles y manzanas al plano. `lotHeight(lot, block, poi)` permite mapear una métrica a altura. En Vue: `<CitySketch view="iso" :iso="{ rotation: 35, pitch: 55, fit: 'cover' }" />`.
+
 ## Estado por bloque
 
 | Bloque | Estado | Notas |
 |--------|--------|-------|
 | 1 Arquitectura | ✅ | `docs/ARCHITECTURE.md`, `types.ts`, `params.ts` |
-| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, SVG. 57 tests. |
+| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, SVG 2D y **vista 3D isométrica** (`serializeIsoSvg`). 60 tests. |
 | 3 Temas y boceto | ◐ | 5 presets OKLCH en 3 capas, rough.js y filtro SVG ya funcionan; faltan ejemplos SVG y medición de coste. |
 | 4 Adaptador Vue | ◐ | `CitySketch` y `useCityModel` (hilo principal). Faltan capas separadas, zoom, hit-test quadtree, binding de métricas, worker. |
 | 5 Playground y plantillas | ◐ | Playground básico con sliders desde `PARAM_SPECS`. Falta editor completo, arrastre de tiendas y JSON Schema. |

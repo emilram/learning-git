@@ -152,3 +152,28 @@ describe('serializeSvg', () => {
     });
   }
 });
+
+describe('serializeIsoSvg', () => {
+  const model = generateCity({ seed: 'iso', mode: 'grid-jitter', size: { w: 500, h: 400 }, pois: { count: 5 } });
+  it('es determinista y emite edificios, pins y capas', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    const a = serializeIsoSvg(model, THEME_PRESETS['retail-warm']);
+    const b = serializeIsoSvg(model, THEME_PRESETS['retail-warm']);
+    expect(a.svg).toBe(b.svg);
+    expect(a.svg).toContain('data-layer="buildings"');
+    expect(a.svg).toContain('class="cs-building cs-store"');
+    expect(a.svg).toContain('cs-pin-head');
+    expect(a.elementCount.lots).toBeGreaterThan(10);
+    expect(a.elementCount.pois).toBe(5);
+  });
+  it('lotHeight permite mapear metricas a altura', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    const flat = serializeIsoSvg(model, THEME_PRESETS['retail-warm'], { lotHeight: () => 1 });
+    const tall = serializeIsoSvg(model, THEME_PRESETS['retail-warm'], { lotHeight: () => 60 });
+    expect(flat.svg).not.toBe(tall.svg);
+  });
+  it('snapshot iso dark-ops', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    expect(serializeIsoSvg(model, THEME_PRESETS['dark-ops'], { rotation: 20, pitch: 60 }).svg).toMatchSnapshot();
+  });
+});

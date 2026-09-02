@@ -153,3 +153,12 @@ button {
     border-bottom: 1px solid var(--pg-line);
   }
 }
+
+.pg-seg button {
+  flex: 1;
+}
+.pg-seg button.on {
+  background: var(--pg-ink);
+  color: white;
+  border-color: transparent;
+}
