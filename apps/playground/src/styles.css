@@ -162,3 +162,23 @@ button {
   color: white;
   border-color: transparent;
 }
+
+.pg-nav {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--pg-line);
+  background: var(--pg-panel);
+}
+.pg-nav strong {
+  margin-right: 12px;
+}
+.pg-nav button.on {
+  background: var(--pg-ink);
+  color: white;
+  border-color: transparent;
+}
+.pg {
+  min-height: calc(100vh - 42px);
+}

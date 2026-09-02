@@ -24,7 +24,11 @@
       "types": "./dist/vue/index.d.ts",
       "import": "./dist/vue/index.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./worker": {
+      "types": "./dist/worker/index.d.ts",
+      "import": "./dist/worker/index.js"
+    },
+    "./styles.css": "./dist/city-sketch.css"
   },
   "files": [
     "dist",

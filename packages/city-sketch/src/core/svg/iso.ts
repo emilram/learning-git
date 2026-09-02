@@ -169,6 +169,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
       `<style>${baseStylesheet(`.${prefix}-root`)}\n.${prefix}-iso .cs-wall{stroke:var(--cs-ink-muted);stroke-width:0.35;stroke-linejoin:round}.${prefix}-iso .cs-roof{stroke:var(--cs-ink-muted);stroke-width:0.4;stroke-linejoin:round}.${prefix}-iso .cs-shadow{fill:var(--cs-ink);opacity:0.12}.${prefix}-iso .cs-pin{stroke:var(--cs-ink);stroke-width:1}.${prefix}-iso .cs-pin-head{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}.${prefix}-iso .cs-pin-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}.${prefix}-iso .cs-pin-label{font-family:var(--cs-label-font);font-size:9px;font-weight:600;fill:var(--cs-ink);paint-order:stroke;stroke:var(--cs-surface);stroke-width:3;stroke-linejoin:round;text-anchor:middle}</style>`,
     );
   }
+  parts.push(`<g class="cs-viewport">`);
   // Suelo: lienzo proyectado.
   parts.push(`<g data-layer="canvas"><path class="cs-canvas" d="${poly3([[0, 0], [w, 0], [w, h], [0, h]], 0)}"/></g>`);
 
@@ -291,7 +292,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         `<title>${escapeXml(poi.label)}</title></g>`,
     );
   }
-  parts.push(`</g><g data-layer="overlay"></g></svg>`);
+  parts.push(`</g><g data-layer="overlay"></g></g></svg>`);
   return {
     svg: parts.join('\n'),
     viewBox: vb,

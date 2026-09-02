@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, reactive, ref, shallowRef, watch } from 'vue';
 import { CitySketch, useCityModel } from '@empresa/city-sketch/vue';
+import Dashboard from './Dashboard.vue';
 import { THEME_PRESETS, resolveTheme } from '@empresa/city-sketch/theme';
 import { PARAM_SPECS, serializeSvg, serializeIsoSvg, type GenerationInput, type Poi, type ThemePresetName } from '@empresa/city-sketch';
 
+const page = ref<'playground' | 'dashboard'>(location.hash === '#dashboard' ? 'dashboard' : 'playground');
+watch(page, (p) => { location.hash = p === 'dashboard' ? '#dashboard' : ''; });
 const seed = ref('demo-1');
 const mode = ref<GenerationInput['mode']>('tensor');
 const themeName = ref<ThemePresetName>('retail-warm');
@@ -97,10 +100,16 @@ watch(mode, () => {
 </script>
 
 <template>
-  <div class="pg" :data-scheme="theme.scheme">
+  <nav class="pg-nav">
+    <strong>city-sketch</strong>
+    <button type="button" :class="{ on: page === 'playground' }" @click="page = 'playground'">Playground</button>
+    <button type="button" :class="{ on: page === 'dashboard' }" @click="page = 'dashboard'">Dashboard</button>
+  </nav>
+  <Dashboard v-if="page === 'dashboard'" />
+  <div v-else class="pg" :data-scheme="theme.scheme">
     <aside class="pg-panel">
-      <h1>city-sketch</h1>
-      <p class="pg-sub">Motor sintético · demo del bloque 2</p>
+      <h1>Playground</h1>
+      <p class="pg-sub">Motor sintético · bloques 2 a 4</p>
 
       <label class="pg-field">
         <span>Semilla</span>

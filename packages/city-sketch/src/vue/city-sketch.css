@@ -1,0 +1,436 @@
+/* @empresa/city-sketch — estilos del adaptador Vue (card, tooltip, animaciones, a11y, impresion). */
+
+.cs-host {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  overflow: hidden;
+  touch-action: none;
+  outline: none;
+}
+.cs-svg,
+.cs-string-host > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cs-svg.cs-over-canvas .cs-canvas {
+  fill: none;
+}
+.cs-canvas-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.cs-svg.cs-over-canvas {
+  position: relative;
+  z-index: 1;
+}
+.cs-string-host {
+  width: 100%;
+  height: 100%;
+}
+.cs-empty {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: var(--cs-ink-muted, #666);
+  font-size: 13px;
+}
+
+/* Marcadores */
+.cs-poi-marker {
+  cursor: pointer;
+  --cs-poi-scale: 1;
+}
+.cs-poi-marker .cs-poi-scaled {
+  transform: scale(var(--cs-poi-scale));
+  transition: transform 300ms ease;
+}
+.cs-poi-marker .cs-poi {
+  fill: var(--cs-poi-fill);
+  stroke: var(--cs-poi-stroke);
+  stroke-width: 1.2;
+  transition: fill 300ms ease;
+}
+.cs-poi-marker .cs-poi-ring {
+  fill: none;
+  stroke: var(--cs-poi-ring);
+  stroke-width: 1.6;
+  transition: stroke 300ms ease;
+}
+.cs-poi-marker .cs-poi-selection {
+  fill: none;
+  stroke: var(--cs-accent);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 2;
+  animation: cs-spin 6s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.cs-poi-marker.cs-hovered .cs-poi-scaled {
+  transform: scale(calc(var(--cs-poi-scale) * 1.25));
+}
+.cs-poi-marker:focus-visible .cs-poi {
+  stroke: var(--cs-accent);
+  stroke-width: 2.5;
+}
+.cs-badge rect {
+  fill: var(--cs-ink);
+  stroke: var(--cs-surface);
+  stroke-width: 1;
+}
+.cs-badge text {
+  fill: var(--cs-surface);
+  font-family: var(--cs-font-body);
+  font-size: 7.5px;
+  font-weight: 600;
+  dominant-baseline: middle;
+  text-anchor: start;
+}
+.cs-block.cs-selected {
+  stroke: var(--cs-accent);
+  stroke-width: 2;
+}
+.cs-isochrone {
+  stroke: none;
+  pointer-events: none;
+}
+.cs-heat path {
+  pointer-events: none;
+}
+
+/* Animacion de entrada de calles */
+.cs-animate .cs-animate-draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: cs-draw 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.cs-animate .cs-animate-draw path.cs-street {
+  animation-delay: 0.1s;
+}
+.cs-animate .cs-animate-draw path.cs-alley {
+  animation-delay: 0.5s;
+}
+.cs-animate [data-layer='pois'] .cs-poi-marker {
+  animation: cs-pop 500ms cubic-bezier(0.2, 0.8, 0.2, 1.2) both;
+  animation-delay: 1s;
+}
+.cs-view-iso .cs-building {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: cs-rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes cs-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes cs-pop {
+  from {
+    opacity: 0;
+    transform: translate(var(--tx, 0), var(--ty, 0)) scale(0.2);
+  }
+}
+@keyframes cs-rise {
+  from {
+    transform: scaleY(0.02);
+  }
+}
+@keyframes cs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-animate .cs-animate-draw path,
+  .cs-animate [data-layer='pois'] .cs-poi-marker,
+  .cs-view-iso .cs-building,
+  .cs-poi-marker .cs-poi-selection {
+    animation: none !important;
+    stroke-dashoffset: 0;
+  }
+  .cs-poi-marker .cs-poi-scaled,
+  .cs-poi-marker .cs-poi,
+  .cs-poi-marker .cs-poi-ring {
+    transition: none;
+  }
+}
+
+/* Tooltip */
+.cs-tooltip {
+  position: absolute;
+  z-index: 3;
+  transform: translate(12px, 12px);
+  pointer-events: none;
+  background: var(--cs-surface, #fff);
+  color: var(--cs-ink, #111);
+  border: 1px solid color-mix(in oklch, var(--cs-ink, #111) 15%, transparent);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font: 12px/1.35 var(--cs-font-body, system-ui, sans-serif);
+  box-shadow: 0 4px 14px oklch(0% 0 0 / 0.14);
+  max-width: 240px;
+}
+.cs-tooltip-value {
+  color: var(--cs-ink-muted, #555);
+}
+
+/* Accesibilidad */
+.cs-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Card */
+.cs-card {
+  container-type: inline-size;
+  container-name: cs-card;
+  display: flex;
+  flex-direction: column;
+  background: var(--cs-card-bg, oklch(100% 0 0));
+  color: var(--cs-card-ink, oklch(22% 0.03 260));
+  border: 1px solid var(--cs-card-line, oklch(88% 0.02 260));
+  border-radius: var(--cs-card-radius, 12px);
+  overflow: hidden;
+  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.04), 0 8px 24px oklch(0% 0 0 / 0.06);
+  font-family: var(--cs-card-font, 'Inter', system-ui, sans-serif);
+}
+.cs-card[data-scheme='dark'] {
+  --cs-card-bg: oklch(20% 0.012 260);
+  --cs-card-ink: oklch(92% 0.01 260);
+  --cs-card-line: oklch(32% 0.02 260);
+}
+.cs-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cs-card-line);
+}
+.cs-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.cs-card-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.cs-card-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.cs-btn,
+.cs-seg button {
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid var(--cs-card-line);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.cs-seg {
+  display: inline-flex;
+  border: 1px solid var(--cs-card-line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cs-seg button {
+  border: 0;
+  border-radius: 0;
+}
+.cs-seg button.cs-on {
+  background: var(--cs-card-ink);
+  color: var(--cs-card-bg);
+}
+.cs-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 1px;
+  background: var(--cs-card-line);
+  border-bottom: 1px solid var(--cs-card-line);
+}
+.cs-kpi {
+  background: var(--cs-card-bg);
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cs-kpi-label {
+  font-size: 11px;
+  opacity: 0.65;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cs-kpi-value {
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cs-kpi-delta {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.cs-kpi[data-tone='positive'] .cs-kpi-delta {
+  color: oklch(55% 0.16 150);
+}
+.cs-kpi[data-tone='negative'] .cs-kpi-delta {
+  color: oklch(55% 0.2 25);
+}
+.cs-card-body {
+  position: relative;
+  width: 100%;
+}
+.cs-card-body > .cs-host {
+  position: absolute;
+  inset: 0;
+}
+.cs-card-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--cs-card-bg) 60%, transparent);
+}
+.cs-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--cs-card-line);
+  border-top-color: var(--cs-card-ink);
+  animation: cs-spin 800ms linear infinite;
+}
+.cs-card-footer {
+  padding: 8px 14px;
+  border-top: 1px solid var(--cs-card-line);
+  font-size: 11px;
+}
+.cs-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.cs-legend-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.cs-legend-swatch::before,
+.cs-legend-ring::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: -1px;
+  background: var(--sw);
+}
+.cs-legend-ring::before {
+  background: transparent;
+  border: 2px solid var(--sw);
+}
+.cs-legend-size i {
+  display: inline-block;
+  width: var(--sz);
+  height: var(--sz);
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+@container cs-card (max-width: 360px) {
+  .cs-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cs-kpi-value {
+    font-size: 15px;
+  }
+  .cs-card-footer {
+    display: none;
+  }
+}
+
+/* Comparacion */
+.cs-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.cs-compare-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cs-compare-panel .cs-host {
+  aspect-ratio: 4 / 3;
+  height: auto;
+}
+.cs-compare-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+@container cs-card (max-width: 520px) {
+  .cs-compare {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Forced colors */
+@media (forced-colors: active) {
+  .cs-card {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+  .cs-tooltip {
+    border: 1px solid CanvasText;
+  }
+  .cs-poi-marker .cs-poi {
+    fill: Highlight;
+    stroke: Canvas;
+  }
+  .cs-poi-marker .cs-poi-ring {
+    stroke: CanvasText;
+  }
+}
+
+/* Impresion */
+@media print {
+  .cs-card {
+    box-shadow: none;
+    border-color: #999;
+    break-inside: avoid;
+  }
+  .cs-card-actions,
+  .cs-tooltip,
+  .cs-card-loading {
+    display: none !important;
+  }
+  .cs-animate .cs-animate-draw path,
+  .cs-animate [data-layer='pois'] .cs-poi-marker,
+  .cs-view-iso .cs-building {
+    animation: none !important;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  .cs-host {
+    overflow: visible;
+  }
+}

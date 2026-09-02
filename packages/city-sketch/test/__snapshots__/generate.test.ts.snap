@@ -27,6 +27,7 @@ exports[`serializeIsoSvg > snapshot iso dark-ops 1`] = `
 .cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
 @media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}
 .cs-iso .cs-wall{stroke:var(--cs-ink-muted);stroke-width:0.35;stroke-linejoin:round}.cs-iso .cs-roof{stroke:var(--cs-ink-muted);stroke-width:0.4;stroke-linejoin:round}.cs-iso .cs-shadow{fill:var(--cs-ink);opacity:0.12}.cs-iso .cs-pin{stroke:var(--cs-ink);stroke-width:1}.cs-iso .cs-pin-head{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}.cs-iso .cs-pin-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}.cs-iso .cs-pin-label{font-family:var(--cs-label-font);font-size:9px;font-weight:600;fill:var(--cs-ink);paint-order:stroke;stroke:var(--cs-surface);stroke-width:3;stroke-linejoin:round;text-anchor:middle}</style>
+<g class="cs-viewport">
 <g data-layer="canvas"><path class="cs-canvas" d="M83.5 -36.8L553.3 111.3L416.5 436.8L-53.3 288.7Z"/></g>
 <g data-layer="blocks">
 <path class="cs-block cs-lu-residential" d="M110.4 -26L91 14.8L67 8.7L85 -34Z" data-id="b_04ef8415" data-landuse="residential"/>
@@ -670,7 +671,7 @@ exports[`serializeIsoSvg > snapshot iso dark-ops 1`] = `
 <g class="cs-poi-marker cs-kind-kiosk" data-id="p_0e112951" data-kind="kiosk" data-label="Tienda 05"><line class="cs-pin" x1="343.3" y1="161.2" x2="343.3" y2="144.2"/><circle class="cs-pin-ring" cx="343.3" cy="144.2" r="4.7"/><circle class="cs-pin-head" cx="343.3" cy="144.2" r="2.9"/><text class="cs-pin-label" x="343.3" y="135.9">Tienda 05</text><title>Tienda 05</title></g>
 <g class="cs-poi-marker cs-kind-store" data-id="p_01a7c49a" data-kind="store" data-label="Tienda 04"><line class="cs-pin" x1="299.9" y1="206.2" x2="299.9" y2="189.2"/><circle class="cs-pin-ring" cx="299.9" cy="189.2" r="6.3"/><circle class="cs-pin-head" cx="299.9" cy="189.2" r="3.9"/><text class="cs-pin-label" x="299.9" y="179.2">Tienda 04</text><title>Tienda 04</title></g>
 <g class="cs-poi-marker cs-kind-store" data-id="p_17b16ac0" data-kind="store" data-label="Tienda 02"><line class="cs-pin" x1="31.8" y1="276.9" x2="31.8" y2="259.9"/><circle class="cs-pin-ring" cx="31.8" cy="259.9" r="6.3"/><circle class="cs-pin-head" cx="31.8" cy="259.9" r="3.9"/><text class="cs-pin-label" x="31.8" y="249.9">Tienda 02</text><title>Tienda 02</title></g>
-</g><g data-layer="overlay"></g></svg>"
+</g><g data-layer="overlay"></g></g></svg>"
 `;
 
 exports[`serializeSvg > snapshot blueprint 1`] = `
