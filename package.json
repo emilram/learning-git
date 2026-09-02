@@ -1,0 +1,19 @@
+{
+  "name": "city-sketch-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @empresa/city-sketch",
+    "test": "npm run test -w @empresa/city-sketch",
+    "typecheck": "npm run typecheck -w @empresa/city-sketch",
+    "dev": "npm run dev -w playground"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
