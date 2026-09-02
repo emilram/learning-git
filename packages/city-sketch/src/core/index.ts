@@ -1,2 +1,16 @@
 export * from './types';
 export * from './params';
+export { generateCity, generateFromParams, configHash } from './generate';
+export { createRng, xmur3, sfc32 } from './rng/prng';
+export { cyrb53, hashHex, createIdFactory } from './rng/ids';
+export { serializeSvg, DEFAULT_SVG_OPTIONS } from './svg/serialize';
+export { polylinePath, polygonPath, escapeXml, fmt } from './svg/paths';
+export { STREET_NAMES } from './names/lists';
+export { createTensorField, fieldFromContext } from './field/tensor';
+export { traceStreamlines } from './field/streamlines';
+export { planarize, PlanarGraph } from './graph/planar';
+export { cleanupGraph } from './graph/cleanup';
+export { extractFaces } from './graph/faces';
+export { createContext } from './context';
+export * as geom from './geom/polygon';
+export * as vec from './geom/vec';

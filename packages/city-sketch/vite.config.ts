@@ -17,7 +17,6 @@ export default defineConfig({
         'core/index': 'src/core/index.ts',
         'theme/index': 'src/theme/index.ts',
         'vue/index': 'src/vue/index.ts',
-        'worker/index': 'src/worker/index.ts',
       },
       formats: ['es'],
     },

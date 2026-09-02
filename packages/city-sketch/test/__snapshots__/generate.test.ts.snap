@@ -1,0 +1,777 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`serializeSvg > snapshot blueprint 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300" width="400" height="300" class="cs-root" data-seed="snap" data-theme="blueprint" style="--cs-canvas-bg:oklch(36% 0.11 255);--cs-canvas-grid:oklch(55% 0.08 255);--cs-ink:oklch(97% 0.02 250);--cs-ink-muted:oklch(85% 0.05 250);--cs-surface:oklch(36% 0.11 255);--cs-accent:oklch(92% 0.06 220);--cs-accent-alt:oklch(85% 0.15 80);--cs-danger:oklch(58% 0.2 25);--cs-success:oklch(62% 0.13 150);--cs-street-avenue-stroke:oklch(97% 0.02 250);--cs-street-avenue-casing:oklch(36% 0.11 255);--cs-street-avenue-scale:0.55;--cs-street-avenue-dash:none;--cs-street-street-stroke:oklch(85% 0.05 250);--cs-street-street-casing:oklch(36% 0.11 255);--cs-street-street-scale:0.45;--cs-street-street-dash:none;--cs-street-alley-stroke:oklch(85% 0.05 250);--cs-street-alley-casing:oklch(36% 0.11 255);--cs-street-alley-scale:0.4;--cs-street-alley-dash:3 2;--cs-block-retail-fill:oklch(44% 0.1 255);--cs-block-retail-stroke:oklch(85% 0.05 250);--cs-block-retail-opacity:1;--cs-block-residential-fill:oklch(40% 0.1 255);--cs-block-residential-stroke:oklch(85% 0.05 250);--cs-block-residential-opacity:1;--cs-block-park-fill:oklch(45% 0.09 200);--cs-block-park-stroke:oklch(85% 0.05 250);--cs-block-park-opacity:1;--cs-block-water-fill:oklch(30% 0.09 255);--cs-block-water-stroke:oklch(85% 0.05 250);--cs-block-water-opacity:1;--cs-block-plaza-fill:oklch(44% 0.1 255);--cs-block-plaza-stroke:oklch(85% 0.05 250);--cs-block-plaza-opacity:1;--cs-lot-stroke:oklch(85% 0.05 250);--cs-lot-width:0.35;--cs-lot-opacity:0.45;--cs-label-fill:oklch(97% 0.02 250);--cs-label-halo:oklch(36% 0.11 255);--cs-label-font:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-label-spacing:0.04em;--cs-poi-fill:oklch(85% 0.15 80);--cs-poi-stroke:oklch(36% 0.11 255);--cs-poi-ring:oklch(92% 0.06 220);--cs-poi-size:7;--cs-font-display:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-font-body:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif" role="img" aria-labelledby="cs-title cs-desc">
+<title id="cs-title">Croquis de ciudad snap</title><desc id="cs-desc">Ciudad sintetica con 14 calles, 9 manzanas y 6 puntos de interes. Modo organic-voronoi.</desc>
+<style>.cs-root{font-family:var(--cs-font-body);color-scheme:light dark}
+.cs-root .cs-canvas{fill:var(--cs-canvas-bg)}
+.cs-root .cs-block{stroke-width:0.6;stroke-linejoin:round}
+.cs-root .cs-lu-retail{fill:var(--cs-block-retail-fill);stroke:var(--cs-block-retail-stroke);opacity:var(--cs-block-retail-opacity)}
+.cs-root .cs-lu-residential{fill:var(--cs-block-residential-fill);stroke:var(--cs-block-residential-stroke);opacity:var(--cs-block-residential-opacity)}
+.cs-root .cs-lu-park{fill:var(--cs-block-park-fill);stroke:var(--cs-block-park-stroke);opacity:var(--cs-block-park-opacity)}
+.cs-root .cs-lu-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);opacity:var(--cs-block-water-opacity)}
+.cs-root .cs-lu-plaza{fill:var(--cs-block-plaza-fill);stroke:var(--cs-block-plaza-stroke);opacity:var(--cs-block-plaza-opacity)}
+.cs-root .cs-pattern{fill-opacity:0.55}
+.cs-root .cs-lot{fill:none;stroke:var(--cs-lot-stroke);stroke-width:var(--cs-lot-width);opacity:var(--cs-lot-opacity)}
+.cs-root .cs-street{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cs-root .cs-casing.cs-avenue{stroke:var(--cs-street-avenue-casing)}
+.cs-root .cs-casing.cs-street{stroke:var(--cs-street-street-casing)}
+.cs-root .cs-casing.cs-alley{stroke:var(--cs-street-alley-casing)}
+.cs-root .cs-fill.cs-avenue{stroke:var(--cs-street-avenue-stroke)}
+.cs-root .cs-fill.cs-street{stroke:var(--cs-street-street-stroke)}
+.cs-root .cs-fill.cs-alley{stroke:var(--cs-street-alley-stroke)}
+.cs-root .cs-label{fill:var(--cs-label-fill);font-family:var(--cs-label-font);letter-spacing:var(--cs-label-spacing);paint-order:stroke;stroke:var(--cs-label-halo);stroke-width:2.5;stroke-linejoin:round;text-anchor:middle;dominant-baseline:middle}
+.cs-root .cs-label-path{fill:none;stroke:none}
+.cs-root .cs-poi{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}
+.cs-root .cs-poi-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}
+.cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
+@media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}</style>
+<defs><pattern id="cs-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="0.6"/></pattern><pattern id="cs-cross-hatch" patternUnits="userSpaceOnUse" width="6" height="6"><path d="M0 3H6M3 0V6" stroke="currentColor" stroke-width="0.5"/></pattern><pattern id="cs-dots" patternUnits="userSpaceOnUse" width="5" height="5"><circle cx="2.5" cy="2.5" r="0.7" fill="currentColor"/></pattern><pattern id="cs-grid" patternUnits="userSpaceOnUse" width="8" height="8"><path d="M8 0H0V8" fill="none" stroke="currentColor" stroke-width="0.4"/></pattern><symbol id="cs-poi" viewBox="-10 -10 20 20" overflow="visible"><circle class="cs-poi-ring" r="7.5" style="fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5"/><circle class="cs-poi" r="4.5" style="fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2"/></symbol></defs>
+<g data-layer="canvas"><rect class="cs-canvas" x="0" y="0" width="400" height="300"/></g>
+<g data-layer="blocks">
+<path class="cs-block cs-lu-park" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" id="cs-b_16383076" data-id="b_16383076" data-landuse="park" data-district="d_0b90deed"/>
+<path class="cs-pattern" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" fill="url(#cs-dots)" style="color:var(--cs-block-park-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M136.03 98.52L110.86 2.5L247.9 2.5L247.21 52.41Z" id="cs-b_0c8b027b" data-id="b_0c8b027b" data-landuse="residential" data-district="d_0b90deed"/>
+<path class="cs-block cs-lu-residential" d="M2.5 148.69L126.3 113.45L156.02 180.59L129.32 225.9L2.5 178.42Z" id="cs-b_1f33f74d" data-id="b_1f33f74d" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-residential" d="M139.1 242.78L170.16 190.07L266.33 198.45L267.89 297.5L143.88 297.5Z" id="cs-b_15fcd75e" data-id="b_15fcd75e" data-landuse="residential" data-district="d_0987262b"/>
+<path class="cs-block cs-lu-residential" d="M2.5 196.57L128.13 243.6L132.84 297.5L2.5 297.5Z" id="cs-b_0664fb36" data-id="b_0664fb36" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-plaza" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" id="cs-b_179d7c83" data-id="b_179d7c83" data-landuse="plaza" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" fill="url(#cs-cross-hatch)" style="color:var(--cs-block-plaza-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M258.13 57.74L258.9 2.5L397.5 2.5L397.5 81.11L280.55 89.01Z" id="cs-b_1049cd09" data-id="b_1049cd09" data-landuse="residential" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-water" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" id="cs-b_02d38b24" data-id="b_02d38b24" data-landuse="water" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-residential" d="M277.29 195.86L397.5 195.43L397.5 297.5L278.89 297.5Z" id="cs-b_0e2e2b06" data-id="b_0e2e2b06" data-landuse="residential" data-district="d_0987262b"/>
+</g>
+<g data-layer="lots">
+<path class="cs-lot" d="M247.42 37.15L247.21 52.41L218.34 64.39L218.34 37.15Z" data-id="l_12c22a2f" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M218.34 64.39L174.96 82.38L174.96 37.15L218.34 37.15Z" data-id="l_0abe1926" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M247.7 16.69L247.42 37.15L174.96 37.15L174.96 16.69Z" data-id="l_09b52b88" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M174.96 2.5L247.9 2.5L247.7 16.69L174.96 16.69Z" data-id="l_15508445" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M136.03 98.52L123.21 49.62L143.96 49.62L143.96 95.23Z" data-id="l_015af2f8" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M143.96 49.62L174.96 49.62L174.96 82.38L143.96 95.23Z" data-id="l_090a0384" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M117.54 27.98L110.86 2.5L174.96 2.5L174.96 27.98Z" data-id="l_118b0ee3" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M123.21 49.62L117.54 27.98L174.96 27.98L174.96 49.62Z" data-id="l_0bd3c845" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M150.88 168.97L156.02 180.59L134.55 217.02L123.12 176.88Z" data-id="l_068305de" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M134.55 217.02L129.32 225.9L88.86 210.75L82.51 188.44L123.12 176.88Z" data-id="l_08578ec3" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M98.33 121.41L126.3 113.45L136.9 137.4L105.44 146.36Z" data-id="l_0ee9f5f1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M136.9 137.4L150.88 168.97L114.8 179.24L105.44 146.36Z" data-id="l_1abecdd7" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M66.04 130.6L83.22 125.71L99.68 183.55L82.51 188.44Z" data-id="l_10181445" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M83.22 125.71L98.33 121.41L114.8 179.24L99.68 183.55Z" data-id="l_05c1072d" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M80.05 179.8L88.86 210.75L38.1 191.75Z" data-id="l_1ea2b21b" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M2.5 148.69L30.48 140.73L44.49 189.93L38.1 191.75L2.5 178.42Z" data-id="l_1f96d7aa" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M30.48 140.73L46.63 136.13L60.63 185.33L44.49 189.93Z" data-id="l_090c6ea1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M46.63 136.13L66.04 130.6L80.05 179.8L60.63 185.33Z" data-id="l_0dba4ec4" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M217.55 243.13L217.55 255.23L140.19 255.23L139.13 243.13Z" data-id="l_0bb8a938" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 255.23L217.55 268.51L141.35 268.51L140.19 255.23Z" data-id="l_11337b4b" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 268.51L217.55 286.48L142.92 286.48L141.35 268.51Z" data-id="l_0a1dd5ee" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 286.48L217.55 297.5L143.88 297.5L142.92 286.48Z" data-id="l_1a828380" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M139.1 242.78L152.06 220.79L185.86 220.79L185.86 243.13L139.13 243.13Z" data-id="l_1bafe3fe" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M152.06 220.79L170.16 190.07L185.86 191.44L185.86 220.79Z" data-id="l_1943956a" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M185.86 191.44L217.55 194.2L217.55 243.13L185.86 243.13Z" data-id="l_0a77aab3" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M242.82 196.4L266.33 198.45L266.85 231.34L242.82 231.34Z" data-id="l_0e5d8ea1" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 194.2L242.82 196.4L242.82 231.34L217.55 231.34Z" data-id="l_05a63ecd" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.4 266.1L267.89 297.5L217.55 297.5L217.55 266.1Z" data-id="l_07758d7e" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.1 247.09L267.4 266.1L217.55 266.1L217.55 247.09Z" data-id="l_1c3a3945" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M266.85 231.34L267.1 247.09L217.55 247.09L217.55 231.34Z" data-id="l_19f59e15" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M55.98 216.59L81.85 226.28L81.85 253.15L55.98 253.15Z" data-id="l_0fbc9240" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M81.85 226.28L128.13 243.6L128.96 253.15L81.85 253.15Z" data-id="l_1ab55fb0" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M131.58 283.12L132.84 297.5L55.98 297.5L55.98 283.12Z" data-id="l_1a1e0124" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M130.72 273.22L131.58 283.12L55.98 283.12L55.98 273.22Z" data-id="l_1c28ad27" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M128.96 253.15L130.72 273.22L55.98 273.22L55.98 253.15Z" data-id="l_1d80ac59" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M37.46 209.66L55.98 216.59L55.98 297.5L37.46 297.5Z" data-id="l_11d3a68d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M25.51 205.18L37.46 209.66L37.46 297.5L25.51 297.5Z" data-id="l_1043737a" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M10.69 199.63L25.51 205.18L25.51 297.5L10.69 297.5Z" data-id="l_1aa6a60d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M2.5 196.57L10.69 199.63L10.69 297.5L2.5 297.5Z" data-id="l_11a2d35b" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M310.07 61.4L310.07 87.01L280.55 89.01L260.76 61.4Z" data-id="l_0d35ec24" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.13 57.74L258.46 34.18L310.07 34.18L310.07 61.4L260.76 61.4Z" data-id="l_10fa0cc6" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.7 16.53L258.9 2.5L310.07 2.5L310.07 16.53Z" data-id="l_07040ef5" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.46 34.18L258.7 16.53L310.07 16.53L310.07 34.18Z" data-id="l_1047cecb" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M310.07 2.5L324.79 2.5L324.79 86.02L310.07 87.01Z" data-id="l_11cdfa98" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M324.79 2.5L337.54 2.5L337.54 85.16L324.79 86.02Z" data-id="l_10faa705" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M337.54 2.5L353.36 2.5L353.36 84.09L337.54 85.16Z" data-id="l_0f9add54" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M353.36 2.5L360.8 2.5L360.8 83.59L353.36 84.09Z" data-id="l_0279155c" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M360.8 2.5L373.51 2.5L373.51 82.73L360.8 83.59Z" data-id="l_1a844891" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M373.51 2.5L386.18 2.5L386.18 81.87L373.51 82.73Z" data-id="l_05cd6c68" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M386.18 2.5L397.5 2.5L397.5 81.11L386.18 81.87Z" data-id="l_1493f852" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M325.81 268.29L325.81 297.5L278.89 297.5L278.43 268.46Z" data-id="l_15653f74" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 237.92L325.81 268.29L278.43 268.46L277.96 238.09Z" data-id="l_14891647" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M305.77 195.76L325.81 195.69L325.81 237.92L305.92 237.99Z" data-id="l_196d020b" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M277.29 195.86L305.77 195.76L305.92 237.99L277.96 238.09Z" data-id="l_0750af69" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 195.69L337.69 195.64L337.69 297.5L325.81 297.5Z" data-id="l_135b8c48" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M337.69 195.64L348.02 195.61L348.02 297.5L337.69 297.5Z" data-id="l_04b33b98" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M348.02 195.61L356.8 195.58L356.8 297.5L348.02 297.5Z" data-id="l_1fed32d0" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M356.8 195.58L368.18 195.53L368.18 297.5L356.8 297.5Z" data-id="l_058f89d5" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M368.18 195.53L380.62 195.49L380.62 297.5L368.18 297.5Z" data-id="l_12c06fae" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M380.62 195.49L388.63 195.46L388.63 297.5L380.62 297.5Z" data-id="l_01dc4bd8" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M388.63 195.46L397.5 195.43L397.5 297.5L388.63 297.5Z" data-id="l_007b07ba" data-block="b_0e2e2b06"/>
+</g>
+<g data-layer="water">
+</g>
+<g data-layer="streets-casing">
+<path class="cs-street cs-casing cs-street" d="M104.52 0L132.31 106.02" stroke-width="5.20" data-id="s_12254881"/>
+<path class="cs-street cs-casing cs-street" d="M132.31 106.02L0 143.69" stroke-width="5.20" data-id="s_0c1a3ca7"/>
+<path class="cs-street cs-casing cs-avenue" d="M165.56 181.14L133.02 236.36" stroke-width="9.30" data-id="s_14325463"/>
+<path class="cs-street cs-casing cs-avenue" d="M133.02 236.36L0 186.56" stroke-width="9.30" data-id="s_10872f2d"/>
+<path class="cs-street cs-casing cs-avenue" d="M132.31 106.02L165.56 181.14" stroke-width="9.30" data-id="s_17a2b8bc"/>
+<path class="cs-street cs-casing cs-street" d="M253.43 0L252.66 56.11" stroke-width="5.20" data-id="s_1debc202"/>
+<path class="cs-street cs-casing cs-street" d="M252.66 56.11L132.31 106.02" stroke-width="5.20" data-id="s_0bdf24bc"/>
+<path class="cs-street cs-casing cs-street" d="M400 86.45L280.21 94.54" stroke-width="5.20" data-id="s_1368e5e1"/>
+<path class="cs-street cs-casing cs-alley" d="M280.21 94.54L252.66 56.11" stroke-width="3.20" data-id="s_09d57c21"/>
+<path class="cs-street cs-casing cs-avenue" d="M280.21 94.54L271.71 190.38" stroke-width="9.30" data-id="s_035552fd"/>
+<path class="cs-street cs-casing cs-avenue" d="M271.71 190.38L165.56 181.14" stroke-width="9.30" data-id="s_09dca71e"/>
+<path class="cs-street cs-casing cs-street" d="M400 189.92L271.71 190.38" stroke-width="5.20" data-id="s_12fbd5f2"/>
+<path class="cs-street cs-casing cs-street" d="M271.71 190.38L273.43 300" stroke-width="5.20" data-id="s_174ec37f"/>
+<path class="cs-street cs-casing cs-street" d="M138.58 300L133.02 236.36" stroke-width="5.20" data-id="s_08fa41b5"/>
+</g>
+<g data-layer="streets">
+<path class="cs-street cs-fill cs-street" d="M104.52 0L132.31 106.02" id="cs-s_12254881" stroke-width="3.60" data-id="s_12254881" data-class="street" data-name="Calle de la Rosa"/>
+<path class="cs-street cs-fill cs-street" d="M132.31 106.02L0 143.69" id="cs-s_0c1a3ca7" stroke-width="3.60" data-id="s_0c1a3ca7" data-class="street" data-name="Calle de la Sierra"/>
+<path class="cs-street cs-fill cs-avenue" d="M165.56 181.14L133.02 236.36" id="cs-s_14325463" stroke-width="7.70" data-id="s_14325463" data-class="avenue" data-name="Avenida de las Palmas"/>
+<path class="cs-street cs-fill cs-avenue" d="M133.02 236.36L0 186.56" id="cs-s_10872f2d" stroke-width="7.70" data-id="s_10872f2d" data-class="avenue" data-name="Avenida Juárez"/>
+<path class="cs-street cs-fill cs-avenue" d="M132.31 106.02L165.56 181.14" id="cs-s_17a2b8bc" stroke-width="7.70" data-id="s_17a2b8bc" data-class="avenue" data-name="Avenida Reforma"/>
+<path class="cs-street cs-fill cs-street" d="M253.43 0L252.66 56.11" id="cs-s_1debc202" stroke-width="3.60" data-id="s_1debc202" data-class="street" data-name="Calle Galeana"/>
+<path class="cs-street cs-fill cs-street" d="M252.66 56.11L132.31 106.02" id="cs-s_0bdf24bc" stroke-width="3.60" data-id="s_0bdf24bc" data-class="street" data-name="Calle Jazmín"/>
+<path class="cs-street cs-fill cs-street" d="M400 86.45L280.21 94.54" id="cs-s_1368e5e1" stroke-width="3.60" data-id="s_1368e5e1" data-class="street" data-name="Paseo Girasol"/>
+<path class="cs-street cs-fill cs-alley" d="M280.21 94.54L252.66 56.11" id="cs-s_09d57c21" stroke-width="1.60" stroke-dasharray="3 2" data-id="s_09d57c21" data-class="alley" data-name="Pasaje del Reloj"/>
+<path class="cs-street cs-fill cs-avenue" d="M280.21 94.54L271.71 190.38" id="cs-s_035552fd" stroke-width="7.70" data-id="s_035552fd" data-class="avenue" data-name="Avenida de los Álamos"/>
+<path class="cs-street cs-fill cs-avenue" d="M271.71 190.38L165.56 181.14" id="cs-s_09dca71e" stroke-width="7.70" data-id="s_09dca71e" data-class="avenue" data-name="Avenida del Puerto"/>
+<path class="cs-street cs-fill cs-street" d="M400 189.92L271.71 190.38" id="cs-s_12fbd5f2" stroke-width="3.60" data-id="s_12fbd5f2" data-class="street" data-name="Calle del Roble"/>
+<path class="cs-street cs-fill cs-street" d="M271.71 190.38L273.43 300" id="cs-s_174ec37f" stroke-width="3.60" data-id="s_174ec37f" data-class="street" data-name="Camino Independencia"/>
+<path class="cs-street cs-fill cs-street" d="M138.58 300L133.02 236.36" id="cs-s_08fa41b5" stroke-width="3.60" data-id="s_08fa41b5" data-class="street" data-name="Calle Zaragoza"/>
+</g>
+<g data-layer="labels">
+<path id="cs-t_19a07cdd-p" class="cs-label-path" d="M20.64 194.28L26.26 196.39L31.87 198.49L37.49 200.59L43.11 202.7L48.73 204.8L54.35 206.9L59.97 209.01L65.59 211.11L71.21 213.22L76.83 215.32L82.45 217.42L88.07 219.53L93.68 221.63L99.3 223.73L104.92 225.84L110.54 227.94L116.16 230.05"/><text class="cs-label" font-size="10.35" data-id="t_19a07cdd" data-target="s_10872f2d"><textPath href="#cs-t_19a07cdd-p" startOffset="50%">Avenida Juárez</textPath></text>
+<path id="cs-t_09dd0cd6-p" class="cs-label-path" d="M11.12 140.52L16.89 138.88L22.66 137.23L28.43 135.59L34.2 133.95L39.97 132.31L45.74 130.66L51.52 129.02L57.29 127.38L63.06 125.73L68.83 124.09L74.6 122.45L80.37 120.81L86.14 119.16L91.91 117.52L97.68 115.88L103.45 114.23L109.22 112.59L114.99 110.95L120.76 109.31"/><text class="cs-label" font-size="9" data-id="t_09dd0cd6" data-target="s_0c1a3ca7"><textPath href="#cs-t_09dd0cd6-p" startOffset="50%">Calle de la Sierra</textPath></text>
+<path id="cs-t_165b84c4-p" class="cs-label-path" d="M163.98 92.88L169.52 90.59L175.06 88.29L180.61 85.99L186.15 83.69L191.69 81.39L197.23 79.09L202.77 76.8L208.32 74.5L213.86 72.2L219.4 69.9L224.94 67.6L230.49 65.3"/><text class="cs-label" font-size="9" data-id="t_165b84c4" data-target="s_0bdf24bc"><textPath href="#cs-t_165b84c4-p" startOffset="50%">Calle Jazmín</textPath></text>
+</g>
+<g data-layer="pois">
+<use href="#cs-poi" class="cs-poi-marker cs-kind-flagship" x="131.15" y="278.17" width="19.60" height="19.60" transform="translate(-9.80 -9.80)" id="cs-p_18b259ca" data-id="p_18b259ca" data-kind="flagship" data-label="Tienda 01"><title>Tienda 01</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="159.46" y="88.80" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_13a545e9" data-id="p_13a545e9" data-kind="store" data-label="Tienda 02"><title>Tienda 02</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="345.45" y="84.62" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_01498fc0" data-id="p_01498fc0" data-kind="store" data-label="Tienda 03"><title>Tienda 03</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="68.92" y="221.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_1b901ca4" data-id="p_1b901ca4" data-kind="store" data-label="Tienda 04"><title>Tienda 04</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="112.32" y="117.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_05055d2d" data-id="p_05055d2d" data-kind="store" data-label="Tienda 05"><title>Tienda 05</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="145.58" y="231.78" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_15caa880" data-id="p_15caa880" data-kind="store" data-label="Tienda 06"><title>Tienda 06</title></use>
+</g>
+<g data-layer="overlay"></g>
+</svg>"
+`;
+
+exports[`serializeSvg > snapshot dark-ops 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300" width="400" height="300" class="cs-root" data-seed="snap" data-theme="dark-ops" style="--cs-canvas-bg:oklch(18% 0.01 260);--cs-canvas-grid:oklch(38% 0.02 260);--cs-ink:oklch(92% 0.01 260);--cs-ink-muted:oklch(70% 0.02 260);--cs-surface:oklch(18% 0.01 260);--cs-accent:oklch(75% 0.14 200);--cs-accent-alt:oklch(78% 0.17 60);--cs-danger:oklch(65% 0.2 25);--cs-success:oklch(62% 0.13 150);--cs-street-avenue-stroke:oklch(70% 0.02 260);--cs-street-avenue-casing:oklch(18% 0.01 260);--cs-street-avenue-scale:0.5;--cs-street-avenue-dash:none;--cs-street-street-stroke:oklch(38% 0.02 260);--cs-street-street-casing:oklch(18% 0.01 260);--cs-street-street-scale:0.45;--cs-street-street-dash:none;--cs-street-alley-stroke:oklch(38% 0.02 260);--cs-street-alley-casing:oklch(18% 0.01 260);--cs-street-alley-scale:0.35;--cs-street-alley-dash:3 3;--cs-block-retail-fill:oklch(30% 0.04 80);--cs-block-retail-stroke:oklch(38% 0.02 260);--cs-block-retail-opacity:1;--cs-block-residential-fill:oklch(24% 0.012 260);--cs-block-residential-stroke:oklch(38% 0.02 260);--cs-block-residential-opacity:1;--cs-block-park-fill:oklch(30% 0.06 150);--cs-block-park-stroke:oklch(38% 0.02 260);--cs-block-park-opacity:1;--cs-block-water-fill:oklch(28% 0.06 250);--cs-block-water-stroke:oklch(38% 0.02 260);--cs-block-water-opacity:1;--cs-block-plaza-fill:oklch(30% 0.04 80);--cs-block-plaza-stroke:oklch(38% 0.02 260);--cs-block-plaza-opacity:1;--cs-lot-stroke:oklch(38% 0.02 260);--cs-lot-width:0.35;--cs-lot-opacity:0.5;--cs-label-fill:oklch(92% 0.01 260);--cs-label-halo:oklch(18% 0.01 260);--cs-label-font:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-label-spacing:0.06em;--cs-poi-fill:oklch(78% 0.17 60);--cs-poi-stroke:oklch(18% 0.01 260);--cs-poi-ring:oklch(75% 0.14 200);--cs-poi-size:7;--cs-font-display:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-font-body:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif" role="img" aria-labelledby="cs-title cs-desc">
+<title id="cs-title">Croquis de ciudad snap</title><desc id="cs-desc">Ciudad sintetica con 14 calles, 9 manzanas y 6 puntos de interes. Modo organic-voronoi.</desc>
+<style>.cs-root{font-family:var(--cs-font-body);color-scheme:light dark}
+.cs-root .cs-canvas{fill:var(--cs-canvas-bg)}
+.cs-root .cs-block{stroke-width:0.6;stroke-linejoin:round}
+.cs-root .cs-lu-retail{fill:var(--cs-block-retail-fill);stroke:var(--cs-block-retail-stroke);opacity:var(--cs-block-retail-opacity)}
+.cs-root .cs-lu-residential{fill:var(--cs-block-residential-fill);stroke:var(--cs-block-residential-stroke);opacity:var(--cs-block-residential-opacity)}
+.cs-root .cs-lu-park{fill:var(--cs-block-park-fill);stroke:var(--cs-block-park-stroke);opacity:var(--cs-block-park-opacity)}
+.cs-root .cs-lu-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);opacity:var(--cs-block-water-opacity)}
+.cs-root .cs-lu-plaza{fill:var(--cs-block-plaza-fill);stroke:var(--cs-block-plaza-stroke);opacity:var(--cs-block-plaza-opacity)}
+.cs-root .cs-pattern{fill-opacity:0.55}
+.cs-root .cs-lot{fill:none;stroke:var(--cs-lot-stroke);stroke-width:var(--cs-lot-width);opacity:var(--cs-lot-opacity)}
+.cs-root .cs-street{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cs-root .cs-casing.cs-avenue{stroke:var(--cs-street-avenue-casing)}
+.cs-root .cs-casing.cs-street{stroke:var(--cs-street-street-casing)}
+.cs-root .cs-casing.cs-alley{stroke:var(--cs-street-alley-casing)}
+.cs-root .cs-fill.cs-avenue{stroke:var(--cs-street-avenue-stroke)}
+.cs-root .cs-fill.cs-street{stroke:var(--cs-street-street-stroke)}
+.cs-root .cs-fill.cs-alley{stroke:var(--cs-street-alley-stroke)}
+.cs-root .cs-label{fill:var(--cs-label-fill);font-family:var(--cs-label-font);letter-spacing:var(--cs-label-spacing);paint-order:stroke;stroke:var(--cs-label-halo);stroke-width:2.5;stroke-linejoin:round;text-anchor:middle;dominant-baseline:middle}
+.cs-root .cs-label-path{fill:none;stroke:none}
+.cs-root .cs-poi{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}
+.cs-root .cs-poi-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}
+.cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
+@media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}</style>
+<defs><pattern id="cs-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="0.6"/></pattern><pattern id="cs-cross-hatch" patternUnits="userSpaceOnUse" width="6" height="6"><path d="M0 3H6M3 0V6" stroke="currentColor" stroke-width="0.5"/></pattern><pattern id="cs-dots" patternUnits="userSpaceOnUse" width="5" height="5"><circle cx="2.5" cy="2.5" r="0.7" fill="currentColor"/></pattern><pattern id="cs-grid" patternUnits="userSpaceOnUse" width="8" height="8"><path d="M8 0H0V8" fill="none" stroke="currentColor" stroke-width="0.4"/></pattern><symbol id="cs-poi" viewBox="-10 -10 20 20" overflow="visible"><circle class="cs-poi-ring" r="7.5" style="fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5"/><circle class="cs-poi" r="4.5" style="fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2"/></symbol></defs>
+<g data-layer="canvas"><rect class="cs-canvas" x="0" y="0" width="400" height="300"/></g>
+<g data-layer="blocks">
+<path class="cs-block cs-lu-park" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" id="cs-b_16383076" data-id="b_16383076" data-landuse="park" data-district="d_0b90deed"/>
+<path class="cs-pattern" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" fill="url(#cs-dots)" style="color:var(--cs-block-park-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M136.03 98.52L110.86 2.5L247.9 2.5L247.21 52.41Z" id="cs-b_0c8b027b" data-id="b_0c8b027b" data-landuse="residential" data-district="d_0b90deed"/>
+<path class="cs-block cs-lu-residential" d="M2.5 148.69L126.3 113.45L156.02 180.59L129.32 225.9L2.5 178.42Z" id="cs-b_1f33f74d" data-id="b_1f33f74d" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-residential" d="M139.1 242.78L170.16 190.07L266.33 198.45L267.89 297.5L143.88 297.5Z" id="cs-b_15fcd75e" data-id="b_15fcd75e" data-landuse="residential" data-district="d_0987262b"/>
+<path class="cs-block cs-lu-residential" d="M2.5 196.57L128.13 243.6L132.84 297.5L2.5 297.5Z" id="cs-b_0664fb36" data-id="b_0664fb36" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-plaza" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" id="cs-b_179d7c83" data-id="b_179d7c83" data-landuse="plaza" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" fill="url(#cs-hatch)" style="color:var(--cs-block-plaza-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M258.13 57.74L258.9 2.5L397.5 2.5L397.5 81.11L280.55 89.01Z" id="cs-b_1049cd09" data-id="b_1049cd09" data-landuse="residential" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-water" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" id="cs-b_02d38b24" data-id="b_02d38b24" data-landuse="water" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-residential" d="M277.29 195.86L397.5 195.43L397.5 297.5L278.89 297.5Z" id="cs-b_0e2e2b06" data-id="b_0e2e2b06" data-landuse="residential" data-district="d_0987262b"/>
+</g>
+<g data-layer="lots">
+<path class="cs-lot" d="M247.42 37.15L247.21 52.41L218.34 64.39L218.34 37.15Z" data-id="l_12c22a2f" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M218.34 64.39L174.96 82.38L174.96 37.15L218.34 37.15Z" data-id="l_0abe1926" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M247.7 16.69L247.42 37.15L174.96 37.15L174.96 16.69Z" data-id="l_09b52b88" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M174.96 2.5L247.9 2.5L247.7 16.69L174.96 16.69Z" data-id="l_15508445" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M136.03 98.52L123.21 49.62L143.96 49.62L143.96 95.23Z" data-id="l_015af2f8" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M143.96 49.62L174.96 49.62L174.96 82.38L143.96 95.23Z" data-id="l_090a0384" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M117.54 27.98L110.86 2.5L174.96 2.5L174.96 27.98Z" data-id="l_118b0ee3" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M123.21 49.62L117.54 27.98L174.96 27.98L174.96 49.62Z" data-id="l_0bd3c845" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M150.88 168.97L156.02 180.59L134.55 217.02L123.12 176.88Z" data-id="l_068305de" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M134.55 217.02L129.32 225.9L88.86 210.75L82.51 188.44L123.12 176.88Z" data-id="l_08578ec3" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M98.33 121.41L126.3 113.45L136.9 137.4L105.44 146.36Z" data-id="l_0ee9f5f1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M136.9 137.4L150.88 168.97L114.8 179.24L105.44 146.36Z" data-id="l_1abecdd7" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M66.04 130.6L83.22 125.71L99.68 183.55L82.51 188.44Z" data-id="l_10181445" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M83.22 125.71L98.33 121.41L114.8 179.24L99.68 183.55Z" data-id="l_05c1072d" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M80.05 179.8L88.86 210.75L38.1 191.75Z" data-id="l_1ea2b21b" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M2.5 148.69L30.48 140.73L44.49 189.93L38.1 191.75L2.5 178.42Z" data-id="l_1f96d7aa" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M30.48 140.73L46.63 136.13L60.63 185.33L44.49 189.93Z" data-id="l_090c6ea1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M46.63 136.13L66.04 130.6L80.05 179.8L60.63 185.33Z" data-id="l_0dba4ec4" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M217.55 243.13L217.55 255.23L140.19 255.23L139.13 243.13Z" data-id="l_0bb8a938" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 255.23L217.55 268.51L141.35 268.51L140.19 255.23Z" data-id="l_11337b4b" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 268.51L217.55 286.48L142.92 286.48L141.35 268.51Z" data-id="l_0a1dd5ee" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 286.48L217.55 297.5L143.88 297.5L142.92 286.48Z" data-id="l_1a828380" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M139.1 242.78L152.06 220.79L185.86 220.79L185.86 243.13L139.13 243.13Z" data-id="l_1bafe3fe" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M152.06 220.79L170.16 190.07L185.86 191.44L185.86 220.79Z" data-id="l_1943956a" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M185.86 191.44L217.55 194.2L217.55 243.13L185.86 243.13Z" data-id="l_0a77aab3" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M242.82 196.4L266.33 198.45L266.85 231.34L242.82 231.34Z" data-id="l_0e5d8ea1" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 194.2L242.82 196.4L242.82 231.34L217.55 231.34Z" data-id="l_05a63ecd" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.4 266.1L267.89 297.5L217.55 297.5L217.55 266.1Z" data-id="l_07758d7e" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.1 247.09L267.4 266.1L217.55 266.1L217.55 247.09Z" data-id="l_1c3a3945" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M266.85 231.34L267.1 247.09L217.55 247.09L217.55 231.34Z" data-id="l_19f59e15" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M55.98 216.59L81.85 226.28L81.85 253.15L55.98 253.15Z" data-id="l_0fbc9240" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M81.85 226.28L128.13 243.6L128.96 253.15L81.85 253.15Z" data-id="l_1ab55fb0" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M131.58 283.12L132.84 297.5L55.98 297.5L55.98 283.12Z" data-id="l_1a1e0124" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M130.72 273.22L131.58 283.12L55.98 283.12L55.98 273.22Z" data-id="l_1c28ad27" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M128.96 253.15L130.72 273.22L55.98 273.22L55.98 253.15Z" data-id="l_1d80ac59" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M37.46 209.66L55.98 216.59L55.98 297.5L37.46 297.5Z" data-id="l_11d3a68d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M25.51 205.18L37.46 209.66L37.46 297.5L25.51 297.5Z" data-id="l_1043737a" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M10.69 199.63L25.51 205.18L25.51 297.5L10.69 297.5Z" data-id="l_1aa6a60d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M2.5 196.57L10.69 199.63L10.69 297.5L2.5 297.5Z" data-id="l_11a2d35b" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M310.07 61.4L310.07 87.01L280.55 89.01L260.76 61.4Z" data-id="l_0d35ec24" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.13 57.74L258.46 34.18L310.07 34.18L310.07 61.4L260.76 61.4Z" data-id="l_10fa0cc6" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.7 16.53L258.9 2.5L310.07 2.5L310.07 16.53Z" data-id="l_07040ef5" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.46 34.18L258.7 16.53L310.07 16.53L310.07 34.18Z" data-id="l_1047cecb" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M310.07 2.5L324.79 2.5L324.79 86.02L310.07 87.01Z" data-id="l_11cdfa98" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M324.79 2.5L337.54 2.5L337.54 85.16L324.79 86.02Z" data-id="l_10faa705" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M337.54 2.5L353.36 2.5L353.36 84.09L337.54 85.16Z" data-id="l_0f9add54" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M353.36 2.5L360.8 2.5L360.8 83.59L353.36 84.09Z" data-id="l_0279155c" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M360.8 2.5L373.51 2.5L373.51 82.73L360.8 83.59Z" data-id="l_1a844891" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M373.51 2.5L386.18 2.5L386.18 81.87L373.51 82.73Z" data-id="l_05cd6c68" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M386.18 2.5L397.5 2.5L397.5 81.11L386.18 81.87Z" data-id="l_1493f852" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M325.81 268.29L325.81 297.5L278.89 297.5L278.43 268.46Z" data-id="l_15653f74" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 237.92L325.81 268.29L278.43 268.46L277.96 238.09Z" data-id="l_14891647" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M305.77 195.76L325.81 195.69L325.81 237.92L305.92 237.99Z" data-id="l_196d020b" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M277.29 195.86L305.77 195.76L305.92 237.99L277.96 238.09Z" data-id="l_0750af69" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 195.69L337.69 195.64L337.69 297.5L325.81 297.5Z" data-id="l_135b8c48" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M337.69 195.64L348.02 195.61L348.02 297.5L337.69 297.5Z" data-id="l_04b33b98" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M348.02 195.61L356.8 195.58L356.8 297.5L348.02 297.5Z" data-id="l_1fed32d0" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M356.8 195.58L368.18 195.53L368.18 297.5L356.8 297.5Z" data-id="l_058f89d5" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M368.18 195.53L380.62 195.49L380.62 297.5L368.18 297.5Z" data-id="l_12c06fae" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M380.62 195.49L388.63 195.46L388.63 297.5L380.62 297.5Z" data-id="l_01dc4bd8" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M388.63 195.46L397.5 195.43L397.5 297.5L388.63 297.5Z" data-id="l_007b07ba" data-block="b_0e2e2b06"/>
+</g>
+<g data-layer="water">
+</g>
+<g data-layer="streets-casing">
+<path class="cs-street cs-casing cs-street" d="M104.52 0L132.31 106.02" stroke-width="5.20" data-id="s_12254881"/>
+<path class="cs-street cs-casing cs-street" d="M132.31 106.02L0 143.69" stroke-width="5.20" data-id="s_0c1a3ca7"/>
+<path class="cs-street cs-casing cs-avenue" d="M165.56 181.14L133.02 236.36" stroke-width="8.60" data-id="s_14325463"/>
+<path class="cs-street cs-casing cs-avenue" d="M133.02 236.36L0 186.56" stroke-width="8.60" data-id="s_10872f2d"/>
+<path class="cs-street cs-casing cs-avenue" d="M132.31 106.02L165.56 181.14" stroke-width="8.60" data-id="s_17a2b8bc"/>
+<path class="cs-street cs-casing cs-street" d="M253.43 0L252.66 56.11" stroke-width="5.20" data-id="s_1debc202"/>
+<path class="cs-street cs-casing cs-street" d="M252.66 56.11L132.31 106.02" stroke-width="5.20" data-id="s_0bdf24bc"/>
+<path class="cs-street cs-casing cs-street" d="M400 86.45L280.21 94.54" stroke-width="5.20" data-id="s_1368e5e1"/>
+<path class="cs-street cs-casing cs-alley" d="M280.21 94.54L252.66 56.11" stroke-width="3.00" data-id="s_09d57c21"/>
+<path class="cs-street cs-casing cs-avenue" d="M280.21 94.54L271.71 190.38" stroke-width="8.60" data-id="s_035552fd"/>
+<path class="cs-street cs-casing cs-avenue" d="M271.71 190.38L165.56 181.14" stroke-width="8.60" data-id="s_09dca71e"/>
+<path class="cs-street cs-casing cs-street" d="M400 189.92L271.71 190.38" stroke-width="5.20" data-id="s_12fbd5f2"/>
+<path class="cs-street cs-casing cs-street" d="M271.71 190.38L273.43 300" stroke-width="5.20" data-id="s_174ec37f"/>
+<path class="cs-street cs-casing cs-street" d="M138.58 300L133.02 236.36" stroke-width="5.20" data-id="s_08fa41b5"/>
+</g>
+<g data-layer="streets">
+<path class="cs-street cs-fill cs-street" d="M104.52 0L132.31 106.02" id="cs-s_12254881" stroke-width="3.60" data-id="s_12254881" data-class="street" data-name="Calle de la Rosa"/>
+<path class="cs-street cs-fill cs-street" d="M132.31 106.02L0 143.69" id="cs-s_0c1a3ca7" stroke-width="3.60" data-id="s_0c1a3ca7" data-class="street" data-name="Calle de la Sierra"/>
+<path class="cs-street cs-fill cs-avenue" d="M165.56 181.14L133.02 236.36" id="cs-s_14325463" stroke-width="7.00" data-id="s_14325463" data-class="avenue" data-name="Avenida de las Palmas"/>
+<path class="cs-street cs-fill cs-avenue" d="M133.02 236.36L0 186.56" id="cs-s_10872f2d" stroke-width="7.00" data-id="s_10872f2d" data-class="avenue" data-name="Avenida Juárez"/>
+<path class="cs-street cs-fill cs-avenue" d="M132.31 106.02L165.56 181.14" id="cs-s_17a2b8bc" stroke-width="7.00" data-id="s_17a2b8bc" data-class="avenue" data-name="Avenida Reforma"/>
+<path class="cs-street cs-fill cs-street" d="M253.43 0L252.66 56.11" id="cs-s_1debc202" stroke-width="3.60" data-id="s_1debc202" data-class="street" data-name="Calle Galeana"/>
+<path class="cs-street cs-fill cs-street" d="M252.66 56.11L132.31 106.02" id="cs-s_0bdf24bc" stroke-width="3.60" data-id="s_0bdf24bc" data-class="street" data-name="Calle Jazmín"/>
+<path class="cs-street cs-fill cs-street" d="M400 86.45L280.21 94.54" id="cs-s_1368e5e1" stroke-width="3.60" data-id="s_1368e5e1" data-class="street" data-name="Paseo Girasol"/>
+<path class="cs-street cs-fill cs-alley" d="M280.21 94.54L252.66 56.11" id="cs-s_09d57c21" stroke-width="1.40" stroke-dasharray="3 3" data-id="s_09d57c21" data-class="alley" data-name="Pasaje del Reloj"/>
+<path class="cs-street cs-fill cs-avenue" d="M280.21 94.54L271.71 190.38" id="cs-s_035552fd" stroke-width="7.00" data-id="s_035552fd" data-class="avenue" data-name="Avenida de los Álamos"/>
+<path class="cs-street cs-fill cs-avenue" d="M271.71 190.38L165.56 181.14" id="cs-s_09dca71e" stroke-width="7.00" data-id="s_09dca71e" data-class="avenue" data-name="Avenida del Puerto"/>
+<path class="cs-street cs-fill cs-street" d="M400 189.92L271.71 190.38" id="cs-s_12fbd5f2" stroke-width="3.60" data-id="s_12fbd5f2" data-class="street" data-name="Calle del Roble"/>
+<path class="cs-street cs-fill cs-street" d="M271.71 190.38L273.43 300" id="cs-s_174ec37f" stroke-width="3.60" data-id="s_174ec37f" data-class="street" data-name="Camino Independencia"/>
+<path class="cs-street cs-fill cs-street" d="M138.58 300L133.02 236.36" id="cs-s_08fa41b5" stroke-width="3.60" data-id="s_08fa41b5" data-class="street" data-name="Calle Zaragoza"/>
+</g>
+<g data-layer="labels">
+<path id="cs-t_19a07cdd-p" class="cs-label-path" d="M20.64 194.28L26.26 196.39L31.87 198.49L37.49 200.59L43.11 202.7L48.73 204.8L54.35 206.9L59.97 209.01L65.59 211.11L71.21 213.22L76.83 215.32L82.45 217.42L88.07 219.53L93.68 221.63L99.3 223.73L104.92 225.84L110.54 227.94L116.16 230.05"/><text class="cs-label" font-size="10.35" data-id="t_19a07cdd" data-target="s_10872f2d"><textPath href="#cs-t_19a07cdd-p" startOffset="50%">Avenida Juárez</textPath></text>
+<path id="cs-t_09dd0cd6-p" class="cs-label-path" d="M11.12 140.52L16.89 138.88L22.66 137.23L28.43 135.59L34.2 133.95L39.97 132.31L45.74 130.66L51.52 129.02L57.29 127.38L63.06 125.73L68.83 124.09L74.6 122.45L80.37 120.81L86.14 119.16L91.91 117.52L97.68 115.88L103.45 114.23L109.22 112.59L114.99 110.95L120.76 109.31"/><text class="cs-label" font-size="9" data-id="t_09dd0cd6" data-target="s_0c1a3ca7"><textPath href="#cs-t_09dd0cd6-p" startOffset="50%">Calle de la Sierra</textPath></text>
+<path id="cs-t_165b84c4-p" class="cs-label-path" d="M163.98 92.88L169.52 90.59L175.06 88.29L180.61 85.99L186.15 83.69L191.69 81.39L197.23 79.09L202.77 76.8L208.32 74.5L213.86 72.2L219.4 69.9L224.94 67.6L230.49 65.3"/><text class="cs-label" font-size="9" data-id="t_165b84c4" data-target="s_0bdf24bc"><textPath href="#cs-t_165b84c4-p" startOffset="50%">Calle Jazmín</textPath></text>
+</g>
+<g data-layer="pois">
+<use href="#cs-poi" class="cs-poi-marker cs-kind-flagship" x="131.15" y="278.17" width="19.60" height="19.60" transform="translate(-9.80 -9.80)" id="cs-p_18b259ca" data-id="p_18b259ca" data-kind="flagship" data-label="Tienda 01"><title>Tienda 01</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="159.46" y="88.80" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_13a545e9" data-id="p_13a545e9" data-kind="store" data-label="Tienda 02"><title>Tienda 02</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="345.45" y="84.62" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_01498fc0" data-id="p_01498fc0" data-kind="store" data-label="Tienda 03"><title>Tienda 03</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="68.92" y="221.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_1b901ca4" data-id="p_1b901ca4" data-kind="store" data-label="Tienda 04"><title>Tienda 04</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="112.32" y="117.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_05055d2d" data-id="p_05055d2d" data-kind="store" data-label="Tienda 05"><title>Tienda 05</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="145.58" y="231.78" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_15caa880" data-id="p_15caa880" data-kind="store" data-label="Tienda 06"><title>Tienda 06</title></use>
+</g>
+<g data-layer="overlay"></g>
+</svg>"
+`;
+
+exports[`serializeSvg > snapshot hand-sketch 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300" width="400" height="300" class="cs-root" data-seed="snap" data-theme="hand-sketch" style="--cs-canvas-bg:oklch(96% 0.02 85);--cs-canvas-grid:oklch(78% 0.02 260);--cs-ink:oklch(28% 0.03 60);--cs-ink-muted:oklch(48% 0.03 60);--cs-surface:oklch(96% 0.02 85);--cs-accent:oklch(55% 0.16 250);--cs-accent-alt:oklch(68% 0.17 35);--cs-danger:oklch(58% 0.2 25);--cs-success:oklch(62% 0.13 150);--cs-street-avenue-stroke:oklch(96% 0.02 85);--cs-street-avenue-casing:oklch(28% 0.03 60);--cs-street-avenue-scale:1;--cs-street-avenue-dash:none;--cs-street-street-stroke:oklch(96% 0.02 85);--cs-street-street-casing:oklch(28% 0.03 60);--cs-street-street-scale:1;--cs-street-street-dash:none;--cs-street-alley-stroke:oklch(96% 0.02 85);--cs-street-alley-casing:oklch(48% 0.03 60);--cs-street-alley-scale:0.9;--cs-street-alley-dash:4 3;--cs-block-retail-fill:oklch(94% 0.04 80);--cs-block-retail-stroke:oklch(28% 0.03 60);--cs-block-retail-opacity:1;--cs-block-residential-fill:oklch(93% 0.025 85);--cs-block-residential-stroke:oklch(28% 0.03 60);--cs-block-residential-opacity:1;--cs-block-park-fill:oklch(88% 0.07 140);--cs-block-park-stroke:oklch(28% 0.03 60);--cs-block-park-opacity:1;--cs-block-water-fill:oklch(88% 0.05 230);--cs-block-water-stroke:oklch(28% 0.03 60);--cs-block-water-opacity:1;--cs-block-plaza-fill:oklch(94% 0.04 80);--cs-block-plaza-stroke:oklch(28% 0.03 60);--cs-block-plaza-opacity:1;--cs-lot-stroke:oklch(48% 0.03 60);--cs-lot-width:0.5;--cs-lot-opacity:0.6;--cs-label-fill:oklch(28% 0.03 60);--cs-label-halo:oklch(96% 0.02 85);--cs-label-font:&quot;Caveat&quot;, &quot;Segoe Print&quot;, cursive;--cs-label-spacing:0.02em;--cs-poi-fill:oklch(68% 0.17 35);--cs-poi-stroke:oklch(96% 0.02 85);--cs-poi-ring:oklch(55% 0.16 250);--cs-poi-size:7;--cs-font-display:&quot;Caveat&quot;, &quot;Segoe Print&quot;, cursive;--cs-font-body:&quot;Caveat&quot;, &quot;Segoe Print&quot;, cursive" role="img" aria-labelledby="cs-title cs-desc">
+<title id="cs-title">Croquis de ciudad snap</title><desc id="cs-desc">Ciudad sintetica con 14 calles, 9 manzanas y 6 puntos de interes. Modo organic-voronoi.</desc>
+<style>.cs-root{font-family:var(--cs-font-body);color-scheme:light dark}
+.cs-root .cs-canvas{fill:var(--cs-canvas-bg)}
+.cs-root .cs-block{stroke-width:0.6;stroke-linejoin:round}
+.cs-root .cs-lu-retail{fill:var(--cs-block-retail-fill);stroke:var(--cs-block-retail-stroke);opacity:var(--cs-block-retail-opacity)}
+.cs-root .cs-lu-residential{fill:var(--cs-block-residential-fill);stroke:var(--cs-block-residential-stroke);opacity:var(--cs-block-residential-opacity)}
+.cs-root .cs-lu-park{fill:var(--cs-block-park-fill);stroke:var(--cs-block-park-stroke);opacity:var(--cs-block-park-opacity)}
+.cs-root .cs-lu-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);opacity:var(--cs-block-water-opacity)}
+.cs-root .cs-lu-plaza{fill:var(--cs-block-plaza-fill);stroke:var(--cs-block-plaza-stroke);opacity:var(--cs-block-plaza-opacity)}
+.cs-root .cs-pattern{fill-opacity:0.55}
+.cs-root .cs-lot{fill:none;stroke:var(--cs-lot-stroke);stroke-width:var(--cs-lot-width);opacity:var(--cs-lot-opacity)}
+.cs-root .cs-street{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cs-root .cs-casing.cs-avenue{stroke:var(--cs-street-avenue-casing)}
+.cs-root .cs-casing.cs-street{stroke:var(--cs-street-street-casing)}
+.cs-root .cs-casing.cs-alley{stroke:var(--cs-street-alley-casing)}
+.cs-root .cs-fill.cs-avenue{stroke:var(--cs-street-avenue-stroke)}
+.cs-root .cs-fill.cs-street{stroke:var(--cs-street-street-stroke)}
+.cs-root .cs-fill.cs-alley{stroke:var(--cs-street-alley-stroke)}
+.cs-root .cs-label{fill:var(--cs-label-fill);font-family:var(--cs-label-font);letter-spacing:var(--cs-label-spacing);paint-order:stroke;stroke:var(--cs-label-halo);stroke-width:2.5;stroke-linejoin:round;text-anchor:middle;dominant-baseline:middle}
+.cs-root .cs-label-path{fill:none;stroke:none}
+.cs-root .cs-poi{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}
+.cs-root .cs-poi-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}
+.cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
+@media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}</style>
+<defs><pattern id="cs-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="0.6"/></pattern><pattern id="cs-cross-hatch" patternUnits="userSpaceOnUse" width="6" height="6"><path d="M0 3H6M3 0V6" stroke="currentColor" stroke-width="0.5"/></pattern><pattern id="cs-dots" patternUnits="userSpaceOnUse" width="5" height="5"><circle cx="2.5" cy="2.5" r="0.7" fill="currentColor"/></pattern><pattern id="cs-grid" patternUnits="userSpaceOnUse" width="8" height="8"><path d="M8 0H0V8" fill="none" stroke="currentColor" stroke-width="0.4"/></pattern><symbol id="cs-poi" viewBox="-10 -10 20 20" overflow="visible"><circle class="cs-poi-ring" r="7.5" style="fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5"/><circle class="cs-poi" r="4.5" style="fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2"/></symbol></defs>
+<g data-layer="canvas"><rect class="cs-canvas" x="0" y="0" width="400" height="300"/></g>
+<g data-layer="blocks">
+<path class="cs-block cs-lu-park" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" id="cs-b_16383076" data-id="b_16383076" data-landuse="park" data-district="d_0b90deed"/>
+<path class="cs-pattern" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" fill="url(#cs-dots)" style="color:var(--cs-block-park-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M136.03 98.52L110.86 2.5L247.9 2.5L247.21 52.41Z" id="cs-b_0c8b027b" data-id="b_0c8b027b" data-landuse="residential" data-district="d_0b90deed"/>
+<path class="cs-block cs-lu-residential" d="M2.5 148.69L126.3 113.45L156.02 180.59L129.32 225.9L2.5 178.42Z" id="cs-b_1f33f74d" data-id="b_1f33f74d" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-residential" d="M139.1 242.78L170.16 190.07L266.33 198.45L267.89 297.5L143.88 297.5Z" id="cs-b_15fcd75e" data-id="b_15fcd75e" data-landuse="residential" data-district="d_0987262b"/>
+<path class="cs-block cs-lu-residential" d="M2.5 196.57L128.13 243.6L132.84 297.5L2.5 297.5Z" id="cs-b_0664fb36" data-id="b_0664fb36" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-plaza" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" id="cs-b_179d7c83" data-id="b_179d7c83" data-landuse="plaza" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" fill="url(#cs-cross-hatch)" style="color:var(--cs-block-plaza-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M258.13 57.74L258.9 2.5L397.5 2.5L397.5 81.11L280.55 89.01Z" id="cs-b_1049cd09" data-id="b_1049cd09" data-landuse="residential" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-water" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" id="cs-b_02d38b24" data-id="b_02d38b24" data-landuse="water" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" fill="url(#cs-hatch)" style="color:var(--cs-block-water-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M277.29 195.86L397.5 195.43L397.5 297.5L278.89 297.5Z" id="cs-b_0e2e2b06" data-id="b_0e2e2b06" data-landuse="residential" data-district="d_0987262b"/>
+</g>
+<g data-layer="lots">
+<path class="cs-lot" d="M247.42 37.15L247.21 52.41L218.34 64.39L218.34 37.15Z" data-id="l_12c22a2f" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M218.34 64.39L174.96 82.38L174.96 37.15L218.34 37.15Z" data-id="l_0abe1926" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M247.7 16.69L247.42 37.15L174.96 37.15L174.96 16.69Z" data-id="l_09b52b88" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M174.96 2.5L247.9 2.5L247.7 16.69L174.96 16.69Z" data-id="l_15508445" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M136.03 98.52L123.21 49.62L143.96 49.62L143.96 95.23Z" data-id="l_015af2f8" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M143.96 49.62L174.96 49.62L174.96 82.38L143.96 95.23Z" data-id="l_090a0384" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M117.54 27.98L110.86 2.5L174.96 2.5L174.96 27.98Z" data-id="l_118b0ee3" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M123.21 49.62L117.54 27.98L174.96 27.98L174.96 49.62Z" data-id="l_0bd3c845" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M150.88 168.97L156.02 180.59L134.55 217.02L123.12 176.88Z" data-id="l_068305de" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M134.55 217.02L129.32 225.9L88.86 210.75L82.51 188.44L123.12 176.88Z" data-id="l_08578ec3" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M98.33 121.41L126.3 113.45L136.9 137.4L105.44 146.36Z" data-id="l_0ee9f5f1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M136.9 137.4L150.88 168.97L114.8 179.24L105.44 146.36Z" data-id="l_1abecdd7" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M66.04 130.6L83.22 125.71L99.68 183.55L82.51 188.44Z" data-id="l_10181445" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M83.22 125.71L98.33 121.41L114.8 179.24L99.68 183.55Z" data-id="l_05c1072d" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M80.05 179.8L88.86 210.75L38.1 191.75Z" data-id="l_1ea2b21b" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M2.5 148.69L30.48 140.73L44.49 189.93L38.1 191.75L2.5 178.42Z" data-id="l_1f96d7aa" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M30.48 140.73L46.63 136.13L60.63 185.33L44.49 189.93Z" data-id="l_090c6ea1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M46.63 136.13L66.04 130.6L80.05 179.8L60.63 185.33Z" data-id="l_0dba4ec4" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M217.55 243.13L217.55 255.23L140.19 255.23L139.13 243.13Z" data-id="l_0bb8a938" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 255.23L217.55 268.51L141.35 268.51L140.19 255.23Z" data-id="l_11337b4b" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 268.51L217.55 286.48L142.92 286.48L141.35 268.51Z" data-id="l_0a1dd5ee" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 286.48L217.55 297.5L143.88 297.5L142.92 286.48Z" data-id="l_1a828380" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M139.1 242.78L152.06 220.79L185.86 220.79L185.86 243.13L139.13 243.13Z" data-id="l_1bafe3fe" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M152.06 220.79L170.16 190.07L185.86 191.44L185.86 220.79Z" data-id="l_1943956a" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M185.86 191.44L217.55 194.2L217.55 243.13L185.86 243.13Z" data-id="l_0a77aab3" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M242.82 196.4L266.33 198.45L266.85 231.34L242.82 231.34Z" data-id="l_0e5d8ea1" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 194.2L242.82 196.4L242.82 231.34L217.55 231.34Z" data-id="l_05a63ecd" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.4 266.1L267.89 297.5L217.55 297.5L217.55 266.1Z" data-id="l_07758d7e" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.1 247.09L267.4 266.1L217.55 266.1L217.55 247.09Z" data-id="l_1c3a3945" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M266.85 231.34L267.1 247.09L217.55 247.09L217.55 231.34Z" data-id="l_19f59e15" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M55.98 216.59L81.85 226.28L81.85 253.15L55.98 253.15Z" data-id="l_0fbc9240" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M81.85 226.28L128.13 243.6L128.96 253.15L81.85 253.15Z" data-id="l_1ab55fb0" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M131.58 283.12L132.84 297.5L55.98 297.5L55.98 283.12Z" data-id="l_1a1e0124" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M130.72 273.22L131.58 283.12L55.98 283.12L55.98 273.22Z" data-id="l_1c28ad27" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M128.96 253.15L130.72 273.22L55.98 273.22L55.98 253.15Z" data-id="l_1d80ac59" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M37.46 209.66L55.98 216.59L55.98 297.5L37.46 297.5Z" data-id="l_11d3a68d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M25.51 205.18L37.46 209.66L37.46 297.5L25.51 297.5Z" data-id="l_1043737a" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M10.69 199.63L25.51 205.18L25.51 297.5L10.69 297.5Z" data-id="l_1aa6a60d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M2.5 196.57L10.69 199.63L10.69 297.5L2.5 297.5Z" data-id="l_11a2d35b" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M310.07 61.4L310.07 87.01L280.55 89.01L260.76 61.4Z" data-id="l_0d35ec24" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.13 57.74L258.46 34.18L310.07 34.18L310.07 61.4L260.76 61.4Z" data-id="l_10fa0cc6" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.7 16.53L258.9 2.5L310.07 2.5L310.07 16.53Z" data-id="l_07040ef5" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.46 34.18L258.7 16.53L310.07 16.53L310.07 34.18Z" data-id="l_1047cecb" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M310.07 2.5L324.79 2.5L324.79 86.02L310.07 87.01Z" data-id="l_11cdfa98" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M324.79 2.5L337.54 2.5L337.54 85.16L324.79 86.02Z" data-id="l_10faa705" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M337.54 2.5L353.36 2.5L353.36 84.09L337.54 85.16Z" data-id="l_0f9add54" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M353.36 2.5L360.8 2.5L360.8 83.59L353.36 84.09Z" data-id="l_0279155c" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M360.8 2.5L373.51 2.5L373.51 82.73L360.8 83.59Z" data-id="l_1a844891" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M373.51 2.5L386.18 2.5L386.18 81.87L373.51 82.73Z" data-id="l_05cd6c68" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M386.18 2.5L397.5 2.5L397.5 81.11L386.18 81.87Z" data-id="l_1493f852" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M325.81 268.29L325.81 297.5L278.89 297.5L278.43 268.46Z" data-id="l_15653f74" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 237.92L325.81 268.29L278.43 268.46L277.96 238.09Z" data-id="l_14891647" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M305.77 195.76L325.81 195.69L325.81 237.92L305.92 237.99Z" data-id="l_196d020b" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M277.29 195.86L305.77 195.76L305.92 237.99L277.96 238.09Z" data-id="l_0750af69" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 195.69L337.69 195.64L337.69 297.5L325.81 297.5Z" data-id="l_135b8c48" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M337.69 195.64L348.02 195.61L348.02 297.5L337.69 297.5Z" data-id="l_04b33b98" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M348.02 195.61L356.8 195.58L356.8 297.5L348.02 297.5Z" data-id="l_1fed32d0" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M356.8 195.58L368.18 195.53L368.18 297.5L356.8 297.5Z" data-id="l_058f89d5" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M368.18 195.53L380.62 195.49L380.62 297.5L368.18 297.5Z" data-id="l_12c06fae" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M380.62 195.49L388.63 195.46L388.63 297.5L380.62 297.5Z" data-id="l_01dc4bd8" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M388.63 195.46L397.5 195.43L397.5 297.5L388.63 297.5Z" data-id="l_007b07ba" data-block="b_0e2e2b06"/>
+</g>
+<g data-layer="water">
+</g>
+<g data-layer="streets-casing">
+<path class="cs-street cs-casing cs-street" d="M104.52 0 C107.57506450063421 24.78251285756554, 116.42221014136041 46.42260435407225, 132.31 106.02 M104.52 0 C111.91882556252283 24.82979137914577, 119.88552683497043 52.21152398346128, 132.31 106.02" stroke-width="9.60" data-id="s_12254881"/>
+<path class="cs-street cs-casing cs-street" d="M132.31 106.02 C81.42598478527427 122.87951753603606, 26.606818837754076 136.7858710028011, 0 143.69 M132.31 106.02 C81.81784244266564 117.84995479363855, 28.500280649078462 134.44437807837687, 0 143.69" stroke-width="9.60" data-id="s_0c1a3ca7"/>
+<path class="cs-street cs-casing cs-avenue" d="M165.56 181.14 C156.2911419757729 192.74139577703198, 151.04077021007552 205.36223808939587, 133.02 236.36 M165.56 181.14 C157.81635111014995 195.3584230292695, 147.0447114159305 211.49455570444226, 133.02 236.36" stroke-width="15.60" data-id="s_14325463"/>
+<path class="cs-street cs-casing cs-avenue" d="M133.02 236.36 C104.0890476533334 229.2411923200985, 75.19523764951444 219.09057501634334, 0 186.56 M133.02 236.36 C92.7644529791991 221.09437024327426, 53.969517002785096 208.67685356907978, 0 186.56" stroke-width="15.60" data-id="s_10872f2d"/>
+<path class="cs-street cs-casing cs-avenue" d="M132.31 106.02 C146.91914320765312 133.200691628662, 159.4286814781257 161.67531332269786, 165.56 181.14 M132.31 106.02 C139.5980129785568 123.93188822093877, 148.09121428515414 141.58941136654738, 165.56 181.14" stroke-width="15.60" data-id="s_17a2b8bc"/>
+<path class="cs-street cs-casing cs-street" d="M253.43 0 C254.81071557838334 14.155988108125886, 251.5882056109547 23.8682560798306, 252.66 56.11 M253.43 0 C252.02122498378338 11.313306756207053, 254.04745271554492 23.056989665104343, 252.66 56.11" stroke-width="9.60" data-id="s_1debc202"/>
+<path class="cs-street cs-casing cs-street" d="M252.66 56.11 C207.27774400988721 79.26826829504728, 158.19289095969998 97.77091644836723, 132.31 106.02 M252.66 56.11 C205.5177336824685 76.42363043240596, 156.63047301962968 96.58574706842887, 132.31 106.02" stroke-width="9.60" data-id="s_0bdf24bc"/>
+<path class="cs-street cs-casing cs-street" d="M400 86.45 C374.88607104215043 85.66459838139187, 351.9583550989024 89.98108294074437, 280.21 94.54 M400 86.45 C358.0183622933872 91.93828948887175, 316.7568136428104 93.55992166290635, 280.21 94.54" stroke-width="9.60" data-id="s_1368e5e1"/>
+<path class="cs-street cs-casing cs-alley" d="M280.21 94.54 C272.1335119223455 82.48186014697086, 258.82003024004405 70.04356672027743, 252.66 56.11 M280.21 94.54 C269.76208907820956 83.0888259707332, 261.2944800763505 70.92738320163882, 252.66 56.11" stroke-width="5.20" data-id="s_09d57c21"/>
+<path class="cs-street cs-casing cs-avenue" d="M280.21 94.54 C275.8153921798579 116.40492590636865, 273.5646885299831 141.49384713194624, 271.71 190.38 M280.21 94.54 C278.16809138021955 114.12213398173796, 277.3833326086175 133.62461067915305, 271.71 190.38" stroke-width="15.60" data-id="s_035552fd"/>
+<path class="cs-street cs-casing cs-avenue" d="M271.71 190.38 C238.41676868891525 186.42063215037214, 202.30572153052032 186.47414779639396, 165.56 181.14 M271.71 190.38 C237.26859783843634 185.9225954745954, 205.51118974545048 183.47351353753936, 165.56 181.14" stroke-width="15.60" data-id="s_09dca71e"/>
+<path class="cs-street cs-casing cs-street" d="M400 189.92 C365.0018809231611 186.4958017951517, 327.5930699699901 188.38864755127082, 271.71 190.38 M400 189.92 C373.88079769190546 190.74293096327676, 348.60185792053727 191.9368581858509, 271.71 190.38" stroke-width="9.60" data-id="s_12fbd5f2"/>
+<path class="cs-street cs-casing cs-street" d="M271.71 190.38 C271.5693926048073 223.78845520586142, 272.73705220975535 254.66013944031852, 273.43 300 M271.71 190.38 C270.86049900356016 223.01484206516574, 271.1402153263585 254.81455239793007, 273.43 300" stroke-width="9.60" data-id="s_174ec37f"/>
+<path class="cs-street cs-casing cs-street" d="M138.58 300 C136.9148305859227 288.59644695231617, 134.07013471942358 271.87344187013724, 133.02 236.36 M138.58 300 C135.3574190446495 279.2167172574941, 134.64700906003478 258.87315993724576, 133.02 236.36" stroke-width="9.60" data-id="s_08fa41b5"/>
+</g>
+<g data-layer="streets">
+<path class="cs-street cs-fill cs-street" d="M104.52 0 C115.88372775805857 41.43028425856179, 124.61008325325534 83.65059407731204, 132.31 106.02 M104.52 0 C115.77439820998137 33.393375901991, 124.90438019680487 68.0760292131486, 132.31 106.02" id="cs-s_12254881" stroke-width="8.00" data-id="s_12254881" data-class="street" data-name="Calle de la Rosa"/>
+<path class="cs-street cs-fill cs-street" d="M132.31 106.02 C103.3323120900672 113.02883534059286, 69.69651172238962 123.03179862068392, 0 143.69 M132.31 106.02 C95.74095586098342 117.00039646085668, 57.96847855771131 128.33695137910675, 0 143.69" id="cs-s_0c1a3ca7" stroke-width="8.00" data-id="s_0c1a3ca7" data-class="street" data-name="Calle de la Sierra"/>
+<path class="cs-street cs-fill cs-avenue" d="M165.56 181.14 C155.89487191558962 199.2563925340778, 148.30456390632648 217.2462763056948, 133.02 236.36 M165.56 181.14 C157.52531048217665 192.8820248464011, 148.58947089883563 206.81221964485198, 133.02 236.36" id="cs-s_14325463" stroke-width="14.00" data-id="s_14325463" data-class="avenue" data-name="Avenida de las Palmas"/>
+<path class="cs-street cs-fill cs-avenue" d="M133.02 236.36 C104.26280921705946 227.81129848421728, 68.48146379423834 211.34691946054983, 0 186.56 M133.02 236.36 C81.98812586910445 219.84608628929894, 32.71313684910143 201.18498122162487, 0 186.56" id="cs-s_10872f2d" stroke-width="14.00" data-id="s_10872f2d" data-class="avenue" data-name="Avenida Juárez"/>
+<path class="cs-street cs-fill cs-avenue" d="M132.31 106.02 C146.01416502713192 132.34771328731898, 159.00815303401524 159.10541228826617, 165.56 181.14 M132.31 106.02 C140.89473361194234 127.28619982034797, 149.40812618439654 145.45680999262714, 165.56 181.14" id="cs-s_17a2b8bc" stroke-width="14.00" data-id="s_17a2b8bc" data-class="avenue" data-name="Avenida Reforma"/>
+<path class="cs-street cs-fill cs-street" d="M253.43 0 C250.94944472551379 20.777101287936475, 254.0163386818118 46.0734309376326, 252.66 56.11 M253.43 0 C251.0955226489405 18.08906311059567, 253.06005328045848 35.620309671249345, 252.66 56.11" id="cs-s_1debc202" stroke-width="8.00" data-id="s_1debc202" data-class="street" data-name="Calle Galeana"/>
+<path class="cs-street cs-fill cs-street" d="M252.66 56.11 C215.50470296071134 73.21379700696632, 173.79619178277198 85.07471615277488, 132.31 106.02 M252.66 56.11 C218.74162808776072 71.57160916927687, 183.2668921328772 85.10919659188527, 132.31 106.02" id="cs-s_0bdf24bc" stroke-width="8.00" data-id="s_0bdf24bc" data-class="street" data-name="Calle Jazmín"/>
+<path class="cs-street cs-fill cs-street" d="M400 86.45 C359.3754182661249 90.50987640353013, 324.29930746463106 93.33666707309243, 280.21 94.54 M400 86.45 C356.3684084738751 89.39512108772844, 312.27011748579304 92.5754463949468, 280.21 94.54" id="cs-s_1368e5e1" stroke-width="8.00" data-id="s_1368e5e1" data-class="street" data-name="Paseo Girasol"/>
+<path class="cs-street cs-fill cs-alley" d="M280.21 94.54 C272.83586636167223 85.05732308820623, 263.13067738386076 75.06757157916192, 252.66 56.11 M280.21 94.54 C271.423230398392 80.88845598950917, 261.07065325964396 70.82840779739925, 252.66 56.11" id="cs-s_09d57c21" stroke-width="3.60" stroke-dasharray="4 3" data-id="s_09d57c21" data-class="alley" data-name="Pasaje del Reloj"/>
+<path class="cs-street cs-fill cs-avenue" d="M280.21 94.54 C280.2134484157129 120.48998832612016, 274.2556393687683 143.96037179410732, 271.71 190.38 M280.21 94.54 C278.10114526591263 123.71220120157088, 273.3751122283004 152.17715549379372, 271.71 190.38" id="cs-s_035552fd" stroke-width="14.00" data-id="s_035552fd" data-class="avenue" data-name="Avenida de los Álamos"/>
+<path class="cs-street cs-fill cs-avenue" d="M271.71 190.38 C235.89140665729886 189.24717277941255, 201.83813341492208 184.44430386853367, 165.56 181.14 M271.71 190.38 C250.07119585810142 186.48549338893764, 226.50792333209802 185.75945159949535, 165.56 181.14" id="cs-s_09dca71e" stroke-width="14.00" data-id="s_09dca71e" data-class="avenue" data-name="Avenida del Puerto"/>
+<path class="cs-street cs-fill cs-street" d="M400 189.92 C373.36211984273854 187.84151294699464, 344.17159733144445 192.61995926186967, 271.71 190.38 M400 189.92 C360.2251059408303 192.5796116529369, 317.6606309234224 191.21314052625758, 271.71 190.38" id="cs-s_12fbd5f2" stroke-width="8.00" data-id="s_12fbd5f2" data-class="street" data-name="Calle del Roble"/>
+<path class="cs-street cs-fill cs-street" d="M271.71 190.38 C275.0027230021583 221.5913302952287, 276.96189368718507 253.85145164868172, 273.43 300 M271.71 190.38 C273.9032007630398 223.01975108160002, 274.2873445720864 254.62107177136204, 273.43 300" id="cs-s_174ec37f" stroke-width="8.00" data-id="s_174ec37f" data-class="street" data-name="Camino Independencia"/>
+<path class="cs-street cs-fill cs-street" d="M138.58 300 C133.47508615486865 283.22750144224585, 134.73296906173772 259.7416056223583, 133.02 236.36 M138.58 300 C137.50500530854947 276.4530833074892, 135.0507527486939 253.27509793779194, 133.02 236.36" id="cs-s_08fa41b5" stroke-width="8.00" data-id="s_08fa41b5" data-class="street" data-name="Calle Zaragoza"/>
+</g>
+<g data-layer="labels">
+<path id="cs-t_19a07cdd-p" class="cs-label-path" d="M20.64 194.28L26.26 196.39L31.87 198.49L37.49 200.59L43.11 202.7L48.73 204.8L54.35 206.9L59.97 209.01L65.59 211.11L71.21 213.22L76.83 215.32L82.45 217.42L88.07 219.53L93.68 221.63L99.3 223.73L104.92 225.84L110.54 227.94L116.16 230.05"/><text class="cs-label" font-size="10.35" data-id="t_19a07cdd" data-target="s_10872f2d"><textPath href="#cs-t_19a07cdd-p" startOffset="50%">Avenida Juárez</textPath></text>
+<path id="cs-t_09dd0cd6-p" class="cs-label-path" d="M11.12 140.52L16.89 138.88L22.66 137.23L28.43 135.59L34.2 133.95L39.97 132.31L45.74 130.66L51.52 129.02L57.29 127.38L63.06 125.73L68.83 124.09L74.6 122.45L80.37 120.81L86.14 119.16L91.91 117.52L97.68 115.88L103.45 114.23L109.22 112.59L114.99 110.95L120.76 109.31"/><text class="cs-label" font-size="9" data-id="t_09dd0cd6" data-target="s_0c1a3ca7"><textPath href="#cs-t_09dd0cd6-p" startOffset="50%">Calle de la Sierra</textPath></text>
+<path id="cs-t_165b84c4-p" class="cs-label-path" d="M163.98 92.88L169.52 90.59L175.06 88.29L180.61 85.99L186.15 83.69L191.69 81.39L197.23 79.09L202.77 76.8L208.32 74.5L213.86 72.2L219.4 69.9L224.94 67.6L230.49 65.3"/><text class="cs-label" font-size="9" data-id="t_165b84c4" data-target="s_0bdf24bc"><textPath href="#cs-t_165b84c4-p" startOffset="50%">Calle Jazmín</textPath></text>
+</g>
+<g data-layer="pois">
+<use href="#cs-poi" class="cs-poi-marker cs-kind-flagship" x="131.15" y="278.17" width="19.60" height="19.60" transform="translate(-9.80 -9.80)" id="cs-p_18b259ca" data-id="p_18b259ca" data-kind="flagship" data-label="Tienda 01"><title>Tienda 01</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="159.46" y="88.80" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_13a545e9" data-id="p_13a545e9" data-kind="store" data-label="Tienda 02"><title>Tienda 02</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="345.45" y="84.62" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_01498fc0" data-id="p_01498fc0" data-kind="store" data-label="Tienda 03"><title>Tienda 03</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="68.92" y="221.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_1b901ca4" data-id="p_1b901ca4" data-kind="store" data-label="Tienda 04"><title>Tienda 04</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="112.32" y="117.43" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_05055d2d" data-id="p_05055d2d" data-kind="store" data-label="Tienda 05"><title>Tienda 05</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="145.58" y="231.78" width="14.00" height="14.00" transform="translate(-7.00 -7.00)" id="cs-p_15caa880" data-id="p_15caa880" data-kind="store" data-label="Tienda 06"><title>Tienda 06</title></use>
+</g>
+<g data-layer="overlay"></g>
+</svg>"
+`;
+
+exports[`serializeSvg > snapshot minimal-mono 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300" width="400" height="300" class="cs-root" data-seed="snap" data-theme="minimal-mono" style="--cs-canvas-bg:oklch(100% 0 0);--cs-canvas-grid:oklch(85% 0 0);--cs-ink:oklch(15% 0 0);--cs-ink-muted:oklch(50% 0 0);--cs-surface:oklch(100% 0 0);--cs-accent:oklch(50% 0 0);--cs-accent-alt:oklch(15% 0 0);--cs-danger:oklch(58% 0.2 25);--cs-success:oklch(62% 0.13 150);--cs-street-avenue-stroke:oklch(15% 0 0);--cs-street-avenue-casing:oklch(100% 0 0);--cs-street-avenue-scale:0.35;--cs-street-avenue-dash:none;--cs-street-street-stroke:oklch(15% 0 0);--cs-street-street-casing:oklch(100% 0 0);--cs-street-street-scale:0.2;--cs-street-street-dash:none;--cs-street-alley-stroke:oklch(50% 0 0);--cs-street-alley-casing:oklch(100% 0 0);--cs-street-alley-scale:0.18;--cs-street-alley-dash:2 2;--cs-block-retail-fill:oklch(97% 0 0);--cs-block-retail-stroke:oklch(85% 0 0);--cs-block-retail-opacity:1;--cs-block-residential-fill:oklch(96% 0 0);--cs-block-residential-stroke:oklch(85% 0 0);--cs-block-residential-opacity:1;--cs-block-park-fill:oklch(94% 0 0);--cs-block-park-stroke:oklch(85% 0 0);--cs-block-park-opacity:1;--cs-block-water-fill:oklch(92% 0 0);--cs-block-water-stroke:oklch(85% 0 0);--cs-block-water-opacity:1;--cs-block-plaza-fill:oklch(97% 0 0);--cs-block-plaza-stroke:oklch(85% 0 0);--cs-block-plaza-opacity:1;--cs-lot-stroke:oklch(85% 0 0);--cs-lot-width:0.3;--cs-lot-opacity:0.6;--cs-label-fill:oklch(15% 0 0);--cs-label-halo:oklch(100% 0 0);--cs-label-font:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-label-spacing:0.04em;--cs-poi-fill:oklch(15% 0 0);--cs-poi-stroke:oklch(100% 0 0);--cs-poi-ring:oklch(50% 0 0);--cs-poi-size:6;--cs-font-display:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-font-body:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif" role="img" aria-labelledby="cs-title cs-desc">
+<title id="cs-title">Croquis de ciudad snap</title><desc id="cs-desc">Ciudad sintetica con 14 calles, 9 manzanas y 6 puntos de interes. Modo organic-voronoi.</desc>
+<style>.cs-root{font-family:var(--cs-font-body);color-scheme:light dark}
+.cs-root .cs-canvas{fill:var(--cs-canvas-bg)}
+.cs-root .cs-block{stroke-width:0.6;stroke-linejoin:round}
+.cs-root .cs-lu-retail{fill:var(--cs-block-retail-fill);stroke:var(--cs-block-retail-stroke);opacity:var(--cs-block-retail-opacity)}
+.cs-root .cs-lu-residential{fill:var(--cs-block-residential-fill);stroke:var(--cs-block-residential-stroke);opacity:var(--cs-block-residential-opacity)}
+.cs-root .cs-lu-park{fill:var(--cs-block-park-fill);stroke:var(--cs-block-park-stroke);opacity:var(--cs-block-park-opacity)}
+.cs-root .cs-lu-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);opacity:var(--cs-block-water-opacity)}
+.cs-root .cs-lu-plaza{fill:var(--cs-block-plaza-fill);stroke:var(--cs-block-plaza-stroke);opacity:var(--cs-block-plaza-opacity)}
+.cs-root .cs-pattern{fill-opacity:0.55}
+.cs-root .cs-lot{fill:none;stroke:var(--cs-lot-stroke);stroke-width:var(--cs-lot-width);opacity:var(--cs-lot-opacity)}
+.cs-root .cs-street{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cs-root .cs-casing.cs-avenue{stroke:var(--cs-street-avenue-casing)}
+.cs-root .cs-casing.cs-street{stroke:var(--cs-street-street-casing)}
+.cs-root .cs-casing.cs-alley{stroke:var(--cs-street-alley-casing)}
+.cs-root .cs-fill.cs-avenue{stroke:var(--cs-street-avenue-stroke)}
+.cs-root .cs-fill.cs-street{stroke:var(--cs-street-street-stroke)}
+.cs-root .cs-fill.cs-alley{stroke:var(--cs-street-alley-stroke)}
+.cs-root .cs-label{fill:var(--cs-label-fill);font-family:var(--cs-label-font);letter-spacing:var(--cs-label-spacing);paint-order:stroke;stroke:var(--cs-label-halo);stroke-width:2.5;stroke-linejoin:round;text-anchor:middle;dominant-baseline:middle}
+.cs-root .cs-label-path{fill:none;stroke:none}
+.cs-root .cs-poi{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}
+.cs-root .cs-poi-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}
+.cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
+@media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}</style>
+<defs><pattern id="cs-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="0.6"/></pattern><pattern id="cs-cross-hatch" patternUnits="userSpaceOnUse" width="6" height="6"><path d="M0 3H6M3 0V6" stroke="currentColor" stroke-width="0.5"/></pattern><pattern id="cs-dots" patternUnits="userSpaceOnUse" width="5" height="5"><circle cx="2.5" cy="2.5" r="0.7" fill="currentColor"/></pattern><pattern id="cs-grid" patternUnits="userSpaceOnUse" width="8" height="8"><path d="M8 0H0V8" fill="none" stroke="currentColor" stroke-width="0.4"/></pattern><symbol id="cs-poi" viewBox="-10 -10 20 20" overflow="visible"><circle class="cs-poi-ring" r="7.5" style="fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5"/><circle class="cs-poi" r="4.5" style="fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2"/></symbol></defs>
+<g data-layer="canvas"><rect class="cs-canvas" x="0" y="0" width="400" height="300"/></g>
+<g data-layer="blocks">
+<path class="cs-block cs-lu-park" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" id="cs-b_16383076" data-id="b_16383076" data-landuse="park" data-district="d_0b90deed"/>
+<path class="cs-pattern" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" fill="url(#cs-dots)" style="color:var(--cs-block-park-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M136.03 98.52L110.86 2.5L247.9 2.5L247.21 52.41Z" id="cs-b_0c8b027b" data-id="b_0c8b027b" data-landuse="residential" data-district="d_0b90deed"/>
+<path class="cs-block cs-lu-residential" d="M2.5 148.69L126.3 113.45L156.02 180.59L129.32 225.9L2.5 178.42Z" id="cs-b_1f33f74d" data-id="b_1f33f74d" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-residential" d="M139.1 242.78L170.16 190.07L266.33 198.45L267.89 297.5L143.88 297.5Z" id="cs-b_15fcd75e" data-id="b_15fcd75e" data-landuse="residential" data-district="d_0987262b"/>
+<path class="cs-block cs-lu-residential" d="M2.5 196.57L128.13 243.6L132.84 297.5L2.5 297.5Z" id="cs-b_0664fb36" data-id="b_0664fb36" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-plaza" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" id="cs-b_179d7c83" data-id="b_179d7c83" data-landuse="plaza" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-residential" d="M258.13 57.74L258.9 2.5L397.5 2.5L397.5 81.11L280.55 89.01Z" id="cs-b_1049cd09" data-id="b_1049cd09" data-landuse="residential" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-water" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" id="cs-b_02d38b24" data-id="b_02d38b24" data-landuse="water" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" fill="url(#cs-hatch)" style="color:var(--cs-block-water-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M277.29 195.86L397.5 195.43L397.5 297.5L278.89 297.5Z" id="cs-b_0e2e2b06" data-id="b_0e2e2b06" data-landuse="residential" data-district="d_0987262b"/>
+</g>
+<g data-layer="lots">
+<path class="cs-lot" d="M247.42 37.15L247.21 52.41L218.34 64.39L218.34 37.15Z" data-id="l_12c22a2f" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M218.34 64.39L174.96 82.38L174.96 37.15L218.34 37.15Z" data-id="l_0abe1926" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M247.7 16.69L247.42 37.15L174.96 37.15L174.96 16.69Z" data-id="l_09b52b88" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M174.96 2.5L247.9 2.5L247.7 16.69L174.96 16.69Z" data-id="l_15508445" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M136.03 98.52L123.21 49.62L143.96 49.62L143.96 95.23Z" data-id="l_015af2f8" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M143.96 49.62L174.96 49.62L174.96 82.38L143.96 95.23Z" data-id="l_090a0384" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M117.54 27.98L110.86 2.5L174.96 2.5L174.96 27.98Z" data-id="l_118b0ee3" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M123.21 49.62L117.54 27.98L174.96 27.98L174.96 49.62Z" data-id="l_0bd3c845" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M150.88 168.97L156.02 180.59L134.55 217.02L123.12 176.88Z" data-id="l_068305de" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M134.55 217.02L129.32 225.9L88.86 210.75L82.51 188.44L123.12 176.88Z" data-id="l_08578ec3" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M98.33 121.41L126.3 113.45L136.9 137.4L105.44 146.36Z" data-id="l_0ee9f5f1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M136.9 137.4L150.88 168.97L114.8 179.24L105.44 146.36Z" data-id="l_1abecdd7" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M66.04 130.6L83.22 125.71L99.68 183.55L82.51 188.44Z" data-id="l_10181445" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M83.22 125.71L98.33 121.41L114.8 179.24L99.68 183.55Z" data-id="l_05c1072d" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M80.05 179.8L88.86 210.75L38.1 191.75Z" data-id="l_1ea2b21b" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M2.5 148.69L30.48 140.73L44.49 189.93L38.1 191.75L2.5 178.42Z" data-id="l_1f96d7aa" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M30.48 140.73L46.63 136.13L60.63 185.33L44.49 189.93Z" data-id="l_090c6ea1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M46.63 136.13L66.04 130.6L80.05 179.8L60.63 185.33Z" data-id="l_0dba4ec4" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M217.55 243.13L217.55 255.23L140.19 255.23L139.13 243.13Z" data-id="l_0bb8a938" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 255.23L217.55 268.51L141.35 268.51L140.19 255.23Z" data-id="l_11337b4b" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 268.51L217.55 286.48L142.92 286.48L141.35 268.51Z" data-id="l_0a1dd5ee" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 286.48L217.55 297.5L143.88 297.5L142.92 286.48Z" data-id="l_1a828380" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M139.1 242.78L152.06 220.79L185.86 220.79L185.86 243.13L139.13 243.13Z" data-id="l_1bafe3fe" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M152.06 220.79L170.16 190.07L185.86 191.44L185.86 220.79Z" data-id="l_1943956a" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M185.86 191.44L217.55 194.2L217.55 243.13L185.86 243.13Z" data-id="l_0a77aab3" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M242.82 196.4L266.33 198.45L266.85 231.34L242.82 231.34Z" data-id="l_0e5d8ea1" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 194.2L242.82 196.4L242.82 231.34L217.55 231.34Z" data-id="l_05a63ecd" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.4 266.1L267.89 297.5L217.55 297.5L217.55 266.1Z" data-id="l_07758d7e" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.1 247.09L267.4 266.1L217.55 266.1L217.55 247.09Z" data-id="l_1c3a3945" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M266.85 231.34L267.1 247.09L217.55 247.09L217.55 231.34Z" data-id="l_19f59e15" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M55.98 216.59L81.85 226.28L81.85 253.15L55.98 253.15Z" data-id="l_0fbc9240" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M81.85 226.28L128.13 243.6L128.96 253.15L81.85 253.15Z" data-id="l_1ab55fb0" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M131.58 283.12L132.84 297.5L55.98 297.5L55.98 283.12Z" data-id="l_1a1e0124" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M130.72 273.22L131.58 283.12L55.98 283.12L55.98 273.22Z" data-id="l_1c28ad27" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M128.96 253.15L130.72 273.22L55.98 273.22L55.98 253.15Z" data-id="l_1d80ac59" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M37.46 209.66L55.98 216.59L55.98 297.5L37.46 297.5Z" data-id="l_11d3a68d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M25.51 205.18L37.46 209.66L37.46 297.5L25.51 297.5Z" data-id="l_1043737a" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M10.69 199.63L25.51 205.18L25.51 297.5L10.69 297.5Z" data-id="l_1aa6a60d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M2.5 196.57L10.69 199.63L10.69 297.5L2.5 297.5Z" data-id="l_11a2d35b" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M310.07 61.4L310.07 87.01L280.55 89.01L260.76 61.4Z" data-id="l_0d35ec24" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.13 57.74L258.46 34.18L310.07 34.18L310.07 61.4L260.76 61.4Z" data-id="l_10fa0cc6" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.7 16.53L258.9 2.5L310.07 2.5L310.07 16.53Z" data-id="l_07040ef5" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.46 34.18L258.7 16.53L310.07 16.53L310.07 34.18Z" data-id="l_1047cecb" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M310.07 2.5L324.79 2.5L324.79 86.02L310.07 87.01Z" data-id="l_11cdfa98" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M324.79 2.5L337.54 2.5L337.54 85.16L324.79 86.02Z" data-id="l_10faa705" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M337.54 2.5L353.36 2.5L353.36 84.09L337.54 85.16Z" data-id="l_0f9add54" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M353.36 2.5L360.8 2.5L360.8 83.59L353.36 84.09Z" data-id="l_0279155c" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M360.8 2.5L373.51 2.5L373.51 82.73L360.8 83.59Z" data-id="l_1a844891" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M373.51 2.5L386.18 2.5L386.18 81.87L373.51 82.73Z" data-id="l_05cd6c68" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M386.18 2.5L397.5 2.5L397.5 81.11L386.18 81.87Z" data-id="l_1493f852" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M325.81 268.29L325.81 297.5L278.89 297.5L278.43 268.46Z" data-id="l_15653f74" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 237.92L325.81 268.29L278.43 268.46L277.96 238.09Z" data-id="l_14891647" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M305.77 195.76L325.81 195.69L325.81 237.92L305.92 237.99Z" data-id="l_196d020b" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M277.29 195.86L305.77 195.76L305.92 237.99L277.96 238.09Z" data-id="l_0750af69" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 195.69L337.69 195.64L337.69 297.5L325.81 297.5Z" data-id="l_135b8c48" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M337.69 195.64L348.02 195.61L348.02 297.5L337.69 297.5Z" data-id="l_04b33b98" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M348.02 195.61L356.8 195.58L356.8 297.5L348.02 297.5Z" data-id="l_1fed32d0" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M356.8 195.58L368.18 195.53L368.18 297.5L356.8 297.5Z" data-id="l_058f89d5" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M368.18 195.53L380.62 195.49L380.62 297.5L368.18 297.5Z" data-id="l_12c06fae" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M380.62 195.49L388.63 195.46L388.63 297.5L380.62 297.5Z" data-id="l_01dc4bd8" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M388.63 195.46L397.5 195.43L397.5 297.5L388.63 297.5Z" data-id="l_007b07ba" data-block="b_0e2e2b06"/>
+</g>
+<g data-layer="water">
+</g>
+<g data-layer="streets-casing">
+<path class="cs-street cs-casing cs-street" d="M104.52 0L132.31 106.02" stroke-width="3.20" data-id="s_12254881"/>
+<path class="cs-street cs-casing cs-street" d="M132.31 106.02L0 143.69" stroke-width="3.20" data-id="s_0c1a3ca7"/>
+<path class="cs-street cs-casing cs-avenue" d="M165.56 181.14L133.02 236.36" stroke-width="6.50" data-id="s_14325463"/>
+<path class="cs-street cs-casing cs-avenue" d="M133.02 236.36L0 186.56" stroke-width="6.50" data-id="s_10872f2d"/>
+<path class="cs-street cs-casing cs-avenue" d="M132.31 106.02L165.56 181.14" stroke-width="6.50" data-id="s_17a2b8bc"/>
+<path class="cs-street cs-casing cs-street" d="M253.43 0L252.66 56.11" stroke-width="3.20" data-id="s_1debc202"/>
+<path class="cs-street cs-casing cs-street" d="M252.66 56.11L132.31 106.02" stroke-width="3.20" data-id="s_0bdf24bc"/>
+<path class="cs-street cs-casing cs-street" d="M400 86.45L280.21 94.54" stroke-width="3.20" data-id="s_1368e5e1"/>
+<path class="cs-street cs-casing cs-alley" d="M280.21 94.54L252.66 56.11" stroke-width="2.32" data-id="s_09d57c21"/>
+<path class="cs-street cs-casing cs-avenue" d="M280.21 94.54L271.71 190.38" stroke-width="6.50" data-id="s_035552fd"/>
+<path class="cs-street cs-casing cs-avenue" d="M271.71 190.38L165.56 181.14" stroke-width="6.50" data-id="s_09dca71e"/>
+<path class="cs-street cs-casing cs-street" d="M400 189.92L271.71 190.38" stroke-width="3.20" data-id="s_12fbd5f2"/>
+<path class="cs-street cs-casing cs-street" d="M271.71 190.38L273.43 300" stroke-width="3.20" data-id="s_174ec37f"/>
+<path class="cs-street cs-casing cs-street" d="M138.58 300L133.02 236.36" stroke-width="3.20" data-id="s_08fa41b5"/>
+</g>
+<g data-layer="streets">
+<path class="cs-street cs-fill cs-street" d="M104.52 0L132.31 106.02" id="cs-s_12254881" stroke-width="1.60" data-id="s_12254881" data-class="street" data-name="Calle de la Rosa"/>
+<path class="cs-street cs-fill cs-street" d="M132.31 106.02L0 143.69" id="cs-s_0c1a3ca7" stroke-width="1.60" data-id="s_0c1a3ca7" data-class="street" data-name="Calle de la Sierra"/>
+<path class="cs-street cs-fill cs-avenue" d="M165.56 181.14L133.02 236.36" id="cs-s_14325463" stroke-width="4.90" data-id="s_14325463" data-class="avenue" data-name="Avenida de las Palmas"/>
+<path class="cs-street cs-fill cs-avenue" d="M133.02 236.36L0 186.56" id="cs-s_10872f2d" stroke-width="4.90" data-id="s_10872f2d" data-class="avenue" data-name="Avenida Juárez"/>
+<path class="cs-street cs-fill cs-avenue" d="M132.31 106.02L165.56 181.14" id="cs-s_17a2b8bc" stroke-width="4.90" data-id="s_17a2b8bc" data-class="avenue" data-name="Avenida Reforma"/>
+<path class="cs-street cs-fill cs-street" d="M253.43 0L252.66 56.11" id="cs-s_1debc202" stroke-width="1.60" data-id="s_1debc202" data-class="street" data-name="Calle Galeana"/>
+<path class="cs-street cs-fill cs-street" d="M252.66 56.11L132.31 106.02" id="cs-s_0bdf24bc" stroke-width="1.60" data-id="s_0bdf24bc" data-class="street" data-name="Calle Jazmín"/>
+<path class="cs-street cs-fill cs-street" d="M400 86.45L280.21 94.54" id="cs-s_1368e5e1" stroke-width="1.60" data-id="s_1368e5e1" data-class="street" data-name="Paseo Girasol"/>
+<path class="cs-street cs-fill cs-alley" d="M280.21 94.54L252.66 56.11" id="cs-s_09d57c21" stroke-width="0.72" stroke-dasharray="2 2" data-id="s_09d57c21" data-class="alley" data-name="Pasaje del Reloj"/>
+<path class="cs-street cs-fill cs-avenue" d="M280.21 94.54L271.71 190.38" id="cs-s_035552fd" stroke-width="4.90" data-id="s_035552fd" data-class="avenue" data-name="Avenida de los Álamos"/>
+<path class="cs-street cs-fill cs-avenue" d="M271.71 190.38L165.56 181.14" id="cs-s_09dca71e" stroke-width="4.90" data-id="s_09dca71e" data-class="avenue" data-name="Avenida del Puerto"/>
+<path class="cs-street cs-fill cs-street" d="M400 189.92L271.71 190.38" id="cs-s_12fbd5f2" stroke-width="1.60" data-id="s_12fbd5f2" data-class="street" data-name="Calle del Roble"/>
+<path class="cs-street cs-fill cs-street" d="M271.71 190.38L273.43 300" id="cs-s_174ec37f" stroke-width="1.60" data-id="s_174ec37f" data-class="street" data-name="Camino Independencia"/>
+<path class="cs-street cs-fill cs-street" d="M138.58 300L133.02 236.36" id="cs-s_08fa41b5" stroke-width="1.60" data-id="s_08fa41b5" data-class="street" data-name="Calle Zaragoza"/>
+</g>
+<g data-layer="labels">
+<path id="cs-t_19a07cdd-p" class="cs-label-path" d="M20.64 194.28L26.26 196.39L31.87 198.49L37.49 200.59L43.11 202.7L48.73 204.8L54.35 206.9L59.97 209.01L65.59 211.11L71.21 213.22L76.83 215.32L82.45 217.42L88.07 219.53L93.68 221.63L99.3 223.73L104.92 225.84L110.54 227.94L116.16 230.05"/><text class="cs-label" font-size="10.35" data-id="t_19a07cdd" data-target="s_10872f2d"><textPath href="#cs-t_19a07cdd-p" startOffset="50%">Avenida Juárez</textPath></text>
+<path id="cs-t_09dd0cd6-p" class="cs-label-path" d="M11.12 140.52L16.89 138.88L22.66 137.23L28.43 135.59L34.2 133.95L39.97 132.31L45.74 130.66L51.52 129.02L57.29 127.38L63.06 125.73L68.83 124.09L74.6 122.45L80.37 120.81L86.14 119.16L91.91 117.52L97.68 115.88L103.45 114.23L109.22 112.59L114.99 110.95L120.76 109.31"/><text class="cs-label" font-size="9" data-id="t_09dd0cd6" data-target="s_0c1a3ca7"><textPath href="#cs-t_09dd0cd6-p" startOffset="50%">Calle de la Sierra</textPath></text>
+<path id="cs-t_165b84c4-p" class="cs-label-path" d="M163.98 92.88L169.52 90.59L175.06 88.29L180.61 85.99L186.15 83.69L191.69 81.39L197.23 79.09L202.77 76.8L208.32 74.5L213.86 72.2L219.4 69.9L224.94 67.6L230.49 65.3"/><text class="cs-label" font-size="9" data-id="t_165b84c4" data-target="s_0bdf24bc"><textPath href="#cs-t_165b84c4-p" startOffset="50%">Calle Jazmín</textPath></text>
+</g>
+<g data-layer="pois">
+<use href="#cs-poi" class="cs-poi-marker cs-kind-flagship" x="131.15" y="278.17" width="16.80" height="16.80" transform="translate(-8.40 -8.40)" id="cs-p_18b259ca" data-id="p_18b259ca" data-kind="flagship" data-label="Tienda 01"><title>Tienda 01</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="159.46" y="88.80" width="12.00" height="12.00" transform="translate(-6.00 -6.00)" id="cs-p_13a545e9" data-id="p_13a545e9" data-kind="store" data-label="Tienda 02"><title>Tienda 02</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="345.45" y="84.62" width="12.00" height="12.00" transform="translate(-6.00 -6.00)" id="cs-p_01498fc0" data-id="p_01498fc0" data-kind="store" data-label="Tienda 03"><title>Tienda 03</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="68.92" y="221.43" width="12.00" height="12.00" transform="translate(-6.00 -6.00)" id="cs-p_1b901ca4" data-id="p_1b901ca4" data-kind="store" data-label="Tienda 04"><title>Tienda 04</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="112.32" y="117.43" width="12.00" height="12.00" transform="translate(-6.00 -6.00)" id="cs-p_05055d2d" data-id="p_05055d2d" data-kind="store" data-label="Tienda 05"><title>Tienda 05</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="145.58" y="231.78" width="12.00" height="12.00" transform="translate(-6.00 -6.00)" id="cs-p_15caa880" data-id="p_15caa880" data-kind="store" data-label="Tienda 06"><title>Tienda 06</title></use>
+</g>
+<g data-layer="overlay"></g>
+</svg>"
+`;
+
+exports[`serializeSvg > snapshot retail-warm 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300" width="400" height="300" class="cs-root" data-seed="snap" data-theme="retail-warm" style="--cs-canvas-bg:oklch(97% 0.015 70);--cs-canvas-grid:oklch(82% 0.03 60);--cs-ink:oklch(30% 0.05 40);--cs-ink-muted:oklch(52% 0.06 40);--cs-surface:oklch(97% 0.015 70);--cs-accent:oklch(60% 0.14 45);--cs-accent-alt:oklch(62% 0.2 30);--cs-danger:oklch(58% 0.2 25);--cs-success:oklch(62% 0.13 150);--cs-street-avenue-stroke:oklch(97% 0.015 70);--cs-street-avenue-casing:oklch(52% 0.06 40);--cs-street-avenue-scale:1;--cs-street-avenue-dash:none;--cs-street-street-stroke:oklch(97% 0.015 70);--cs-street-street-casing:oklch(82% 0.03 60);--cs-street-street-scale:1;--cs-street-street-dash:none;--cs-street-alley-stroke:oklch(97% 0.015 70);--cs-street-alley-casing:oklch(82% 0.03 60);--cs-street-alley-scale:0.9;--cs-street-alley-dash:3 2;--cs-block-retail-fill:oklch(90% 0.09 75);--cs-block-retail-stroke:oklch(52% 0.06 40);--cs-block-retail-opacity:1;--cs-block-residential-fill:oklch(94% 0.03 70);--cs-block-residential-stroke:oklch(52% 0.06 40);--cs-block-residential-opacity:1;--cs-block-park-fill:oklch(88% 0.08 135);--cs-block-park-stroke:oklch(62% 0.13 150);--cs-block-park-opacity:1;--cs-block-water-fill:oklch(88% 0.06 220);--cs-block-water-stroke:oklch(60% 0.14 45);--cs-block-water-opacity:1;--cs-block-plaza-fill:oklch(90% 0.09 75);--cs-block-plaza-stroke:oklch(52% 0.06 40);--cs-block-plaza-opacity:1;--cs-lot-stroke:oklch(52% 0.06 40);--cs-lot-width:0.4;--cs-lot-opacity:0.5;--cs-label-fill:oklch(30% 0.05 40);--cs-label-halo:oklch(97% 0.015 70);--cs-label-font:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-label-spacing:0.04em;--cs-poi-fill:oklch(62% 0.2 30);--cs-poi-stroke:oklch(97% 0.015 70);--cs-poi-ring:oklch(60% 0.14 45);--cs-poi-size:8;--cs-font-display:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;--cs-font-body:&quot;Inter&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif" role="img" aria-labelledby="cs-title cs-desc">
+<title id="cs-title">Croquis de ciudad snap</title><desc id="cs-desc">Ciudad sintetica con 14 calles, 9 manzanas y 6 puntos de interes. Modo organic-voronoi.</desc>
+<style>.cs-root{font-family:var(--cs-font-body);color-scheme:light dark}
+.cs-root .cs-canvas{fill:var(--cs-canvas-bg)}
+.cs-root .cs-block{stroke-width:0.6;stroke-linejoin:round}
+.cs-root .cs-lu-retail{fill:var(--cs-block-retail-fill);stroke:var(--cs-block-retail-stroke);opacity:var(--cs-block-retail-opacity)}
+.cs-root .cs-lu-residential{fill:var(--cs-block-residential-fill);stroke:var(--cs-block-residential-stroke);opacity:var(--cs-block-residential-opacity)}
+.cs-root .cs-lu-park{fill:var(--cs-block-park-fill);stroke:var(--cs-block-park-stroke);opacity:var(--cs-block-park-opacity)}
+.cs-root .cs-lu-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);opacity:var(--cs-block-water-opacity)}
+.cs-root .cs-lu-plaza{fill:var(--cs-block-plaza-fill);stroke:var(--cs-block-plaza-stroke);opacity:var(--cs-block-plaza-opacity)}
+.cs-root .cs-pattern{fill-opacity:0.55}
+.cs-root .cs-lot{fill:none;stroke:var(--cs-lot-stroke);stroke-width:var(--cs-lot-width);opacity:var(--cs-lot-opacity)}
+.cs-root .cs-street{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cs-root .cs-casing.cs-avenue{stroke:var(--cs-street-avenue-casing)}
+.cs-root .cs-casing.cs-street{stroke:var(--cs-street-street-casing)}
+.cs-root .cs-casing.cs-alley{stroke:var(--cs-street-alley-casing)}
+.cs-root .cs-fill.cs-avenue{stroke:var(--cs-street-avenue-stroke)}
+.cs-root .cs-fill.cs-street{stroke:var(--cs-street-street-stroke)}
+.cs-root .cs-fill.cs-alley{stroke:var(--cs-street-alley-stroke)}
+.cs-root .cs-label{fill:var(--cs-label-fill);font-family:var(--cs-label-font);letter-spacing:var(--cs-label-spacing);paint-order:stroke;stroke:var(--cs-label-halo);stroke-width:2.5;stroke-linejoin:round;text-anchor:middle;dominant-baseline:middle}
+.cs-root .cs-label-path{fill:none;stroke:none}
+.cs-root .cs-poi{fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2}
+.cs-root .cs-poi-ring{fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5}
+.cs-root .cs-water{fill:var(--cs-block-water-fill);stroke:var(--cs-block-water-stroke);stroke-width:0.8}
+@media (forced-colors: active){.cs-root .cs-block{fill:Canvas;stroke:CanvasText}.cs-root .cs-street{stroke:CanvasText}.cs-root .cs-label{fill:CanvasText;stroke:Canvas}.cs-root .cs-poi{fill:Highlight;stroke:Canvas}.cs-root .cs-pattern{display:none}}</style>
+<defs><pattern id="cs-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="0.6"/></pattern><pattern id="cs-cross-hatch" patternUnits="userSpaceOnUse" width="6" height="6"><path d="M0 3H6M3 0V6" stroke="currentColor" stroke-width="0.5"/></pattern><pattern id="cs-dots" patternUnits="userSpaceOnUse" width="5" height="5"><circle cx="2.5" cy="2.5" r="0.7" fill="currentColor"/></pattern><pattern id="cs-grid" patternUnits="userSpaceOnUse" width="8" height="8"><path d="M8 0H0V8" fill="none" stroke="currentColor" stroke-width="0.4"/></pattern><symbol id="cs-poi" viewBox="-10 -10 20 20" overflow="visible"><circle class="cs-poi-ring" r="7.5" style="fill:none;stroke:var(--cs-poi-ring);stroke-width:1.5"/><circle class="cs-poi" r="4.5" style="fill:var(--cs-poi-fill);stroke:var(--cs-poi-stroke);stroke-width:1.2"/></symbol></defs>
+<g data-layer="canvas"><rect class="cs-canvas" x="0" y="0" width="400" height="300"/></g>
+<g data-layer="blocks">
+<path class="cs-block cs-lu-park" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" id="cs-b_16383076" data-id="b_16383076" data-landuse="park" data-district="d_0b90deed"/>
+<path class="cs-pattern" d="M99.49 2.5L125.62 102.21L2.5 137.26L2.5 2.5Z" fill="url(#cs-dots)" style="color:var(--cs-block-park-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M136.03 98.52L110.86 2.5L247.9 2.5L247.21 52.41Z" id="cs-b_0c8b027b" data-id="b_0c8b027b" data-landuse="residential" data-district="d_0b90deed"/>
+<path class="cs-block cs-lu-residential" d="M2.5 148.69L126.3 113.45L156.02 180.59L129.32 225.9L2.5 178.42Z" id="cs-b_1f33f74d" data-id="b_1f33f74d" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-residential" d="M139.1 242.78L170.16 190.07L266.33 198.45L267.89 297.5L143.88 297.5Z" id="cs-b_15fcd75e" data-id="b_15fcd75e" data-landuse="residential" data-district="d_0987262b"/>
+<path class="cs-block cs-lu-residential" d="M2.5 196.57L128.13 243.6L132.84 297.5L2.5 297.5Z" id="cs-b_0664fb36" data-id="b_0664fb36" data-landuse="residential" data-district="d_06ec799e"/>
+<path class="cs-block cs-lu-plaza" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" id="cs-b_179d7c83" data-id="b_179d7c83" data-landuse="plaza" data-district="d_100119bb"/>
+<path class="cs-pattern" d="M171.3 173.11L142.39 107.79L252.63 62.07L272.14 89.29L263.99 181.18Z" fill="url(#cs-hatch)" style="color:var(--cs-block-plaza-stroke)"/>
+<path class="cs-block cs-lu-residential" d="M258.13 57.74L258.9 2.5L397.5 2.5L397.5 81.11L280.55 89.01Z" id="cs-b_1049cd09" data-id="b_1049cd09" data-landuse="residential" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-water" d="M288.3 99.51L397.5 92.13L397.5 184.43L280.73 184.85Z" id="cs-b_02d38b24" data-id="b_02d38b24" data-landuse="water" data-district="d_100119bb"/>
+<path class="cs-block cs-lu-residential" d="M277.29 195.86L397.5 195.43L397.5 297.5L278.89 297.5Z" id="cs-b_0e2e2b06" data-id="b_0e2e2b06" data-landuse="residential" data-district="d_0987262b"/>
+</g>
+<g data-layer="lots">
+<path class="cs-lot" d="M247.42 37.15L247.21 52.41L218.34 64.39L218.34 37.15Z" data-id="l_12c22a2f" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M218.34 64.39L174.96 82.38L174.96 37.15L218.34 37.15Z" data-id="l_0abe1926" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M247.7 16.69L247.42 37.15L174.96 37.15L174.96 16.69Z" data-id="l_09b52b88" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M174.96 2.5L247.9 2.5L247.7 16.69L174.96 16.69Z" data-id="l_15508445" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M136.03 98.52L123.21 49.62L143.96 49.62L143.96 95.23Z" data-id="l_015af2f8" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M143.96 49.62L174.96 49.62L174.96 82.38L143.96 95.23Z" data-id="l_090a0384" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M117.54 27.98L110.86 2.5L174.96 2.5L174.96 27.98Z" data-id="l_118b0ee3" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M123.21 49.62L117.54 27.98L174.96 27.98L174.96 49.62Z" data-id="l_0bd3c845" data-block="b_0c8b027b"/>
+<path class="cs-lot" d="M150.88 168.97L156.02 180.59L134.55 217.02L123.12 176.88Z" data-id="l_068305de" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M134.55 217.02L129.32 225.9L88.86 210.75L82.51 188.44L123.12 176.88Z" data-id="l_08578ec3" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M98.33 121.41L126.3 113.45L136.9 137.4L105.44 146.36Z" data-id="l_0ee9f5f1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M136.9 137.4L150.88 168.97L114.8 179.24L105.44 146.36Z" data-id="l_1abecdd7" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M66.04 130.6L83.22 125.71L99.68 183.55L82.51 188.44Z" data-id="l_10181445" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M83.22 125.71L98.33 121.41L114.8 179.24L99.68 183.55Z" data-id="l_05c1072d" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M80.05 179.8L88.86 210.75L38.1 191.75Z" data-id="l_1ea2b21b" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M2.5 148.69L30.48 140.73L44.49 189.93L38.1 191.75L2.5 178.42Z" data-id="l_1f96d7aa" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M30.48 140.73L46.63 136.13L60.63 185.33L44.49 189.93Z" data-id="l_090c6ea1" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M46.63 136.13L66.04 130.6L80.05 179.8L60.63 185.33Z" data-id="l_0dba4ec4" data-block="b_1f33f74d"/>
+<path class="cs-lot" d="M217.55 243.13L217.55 255.23L140.19 255.23L139.13 243.13Z" data-id="l_0bb8a938" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 255.23L217.55 268.51L141.35 268.51L140.19 255.23Z" data-id="l_11337b4b" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 268.51L217.55 286.48L142.92 286.48L141.35 268.51Z" data-id="l_0a1dd5ee" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 286.48L217.55 297.5L143.88 297.5L142.92 286.48Z" data-id="l_1a828380" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M139.1 242.78L152.06 220.79L185.86 220.79L185.86 243.13L139.13 243.13Z" data-id="l_1bafe3fe" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M152.06 220.79L170.16 190.07L185.86 191.44L185.86 220.79Z" data-id="l_1943956a" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M185.86 191.44L217.55 194.2L217.55 243.13L185.86 243.13Z" data-id="l_0a77aab3" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M242.82 196.4L266.33 198.45L266.85 231.34L242.82 231.34Z" data-id="l_0e5d8ea1" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M217.55 194.2L242.82 196.4L242.82 231.34L217.55 231.34Z" data-id="l_05a63ecd" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.4 266.1L267.89 297.5L217.55 297.5L217.55 266.1Z" data-id="l_07758d7e" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M267.1 247.09L267.4 266.1L217.55 266.1L217.55 247.09Z" data-id="l_1c3a3945" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M266.85 231.34L267.1 247.09L217.55 247.09L217.55 231.34Z" data-id="l_19f59e15" data-block="b_15fcd75e"/>
+<path class="cs-lot" d="M55.98 216.59L81.85 226.28L81.85 253.15L55.98 253.15Z" data-id="l_0fbc9240" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M81.85 226.28L128.13 243.6L128.96 253.15L81.85 253.15Z" data-id="l_1ab55fb0" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M131.58 283.12L132.84 297.5L55.98 297.5L55.98 283.12Z" data-id="l_1a1e0124" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M130.72 273.22L131.58 283.12L55.98 283.12L55.98 273.22Z" data-id="l_1c28ad27" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M128.96 253.15L130.72 273.22L55.98 273.22L55.98 253.15Z" data-id="l_1d80ac59" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M37.46 209.66L55.98 216.59L55.98 297.5L37.46 297.5Z" data-id="l_11d3a68d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M25.51 205.18L37.46 209.66L37.46 297.5L25.51 297.5Z" data-id="l_1043737a" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M10.69 199.63L25.51 205.18L25.51 297.5L10.69 297.5Z" data-id="l_1aa6a60d" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M2.5 196.57L10.69 199.63L10.69 297.5L2.5 297.5Z" data-id="l_11a2d35b" data-block="b_0664fb36"/>
+<path class="cs-lot" d="M310.07 61.4L310.07 87.01L280.55 89.01L260.76 61.4Z" data-id="l_0d35ec24" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.13 57.74L258.46 34.18L310.07 34.18L310.07 61.4L260.76 61.4Z" data-id="l_10fa0cc6" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.7 16.53L258.9 2.5L310.07 2.5L310.07 16.53Z" data-id="l_07040ef5" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M258.46 34.18L258.7 16.53L310.07 16.53L310.07 34.18Z" data-id="l_1047cecb" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M310.07 2.5L324.79 2.5L324.79 86.02L310.07 87.01Z" data-id="l_11cdfa98" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M324.79 2.5L337.54 2.5L337.54 85.16L324.79 86.02Z" data-id="l_10faa705" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M337.54 2.5L353.36 2.5L353.36 84.09L337.54 85.16Z" data-id="l_0f9add54" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M353.36 2.5L360.8 2.5L360.8 83.59L353.36 84.09Z" data-id="l_0279155c" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M360.8 2.5L373.51 2.5L373.51 82.73L360.8 83.59Z" data-id="l_1a844891" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M373.51 2.5L386.18 2.5L386.18 81.87L373.51 82.73Z" data-id="l_05cd6c68" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M386.18 2.5L397.5 2.5L397.5 81.11L386.18 81.87Z" data-id="l_1493f852" data-block="b_1049cd09"/>
+<path class="cs-lot" d="M325.81 268.29L325.81 297.5L278.89 297.5L278.43 268.46Z" data-id="l_15653f74" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 237.92L325.81 268.29L278.43 268.46L277.96 238.09Z" data-id="l_14891647" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M305.77 195.76L325.81 195.69L325.81 237.92L305.92 237.99Z" data-id="l_196d020b" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M277.29 195.86L305.77 195.76L305.92 237.99L277.96 238.09Z" data-id="l_0750af69" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M325.81 195.69L337.69 195.64L337.69 297.5L325.81 297.5Z" data-id="l_135b8c48" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M337.69 195.64L348.02 195.61L348.02 297.5L337.69 297.5Z" data-id="l_04b33b98" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M348.02 195.61L356.8 195.58L356.8 297.5L348.02 297.5Z" data-id="l_1fed32d0" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M356.8 195.58L368.18 195.53L368.18 297.5L356.8 297.5Z" data-id="l_058f89d5" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M368.18 195.53L380.62 195.49L380.62 297.5L368.18 297.5Z" data-id="l_12c06fae" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M380.62 195.49L388.63 195.46L388.63 297.5L380.62 297.5Z" data-id="l_01dc4bd8" data-block="b_0e2e2b06"/>
+<path class="cs-lot" d="M388.63 195.46L397.5 195.43L397.5 297.5L388.63 297.5Z" data-id="l_007b07ba" data-block="b_0e2e2b06"/>
+</g>
+<g data-layer="water">
+</g>
+<g data-layer="streets-casing">
+<path class="cs-street cs-casing cs-street" d="M104.52 0L132.31 106.02" stroke-width="9.60" data-id="s_12254881"/>
+<path class="cs-street cs-casing cs-street" d="M132.31 106.02L0 143.69" stroke-width="9.60" data-id="s_0c1a3ca7"/>
+<path class="cs-street cs-casing cs-avenue" d="M165.56 181.14L133.02 236.36" stroke-width="15.60" data-id="s_14325463"/>
+<path class="cs-street cs-casing cs-avenue" d="M133.02 236.36L0 186.56" stroke-width="15.60" data-id="s_10872f2d"/>
+<path class="cs-street cs-casing cs-avenue" d="M132.31 106.02L165.56 181.14" stroke-width="15.60" data-id="s_17a2b8bc"/>
+<path class="cs-street cs-casing cs-street" d="M253.43 0L252.66 56.11" stroke-width="9.60" data-id="s_1debc202"/>
+<path class="cs-street cs-casing cs-street" d="M252.66 56.11L132.31 106.02" stroke-width="9.60" data-id="s_0bdf24bc"/>
+<path class="cs-street cs-casing cs-street" d="M400 86.45L280.21 94.54" stroke-width="9.60" data-id="s_1368e5e1"/>
+<path class="cs-street cs-casing cs-alley" d="M280.21 94.54L252.66 56.11" stroke-width="5.20" data-id="s_09d57c21"/>
+<path class="cs-street cs-casing cs-avenue" d="M280.21 94.54L271.71 190.38" stroke-width="15.60" data-id="s_035552fd"/>
+<path class="cs-street cs-casing cs-avenue" d="M271.71 190.38L165.56 181.14" stroke-width="15.60" data-id="s_09dca71e"/>
+<path class="cs-street cs-casing cs-street" d="M400 189.92L271.71 190.38" stroke-width="9.60" data-id="s_12fbd5f2"/>
+<path class="cs-street cs-casing cs-street" d="M271.71 190.38L273.43 300" stroke-width="9.60" data-id="s_174ec37f"/>
+<path class="cs-street cs-casing cs-street" d="M138.58 300L133.02 236.36" stroke-width="9.60" data-id="s_08fa41b5"/>
+</g>
+<g data-layer="streets">
+<path class="cs-street cs-fill cs-street" d="M104.52 0L132.31 106.02" id="cs-s_12254881" stroke-width="8.00" data-id="s_12254881" data-class="street" data-name="Calle de la Rosa"/>
+<path class="cs-street cs-fill cs-street" d="M132.31 106.02L0 143.69" id="cs-s_0c1a3ca7" stroke-width="8.00" data-id="s_0c1a3ca7" data-class="street" data-name="Calle de la Sierra"/>
+<path class="cs-street cs-fill cs-avenue" d="M165.56 181.14L133.02 236.36" id="cs-s_14325463" stroke-width="14.00" data-id="s_14325463" data-class="avenue" data-name="Avenida de las Palmas"/>
+<path class="cs-street cs-fill cs-avenue" d="M133.02 236.36L0 186.56" id="cs-s_10872f2d" stroke-width="14.00" data-id="s_10872f2d" data-class="avenue" data-name="Avenida Juárez"/>
+<path class="cs-street cs-fill cs-avenue" d="M132.31 106.02L165.56 181.14" id="cs-s_17a2b8bc" stroke-width="14.00" data-id="s_17a2b8bc" data-class="avenue" data-name="Avenida Reforma"/>
+<path class="cs-street cs-fill cs-street" d="M253.43 0L252.66 56.11" id="cs-s_1debc202" stroke-width="8.00" data-id="s_1debc202" data-class="street" data-name="Calle Galeana"/>
+<path class="cs-street cs-fill cs-street" d="M252.66 56.11L132.31 106.02" id="cs-s_0bdf24bc" stroke-width="8.00" data-id="s_0bdf24bc" data-class="street" data-name="Calle Jazmín"/>
+<path class="cs-street cs-fill cs-street" d="M400 86.45L280.21 94.54" id="cs-s_1368e5e1" stroke-width="8.00" data-id="s_1368e5e1" data-class="street" data-name="Paseo Girasol"/>
+<path class="cs-street cs-fill cs-alley" d="M280.21 94.54L252.66 56.11" id="cs-s_09d57c21" stroke-width="3.60" stroke-dasharray="3 2" data-id="s_09d57c21" data-class="alley" data-name="Pasaje del Reloj"/>
+<path class="cs-street cs-fill cs-avenue" d="M280.21 94.54L271.71 190.38" id="cs-s_035552fd" stroke-width="14.00" data-id="s_035552fd" data-class="avenue" data-name="Avenida de los Álamos"/>
+<path class="cs-street cs-fill cs-avenue" d="M271.71 190.38L165.56 181.14" id="cs-s_09dca71e" stroke-width="14.00" data-id="s_09dca71e" data-class="avenue" data-name="Avenida del Puerto"/>
+<path class="cs-street cs-fill cs-street" d="M400 189.92L271.71 190.38" id="cs-s_12fbd5f2" stroke-width="8.00" data-id="s_12fbd5f2" data-class="street" data-name="Calle del Roble"/>
+<path class="cs-street cs-fill cs-street" d="M271.71 190.38L273.43 300" id="cs-s_174ec37f" stroke-width="8.00" data-id="s_174ec37f" data-class="street" data-name="Camino Independencia"/>
+<path class="cs-street cs-fill cs-street" d="M138.58 300L133.02 236.36" id="cs-s_08fa41b5" stroke-width="8.00" data-id="s_08fa41b5" data-class="street" data-name="Calle Zaragoza"/>
+</g>
+<g data-layer="labels">
+<path id="cs-t_19a07cdd-p" class="cs-label-path" d="M20.64 194.28L26.26 196.39L31.87 198.49L37.49 200.59L43.11 202.7L48.73 204.8L54.35 206.9L59.97 209.01L65.59 211.11L71.21 213.22L76.83 215.32L82.45 217.42L88.07 219.53L93.68 221.63L99.3 223.73L104.92 225.84L110.54 227.94L116.16 230.05"/><text class="cs-label" font-size="10.35" data-id="t_19a07cdd" data-target="s_10872f2d"><textPath href="#cs-t_19a07cdd-p" startOffset="50%">Avenida Juárez</textPath></text>
+<path id="cs-t_09dd0cd6-p" class="cs-label-path" d="M11.12 140.52L16.89 138.88L22.66 137.23L28.43 135.59L34.2 133.95L39.97 132.31L45.74 130.66L51.52 129.02L57.29 127.38L63.06 125.73L68.83 124.09L74.6 122.45L80.37 120.81L86.14 119.16L91.91 117.52L97.68 115.88L103.45 114.23L109.22 112.59L114.99 110.95L120.76 109.31"/><text class="cs-label" font-size="9" data-id="t_09dd0cd6" data-target="s_0c1a3ca7"><textPath href="#cs-t_09dd0cd6-p" startOffset="50%">Calle de la Sierra</textPath></text>
+<path id="cs-t_165b84c4-p" class="cs-label-path" d="M163.98 92.88L169.52 90.59L175.06 88.29L180.61 85.99L186.15 83.69L191.69 81.39L197.23 79.09L202.77 76.8L208.32 74.5L213.86 72.2L219.4 69.9L224.94 67.6L230.49 65.3"/><text class="cs-label" font-size="9" data-id="t_165b84c4" data-target="s_0bdf24bc"><textPath href="#cs-t_165b84c4-p" startOffset="50%">Calle Jazmín</textPath></text>
+</g>
+<g data-layer="pois">
+<use href="#cs-poi" class="cs-poi-marker cs-kind-flagship" x="131.15" y="278.17" width="22.40" height="22.40" transform="translate(-11.20 -11.20)" id="cs-p_18b259ca" data-id="p_18b259ca" data-kind="flagship" data-label="Tienda 01"><title>Tienda 01</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="159.46" y="88.80" width="16.00" height="16.00" transform="translate(-8.00 -8.00)" id="cs-p_13a545e9" data-id="p_13a545e9" data-kind="store" data-label="Tienda 02"><title>Tienda 02</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="345.45" y="84.62" width="16.00" height="16.00" transform="translate(-8.00 -8.00)" id="cs-p_01498fc0" data-id="p_01498fc0" data-kind="store" data-label="Tienda 03"><title>Tienda 03</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="68.92" y="221.43" width="16.00" height="16.00" transform="translate(-8.00 -8.00)" id="cs-p_1b901ca4" data-id="p_1b901ca4" data-kind="store" data-label="Tienda 04"><title>Tienda 04</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="112.32" y="117.43" width="16.00" height="16.00" transform="translate(-8.00 -8.00)" id="cs-p_05055d2d" data-id="p_05055d2d" data-kind="store" data-label="Tienda 05"><title>Tienda 05</title></use>
+<use href="#cs-poi" class="cs-poi-marker cs-kind-store" x="145.58" y="231.78" width="16.00" height="16.00" transform="translate(-8.00 -8.00)" id="cs-p_15caa880" data-id="p_15caa880" data-kind="store" data-label="Tienda 06"><title>Tienda 06</title></use>
+</g>
+<g data-layer="overlay"></g>
+</svg>"
+`;

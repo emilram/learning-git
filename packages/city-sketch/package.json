@@ -24,10 +24,6 @@
       "types": "./dist/vue/index.d.ts",
       "import": "./dist/vue/index.js"
     },
-    "./worker": {
-      "types": "./dist/worker/index.d.ts",
-      "import": "./dist/worker/index.js"
-    },
     "./styles.css": "./dist/styles.css"
   },
   "files": [

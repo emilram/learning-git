@@ -1,0 +1,5 @@
+{
+  "extends": "../../packages/city-sketch/tsconfig.json",
+  "compilerOptions": { "baseUrl": ".", "paths": {} },
+  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
+}

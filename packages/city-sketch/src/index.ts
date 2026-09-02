@@ -1,2 +1,2 @@
-export * from './core/types';
-export * from './core/params';
+export * from './core/index';
+export * from './theme/index';

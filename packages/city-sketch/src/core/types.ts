@@ -399,17 +399,12 @@ export type PipelineStage =
   | 'names'
   | 'labels';
 
-/** Grafo planar intermedio (salida de los modos, entrada de la limpieza). */
-export interface RawGraph {
-  readonly nodes: readonly { readonly x: number; readonly y: number }[];
-  /** Aristas por índice de nodo; `polyline` incluye ambos extremos. */
-  readonly edges: readonly {
-    readonly a: number;
-    readonly b: number;
-    readonly class: StreetClass;
-    readonly polyline: Polyline;
-  }[];
+/** Polilineas crudas producidas por un modo (entrada de la planarizacion). */
+export interface RawLine {
+  readonly points: readonly Vec2[];
+  readonly cls: StreetClass;
 }
+export type RawLines = readonly RawLine[];
 
 /** Contexto compartido por todas las etapas: PRNG por etapa y utilidades. */
 export interface PipelineContext {
@@ -453,7 +448,7 @@ export interface IdFactory {
 }
 
 /** Firma de todo modo de generación. */
-export type ModeGenerator = (ctx: PipelineContext, region?: Polygon) => RawGraph;
+export type ModeGenerator = (ctx: PipelineContext, region?: Polygon) => RawLines;
 
 // ---------------------------------------------------------------------------
 // Tema y estilo boceto
