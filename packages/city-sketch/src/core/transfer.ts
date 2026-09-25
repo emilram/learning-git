@@ -15,6 +15,7 @@ interface PackedJson {
   bounds: CityModel['bounds'];
   meta: CityModel['meta'];
   districts: CityModel['districts'];
+  water: readonly { o: number; n: number }[];
   nodes: readonly CityNode[];
   streets: readonly (Omit<Street, 'polyline'> & { o: number; n: number })[];
   blocks: readonly (Omit<Block, 'polygon' | 'outline'> & { po: number; pn: number; oo: number; on: number })[];
@@ -29,6 +30,7 @@ export function packModel(m: CityModel): PackedModel {
   for (const b of m.blocks) total += (b.polygon.length + b.outline.length) * 2;
   for (const l of m.lots) total += l.polygon.length * 2;
   for (const l of m.labels) total += l.path.length * 2;
+  for (const wp of m.water) total += wp.length * 2;
   const coords = new Float64Array(total);
   let off = 0;
   const put = (pts: readonly Vec2[]): { o: number; n: number } => {
@@ -44,6 +46,7 @@ export function packModel(m: CityModel): PackedModel {
     bounds: m.bounds,
     meta: m.meta,
     districts: m.districts,
+    water: m.water.map((wp) => put(wp)),
     nodes: m.nodes,
     streets: m.streets.map((s) => {
       const { polyline, ...rest } = s;
@@ -81,6 +84,7 @@ export function unpackModel(p: PackedModel): CityModel {
     bounds: j.bounds,
     meta: j.meta,
     districts: j.districts,
+    water: (j.water ?? []).map(({ o, n }) => get(o, n) as Polygon),
     nodes: j.nodes,
     streets: j.streets.map(({ o, n, ...rest }) => ({ ...rest, polyline: get(o, n) })),
     blocks: j.blocks.map(({ po, pn, oo, on, ...rest }) => ({ ...rest, polygon: get(po, pn) as Polygon, outline: get(oo, on) as Polygon })),

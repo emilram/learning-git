@@ -1,6 +1,7 @@
 /** Recorte de polilineas a rectangulo (Liang-Barsky) y a poligono convexo (Cyrus-Beck). */
 import type { Bounds, Polygon, Vec2 } from '../types';
-import { cross, dot, sub } from './vec';
+import { cross, dot, segIntersect, sub } from './vec';
+import { pointInPolygon } from './polygon';
 
 function clipSegmentParams(a: Vec2, b: Vec2, test: (p: number, q: number) => boolean, ranges: { p: number; q: number }[]): readonly [number, number] | null {
   let t0 = 0;
@@ -99,4 +100,45 @@ export function clipPolylineToBounds(pl: readonly Vec2[], bounds: Bounds): Vec2[
 
 export function clipPolylineToConvex(pl: readonly Vec2[], poly: Polygon): Vec2[][] {
   return assemble(pl, (a, b) => clipSegmentConvex(a, b, poly));
+}
+
+/** Trozos de la polilinea que quedan FUERA de todos los poligonos dados (p. ej. agua). */
+export function clipPolylineOutside(pl: readonly Vec2[], polys: readonly Polygon[]): Vec2[][] {
+  if (polys.length === 0) return [pl.slice()];
+  const inside = (p: Vec2): boolean => polys.some((poly) => pointInPolygon(p, poly));
+  const out: Vec2[][] = [];
+  let cur: Vec2[] = [];
+  const flush = (): void => {
+    if (cur.length >= 2) out.push(cur);
+    cur = [];
+  };
+  for (let i = 0; i + 1 < pl.length; i++) {
+    const a = pl[i] as Vec2;
+    const b = pl[i + 1] as Vec2;
+    // Parametros de cruce con los bordes de todos los poligonos.
+    const ts: number[] = [0, 1];
+    for (const poly of polys) {
+      for (let j = 0, n = poly.length; j < n; j++) {
+        const r = segIntersect(a, b, poly[j] as Vec2, poly[(j + 1) % n] as Vec2);
+        if (r && r[0] > 1e-6 && r[0] < 1 - 1e-6) ts.push(r[0]);
+      }
+    }
+    ts.sort((p, q) => p - q);
+    for (let k = 0; k + 1 < ts.length; k++) {
+      const t0 = ts[k]!;
+      const t1 = ts[k + 1]!;
+      if (t1 - t0 < 1e-6) continue;
+      const p0: Vec2 = [a[0] + (b[0] - a[0]) * t0, a[1] + (b[1] - a[1]) * t0];
+      const p1: Vec2 = [a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1];
+      const mid: Vec2 = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
+      if (inside(mid)) {
+        flush();
+        continue;
+      }
+      if (cur.length === 0) cur.push(p0);
+      cur.push(p1);
+    }
+  }
+  flush();
+  return out;
 }

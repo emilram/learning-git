@@ -48,6 +48,8 @@ const props = withDefaults(
     tooltip?: boolean | undefined;
     /** Ids de POIs visibles (filtro); undefined = todos. */
     filter?: ReadonlySet<string> | null | undefined;
+    /** Arrastrar para rotar la camara en vista iso. */
+    orbit?: boolean | undefined;
   }>(),
   {
     view: '2d',
@@ -62,6 +64,7 @@ const props = withDefaults(
     tooltip: true,
     selectedId: null,
     filter: null,
+    orbit: true,
   },
 );
 
@@ -70,6 +73,7 @@ const emit = defineEmits<{
   'store:select': [payload: { id: string; poi: Poi; event: Event }];
   'block:select': [payload: { id: string; block: Block; event: Event }];
   'viewport:change': [payload: { k: number; x: number; y: number }];
+  'iso:change': [payload: { rotation: number; pitch: number }];
 }>();
 
 defineSlots<{
@@ -105,11 +109,25 @@ const modelWithOverrides = computed<CityModel | null>(() => {
   if (!props.model) return null;
   return { ...props.model, meta: { ...props.model.meta, params: { ...props.model.meta.params, overrides: { pois: mergedPoiOverrides.value, blocks: mergedBlockOverrides.value, streets: mergedStreetOverrides.value } } } };
 });
+// Orbita: rotacion e inclinacion acumuladas por arrastre (se suman a props.iso).
+const orbitRotation = shallowRef(0);
+const orbitPitch = shallowRef(0);
+const dragging = shallowRef(false);
+const isoEffective = computed<Partial<IsoOptions>>(() => {
+  const base = props.iso ?? {};
+  const rotation = ((base.rotation ?? 35) + orbitRotation.value) % 360;
+  const pitch = Math.max(20, Math.min(89, (base.pitch ?? 55) + orbitPitch.value));
+  return { ...base, rotation, pitch, selectedId: props.selectedId ?? base.selectedId ?? null, ...(dragging.value ? { detail: 'low' as const } : {}) };
+});
 const stringSvg = computed(() => {
   const m = modelWithOverrides.value;
   if (!m || !useString.value) return '';
-  if (props.view === 'iso') return serializeIsoSvg(m, props.theme, { ...props.iso, idPrefix: prefix.value });
+  if (props.view === 'iso') return serializeIsoSvg(m, props.theme, { ...isoEffective.value, idPrefix: prefix.value });
   return serializeSvg(m, props.theme, { idPrefix: prefix.value });
+});
+watch(() => [props.iso?.rotation, props.iso?.pitch], () => {
+  orbitRotation.value = 0;
+  orbitPitch.value = 0;
 });
 const stringHtml = computed(() => (typeof stringSvg.value === 'string' ? '' : stringSvg.value.svg));
 
@@ -139,8 +157,9 @@ function domTarget(e: Event, selector: string): string | null {
 }
 function resolveHit(e: PointerEvent | MouseEvent): { poi: Poi | null; block: Block | null } {
   if (props.view === 'iso' || useRough.value) {
-    const pid = domTarget(e, '.cs-poi-marker');
-    const bid = pid ? null : domTarget(e, '.cs-block');
+    const el = e.target as Element | null;
+    const pid = domTarget(e, '.cs-poi-marker') ?? el?.closest('.cs-building')?.getAttribute('data-poi') ?? null;
+    const bid = pid ? null : (el?.closest('.cs-building')?.getAttribute('data-block') ?? domTarget(e, '.cs-block'));
     return { poi: pid ? (poiById.value.get(pid) ?? null) : null, block: bid ? (blockById.value.get(bid) ?? null) : null };
   }
   const [px, py] = localPoint(e);
@@ -149,7 +168,40 @@ function resolveHit(e: PointerEvent | MouseEvent): { poi: Poi | null; block: Blo
   const r = hit.hit(mx, my, radius);
   return { poi: r.poi && (!props.filter || props.filter.has(r.poi.id)) ? r.poi : null, block: r.block };
 }
+// Arrastre para orbitar en vista iso.
+let drag: { x: number; y: number; moved: boolean; id: number } | null = null;
+function onPointerDown(e: PointerEvent): void {
+  if (props.view !== 'iso' || !props.orbit || e.button !== 0) return;
+  drag = { x: e.clientX, y: e.clientY, moved: false, id: e.pointerId };
+}
+function onPointerUp(): void {
+  if (!drag) return;
+  const wasDrag = drag.moved;
+  drag = null;
+  if (wasDrag) {
+    dragging.value = false;
+    emit('iso:change', { rotation: isoEffective.value.rotation ?? 0, pitch: isoEffective.value.pitch ?? 0 });
+  }
+}
+let suppressClick = false;
 function onPointerMove(e: PointerEvent): void {
+  if (drag) {
+    const dx = e.clientX - drag.x;
+    const dy = e.clientY - drag.y;
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      dragging.value = true;
+      suppressClick = true;
+      tooltip.hide(true);
+      host.value?.setPointerCapture(drag.id);
+    }
+    orbitRotation.value += dx * 0.35;
+    orbitPitch.value -= dy * 0.2;
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    return;
+  }
   if (zoomPan.zooming.value) return;
   const { poi, block } = resolveHit(e);
   const id = poi?.id ?? null;
@@ -171,6 +223,10 @@ function onPointerLeave(e: PointerEvent): void {
   tooltip.hide(true);
 }
 function onClick(e: MouseEvent): void {
+  if (suppressClick) {
+    suppressClick = false;
+    return;
+  }
   const { poi, block } = resolveHit(e);
   if (poi) emit('store:select', { id: poi.id, poi, event: e });
   else if (block) emit('block:select', { id: block.id, block, event: e });
@@ -206,11 +262,27 @@ watch(
 
 const tooltipState = computed(() => tooltip.state.value);
 
-defineExpose({ zoomPan, hostEl: host, svgEl });
+function setOrbit(rotation: number, pitch: number): void {
+  orbitRotation.value = rotation - (props.iso?.rotation ?? 35);
+  orbitPitch.value = pitch - (props.iso?.pitch ?? 55);
+}
+
+defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, dragging });
 </script>
 
 <template>
-  <div ref="host" class="cs-host" :class="{ 'cs-view-iso': view === 'iso' }" @pointermove="onPointerMove" @pointerleave="onPointerLeave" @click="onClick" @keydown="onKeydown">
+  <div
+    ref="host"
+    class="cs-host"
+    :class="{ 'cs-view-iso': view === 'iso', 'cs-orbit': view === 'iso' && orbit, 'cs-dragging': dragging }"
+    @pointerdown="onPointerDown"
+    @pointerup="onPointerUp"
+    @pointercancel="onPointerUp"
+    @pointermove="onPointerMove"
+    @pointerleave="onPointerLeave"
+    @click="onClick"
+    @keydown="onKeydown"
+  >
     <CanvasStreetLayer v-if="model && useCanvas" :model="model" :theme="theme" :width="dims.width.value" :height="dims.height.value" :transform="zoomPan.transform.value" :view-box="viewBox" />
     <div v-if="model && useString" class="cs-string-host" v-html="stringHtml" />
     <svg

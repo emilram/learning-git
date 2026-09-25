@@ -50,6 +50,7 @@ const isoOptions = computed(() => ({
   pitch: 55,
   fit: 'cover' as const,
   zoom: 1.35,
+  traffic: 0.6,
   lotHeight: (_lot: unknown, block: { density: number }, poi: { id: string } | null) => (poi ? (heights.value.get(poi.id) ?? 20) : 4 + block.density * 10),
 }));
 

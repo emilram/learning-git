@@ -177,3 +177,31 @@ describe('serializeIsoSvg', () => {
     expect(serializeIsoSvg(model, THEME_PRESETS['dark-ops'], { rotation: 20, pitch: 60 }).svg).toMatchSnapshot();
   });
 });
+
+describe('agua', () => {
+  it('calles y callejones no cruzan el agua; el modelo expone los poligonos', async () => {
+    const { pointInPolygon } = await import('../src/core/geom/polygon');
+    for (const mode of ['grid-jitter', 'organic-voronoi', 'radial'] as const) {
+      const m = generateCity({ seed: 'wet', mode, size: { w: 800, h: 600 }, landUse: { waterRatio: 0.2 } });
+      expect(m.water.length).toBeGreaterThan(0);
+      for (const s of m.streets) {
+        if (s.class === 'avenue') continue;
+        const mid = s.polyline[Math.floor(s.polyline.length / 2)]!;
+        const a = s.polyline[0]!;
+        const b = s.polyline[s.polyline.length - 1]!;
+        const c: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        expect(m.water.some((w) => pointInPolygon(mid, w) && pointInPolygon(c, w)), `${mode} ${s.id}`).toBe(false);
+      }
+    }
+  });
+  it('detail low produce menos bytes que high y ambos son deterministas', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    const m = generateCity({ seed: 'lod', mode: 'grid-jitter', size: { w: 500, h: 400 }, pois: { count: 5 } });
+    const hi = serializeIsoSvg(m, THEME_PRESETS['retail-warm'], { detail: 'high' }).svg;
+    const lo = serializeIsoSvg(m, THEME_PRESETS['retail-warm'], { detail: 'low' }).svg;
+    expect(lo.length).toBeLessThan(hi.length * 0.7);
+    expect(serializeIsoSvg(m, THEME_PRESETS['retail-warm'], { detail: 'high' }).svg).toBe(hi);
+    expect(hi).toContain('data-layer="compass"');
+    expect(hi).toContain('class="cs-win"');
+  });
+});

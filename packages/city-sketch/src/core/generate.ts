@@ -2,7 +2,7 @@
 import { buildBlocks } from './blocks/blocks';
 import { buildLots } from './blocks/lots';
 import { createContext } from './context';
-import { clipPolylineToBounds } from './geom/clip';
+import { clipPolylineOutside, clipPolylineToBounds } from './geom/clip';
 import { pointInPolygon } from './geom/polygon';
 import { polylineLength } from './geom/vec';
 import { cleanupGraph } from './graph/cleanup';
@@ -61,7 +61,9 @@ export function generateFromParams(params: GenerationParams, options: GenerateOp
   const lines: InputLine[] = [];
   for (const l of raw) {
     for (const piece of clipPolylineToBounds(l.points, ctx.bounds)) {
-      if (polylineLength(piece) > 0.5) lines.push({ points: piece, cls: l.cls });
+      // Calles y callejones no entran en el agua; las avenidas la cruzan como puentes.
+      const pieces = l.cls === 'avenue' || ctx.water.length === 0 ? [piece] : clipPolylineOutside(piece, ctx.water);
+      for (const q of pieces) if (polylineLength(q) > 0.5) lines.push({ points: q, cls: l.cls });
     }
   }
   const g = planarize(lines, ctx.bounds, params.cleanup.snapTolerance);
@@ -154,6 +156,7 @@ export function generateFromParams(params: GenerationParams, options: GenerateOp
     pois,
     labels,
     districts: ctx.districts,
+    water: ctx.water,
     meta: {
       generator: '@empresa/city-sketch',
       version: GENERATOR_VERSION,

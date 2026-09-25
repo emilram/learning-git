@@ -61,6 +61,7 @@ const emit = defineEmits<{
   'block:select': [payload: { id: string; block: Block; event: Event }];
   'viewport:change': [payload: { k: number; x: number; y: number }];
   'update:view': [view: '2d' | 'iso'];
+  'iso:change': [payload: { rotation: number; pitch: number }];
 }>();
 
 defineSlots<{
@@ -84,7 +85,8 @@ const view = computed({
 const hasLegend = computed(() => !!(props.legend && ((props.legend.color?.length ?? 0) + (props.legend.size?.length ?? 0) + (props.legend.status?.length ?? 0)) > 0));
 
 function resetZoom(): void {
-  sketch.value?.zoomPan.reset(true);
+  if (view.value === 'iso') sketch.value?.setOrbit(props.iso?.rotation ?? 35, props.iso?.pitch ?? 55);
+  else sketch.value?.zoomPan.reset(true);
 }
 function doExportSvg(): void {
   if (props.model) exportSvg(props.model, props.theme, { view: view.value, iso: props.iso });
@@ -109,7 +111,7 @@ async function doExportPng(): Promise<void> {
           <button type="button" :class="{ 'cs-on': view === '2d' }" :aria-pressed="view === '2d'" @click="view = '2d'">2D</button>
           <button type="button" :class="{ 'cs-on': view === 'iso' }" :aria-pressed="view === 'iso'" @click="view = 'iso'">3D</button>
         </div>
-        <button v-if="view === '2d'" type="button" class="cs-btn" title="Restablecer zoom" @click="resetZoom">⟲</button>
+        <button type="button" class="cs-btn" :title="view === '2d' ? 'Restablecer zoom' : 'Restablecer cámara'" @click="resetZoom">⟲</button>
         <button v-if="exportable" type="button" class="cs-btn" title="Exportar SVG" @click="doExportSvg">SVG</button>
         <button v-if="exportable" type="button" class="cs-btn" title="Exportar PNG" @click="doExportPng">PNG</button>
       </div>
@@ -144,6 +146,7 @@ async function doExportPng(): Promise<void> {
         @store:select="emit('store:select', $event)"
         @block:select="emit('block:select', $event)"
         @viewport:change="emit('viewport:change', $event)"
+        @iso:change="emit('iso:change', $event)"
       >
         <template #marker="p"><slot name="marker" v-bind="p" /></template>
         <template #tooltip="p"><slot name="tooltip" v-bind="p" /></template>

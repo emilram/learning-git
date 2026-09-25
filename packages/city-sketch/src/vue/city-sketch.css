@@ -39,6 +39,32 @@
   font-size: 13px;
 }
 
+/* Orbita 3D */
+.cs-host.cs-orbit {
+  cursor: grab;
+}
+.cs-host.cs-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.cs-host.cs-dragging .cs-tooltip {
+  display: none;
+}
+.cs-view-iso .cs-building {
+  cursor: pointer;
+}
+.cs-view-iso .cs-poi-marker.cs-selected .cs-pin-ring {
+  animation: cs-pulse 1.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes cs-pulse {
+  50% {
+    transform: scale(1.35);
+    opacity: 0.5;
+  }
+}
+
 /* Marcadores */
 .cs-poi-marker {
   cursor: pointer;
@@ -147,7 +173,8 @@
   .cs-animate .cs-animate-draw path,
   .cs-animate [data-layer='pois'] .cs-poi-marker,
   .cs-view-iso .cs-building,
-  .cs-poi-marker .cs-poi-selection {
+  .cs-poi-marker .cs-poi-selection,
+  .cs-view-iso .cs-poi-marker.cs-selected .cs-pin-ring {
     animation: none !important;
     stroke-dashoffset: 0;
   }

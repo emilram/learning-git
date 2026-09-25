@@ -38,7 +38,15 @@ const { model } = useCityModel(() => ({ seed: 'demo-1', mode: 'grid-jitter' }));
 
 ## Vista 3D isométrica
 
-`serializeIsoSvg(model, theme, { rotation, pitch, heightScale, fit, lotHeight })` extruye los lotes como edificios con sombreado por cara (algoritmo del pintor + backface culling), dibuja las tiendas como edificios destacados con pin y etiqueta, y proyecta calles y manzanas al plano. `lotHeight(lot, block, poi)` permite mapear una métrica a altura. En Vue: `<CitySketch view="iso" :iso="{ rotation: 35, pitch: 55, fit: 'cover' }" />`.
+`serializeIsoSvg(model, theme, options)` proyecta el modelo en 2.5D y extruye los lotes como edificios. Todo es determinista y sale como SVG standalone.
+
+- **Edificios**: sombra proyectada al suelo, iluminación continua por orientación de cada pared, oclusión en la base, líneas de planta, ventanas (encendidas de noche en temas oscuros), escaparate en planta baja de las tiendas, azotea con parapeto y equipos, torres hito en el centro.
+- **Entorno**: agua con degradado, olas y orilla; parques con árboles; árboles de alineación en avenidas; pasos de cebra en cruces de avenidas; tráfico; niebla de profundidad; cielo; brújula; nombres de calle y de distrito proyectados.
+- **Datos**: `lotHeight(lot, block, poi)` mapea métricas a altura; `selectedId` resalta una tienda (halo y anillo pulsante); los `overrides` de tiendas se aplican a su edificio y pin.
+- **Cámara y detalle**: `rotation`, `pitch`, `fit` (`cover` recorta a la card, `contain` muestra toda la ciudad), `zoom`, `lightAzimuth`, `lightElevation`, `shadows`, `fog`, y `detail` (`high`, `medium`, `low`) para controlar peso y coste.
+- **Vue**: `<CitySketch view="iso" />` permite **arrastrar para orbitar** (durante el gesto baja a `detail: 'low'` y recupera el detalle al soltar), hover y click sobre edificios con tooltip, y emite `iso:change` con la cámara resultante. El botón ⟲ de la card restablece la cámara.
+
+Coste medido (ciudad de 500 calles, 280 edificios, Node 22): `high` ≈ 60 ms y ≈ 700 KB de SVG; `low` ≈ 30 ms y ≈ 330 KB.
 
 ## Adaptador Vue (bloque 4)
 
@@ -71,7 +79,7 @@ Eventos: `store:hover`, `store:select`, `block:select`, `viewport:change`, `upda
 | Bloque | Estado | Notas |
 |--------|--------|-------|
 | 1 Arquitectura | ✅ | `docs/ARCHITECTURE.md`, `types.ts`, `params.ts` |
-| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, SVG 2D y **vista 3D isométrica** (`serializeIsoSvg`). 60 tests. |
+| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, calles que respetan el agua (avenidas como puentes), SVG 2D y **vista 3D isométrica** (`serializeIsoSvg`). 68 tests. |
 | 3 Temas y boceto | ◐ | 5 presets OKLCH en 3 capas, rough.js y filtro SVG ya funcionan; faltan ejemplos SVG y medición de coste. |
 | 4 Adaptador Vue | ✅ | `CitySketchCard`, `CitySketch`, `CitySketchCompare`, capas `StreetLayer`/`BlockLayer`/`LabelLayer`/`StoreLayer`/`DataOverlayLayer`/`CanvasStreetLayer`; composables `useCityModel` (worker + caché), `useSketchDimensions`, `useZoomPan`, `useHitTest`, `useTooltip`, `useStoreBinding`, `useUrlState`; exportación SVG/PNG; heatmap, isócronas, comparación, animaciones, a11y. Dashboard con 40 tiendas en `apps/playground` (#dashboard). |
 | 5 Playground y plantillas | ◐ | Playground con sliders desde `PARAM_SPECS` y vista 2D/3D. Falta arrastre de tiendas, guardado de plantillas y JSON Schema. |

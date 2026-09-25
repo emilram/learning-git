@@ -207,6 +207,8 @@ export interface CityModel {
   readonly pois: readonly Poi[];
   readonly labels: readonly Label[];
   readonly districts: readonly District[];
+  /** Cuerpos de agua (poligonos) usados por el campo y el uso de suelo. */
+  readonly water: readonly Polygon[];
   readonly meta: ModelMeta;
 }
 

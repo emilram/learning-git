@@ -19,7 +19,9 @@ const isoRotation = ref(35);
 const isoPitch = ref(55);
 const isoHeight = ref(1);
 const isoFit = ref<'contain' | 'cover'>('cover');
-const isoOptions = computed(() => ({ rotation: isoRotation.value, pitch: isoPitch.value, heightScale: isoHeight.value, fit: isoFit.value, zoom: 1.35 }));
+const isoDetail = ref<'low' | 'medium' | 'high'>('high');
+const isoTraffic = ref(0.5);
+const isoOptions = computed(() => ({ rotation: isoRotation.value, pitch: isoPitch.value, heightScale: isoHeight.value, fit: isoFit.value, zoom: 1.35, detail: isoDetail.value, traffic: isoTraffic.value }));
 
 const numeric = reactive<Record<string, number>>({
   density: 0.5,
@@ -143,6 +145,9 @@ watch(mode, () => {
         <label class="pg-field pg-slider"><span>Inclinación <b>{{ isoPitch }}°</b></span><input v-model.number="isoPitch" type="range" min="20" max="89" step="1" /></label>
         <label class="pg-field pg-slider"><span>Altura <b>{{ isoHeight }}</b></span><input v-model.number="isoHeight" type="range" min="0.2" max="3" step="0.1" /></label>
         <label class="pg-field"><span>Encuadre</span><select v-model="isoFit"><option value="cover">cover (recorte)</option><option value="contain">contain (todo)</option></select></label>
+        <label class="pg-field"><span>Detalle</span><select v-model="isoDetail"><option value="high">alto (ventanas, tráfico, cebras)</option><option value="medium">medio</option><option value="low">bajo</option></select></label>
+        <label class="pg-field pg-slider"><span>Tráfico <b>{{ isoTraffic }}</b></span><input v-model.number="isoTraffic" type="range" min="0" max="1" step="0.1" /></label>
+        <p class="pg-sub">Arrastra sobre la vista 3D para orbitar.</p>
       </template>
 
       <label class="pg-field">
