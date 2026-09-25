@@ -61,6 +61,14 @@ Los temas `city-day`, `city-dusk` y `city-night` usan primitivos con nombre de m
 
 Las paletas se validaron con el validador de seis comprobaciones del skill *dataviz* sobre las superficies reales: categórica clara y oscura, y estado claro `#0f8a6c #c47a00 #d6336c` / oscuro `#2aa88a #bd8a12 #dc5278` pasan banda de luminosidad, croma, separación CVD, umbral de visión normal y contraste. `test/stats.test.ts` comprueba la banda de luminosidad de los estados de cada tema.
 
+## Identidad de tienda (v6)
+
+Las tiendas van en **amarillo con azul** en todos los temas: los marcadores 2D usan `components.poi` (`brand-yellow` / `brand-blue`) y la vista 3D usa `components.store` (`facade`, `band`, `sign`, `signText`, `glass`, `canopy`; variables `--cs-store-*`). El edificio de tienda es un gran almacén de dos o tres plantas con fachada amarilla, zócalo y franja superior azules, escaparate amplio, marquesina en la fachada principal (la más cercana al frente del lote) y **rótulo con el nombre** proyectado sobre el alero. Para otra marca basta con sobrescribir `components.store` y `components.poi` en el tema.
+
+### Clic en tienda (dashboard)
+
+Al seleccionar una tienda se despliega un **callout** junto al marcador (ventas, margen, stock y últimos 8 meses) y el panel lateral con: puesto en el ranking, ventas del mes con variación mensual y anual, sparkline de 12 meses con pico marcado, tabla frente a la media del distrito y de la red, barra de stock con estado, y acciones: isócronas, aislar, vecindario, radio, centrar en 3D, orbitar, fijar para comparar (tabla A vs B con deltas y ruta), exportar PNG de la tienda, copiar enlace y rutas a cada vecina.
+
 ## Utilidades de análisis (v5)
 
 Funciones puras del core, exportadas también desde `/vue`:

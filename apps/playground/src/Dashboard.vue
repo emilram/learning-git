@@ -26,6 +26,7 @@ import {
   routeBetween,
   nearestStores,
   formatBadge,
+  downloadPng,
   type StoreDatum,
   type Kpi,
   type TourStep,
@@ -109,7 +110,6 @@ const binding = useStoreBinding(
   () => september,
   () => ({
     size: { field: 'sales', range: [0.6, 2.4] },
-    color: { field: 'margin', scheme: 'diverging', hues: [25, 250, 150] },
     status: { field: 'stock', classify: (v) => (typeof v === 'number' ? (v < 0.15 ? 'alert' : v < 0.35 ? 'warn' : 'ok') : null) },
     badge: 'sales',
     height: { field: 'sales', range: [12, 80] },
@@ -130,10 +130,12 @@ const poiOverrides = computed<Record<string, ElementStyle>>(() => {
 // ---------------------------------------------------------------------------
 // Analisis: isocronas, ruta, cobertura, canibalizacion, distritos
 // ---------------------------------------------------------------------------
+const showIsochrones = ref(true);
+const isolated = ref<string | null>(null);
 const isochrones = computed(() => {
   const m = modelBound.value;
   const id = selected.value;
-  if (!m || !id) return [];
+  if (!m || !id || !showIsochrones.value) return [];
   const poi = m.pois.find((p) => p.id === id);
   return poi ? computeIsochrones(m, [poi], [120, 240, 360]) : [];
 });
@@ -235,6 +237,7 @@ const onlyFlagship = computed({
   },
 });
 const filter = computed(() => {
+  if (isolated.value) return new Set([isolated.value]);
   if (!onlyFlagship.value) return null;
   const ids = new Set(september.filter((d) => d.format === 'flagship').map((d) => d.id));
   return new Set(poisWithIds.value.filter((p) => ids.has(p.externalId ?? '')).map((p) => p.id));
@@ -254,8 +257,9 @@ const kpis = computed<Kpi[]>(() => {
   ];
 });
 
-const bindingAug = useStoreBinding(() => poisWithIds.value, () => august, () => ({ size: { field: 'sales', range: [0.6, 2.4] }, color: { field: 'margin', scheme: 'diverging', hues: [25, 250, 150] } }));
-const bindingSep = useStoreBinding(() => poisWithIds.value, () => september, () => ({ size: { field: 'sales', range: [0.6, 2.4] }, color: { field: 'margin', scheme: 'diverging', hues: [25, 250, 150] } }));
+const compareSpec = { size: { field: 'sales', range: [0.6, 2.4] as const }, status: { field: 'margin', classify: (v: unknown) => (typeof v === 'number' ? (v < 0 ? 'alert' : v < 0.08 ? 'warn' : 'ok') : null) } };
+const bindingAug = useStoreBinding(() => poisWithIds.value, () => august, () => compareSpec);
+const bindingSep = useStoreBinding(() => poisWithIds.value, () => september, () => compareSpec);
 
 const topStores = computed(() => [...poisWithIds.value].sort((a, b) => sales(b) - sales(a)).slice(0, 5));
 const tourSteps = computed<TourStep[]>(() => [
@@ -275,10 +279,117 @@ const tour = useTour(tourSteps, {
   onEnd: () => camera.stop(),
 });
 
-const selectedDatum = computed(() => {
+// ---------------------------------------------------------------------------
+// Panel de tienda: historico, ranking, comparativas y acciones
+// ---------------------------------------------------------------------------
+const MONTHS = ['oct', 'nov', 'dic', 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep'];
+const historyCache = new Map<string, number[]>();
+/** Serie mensual simulada (12 meses) que termina en las ventas actuales; determinista por tienda. */
+function history(id: string, current: number): number[] {
+  const hit = historyCache.get(id);
+  if (hit) return hit;
+  const rng = createRng(`hist:${id}`);
+  const out: number[] = [];
+  let v = current * rng.range(0.7, 1.2);
+  for (let i = 0; i < 11; i++) {
+    out.push(Math.round(v));
+    v = v * rng.range(0.9, 1.12);
+  }
+  out.push(current);
+  historyCache.set(id, out);
+  return out;
+}
+function sparkPath(series: readonly number[], w: number, h: number): string {
+  const lo = Math.min(...series);
+  const hi = Math.max(...series);
+  const span = Math.max(1, hi - lo);
+  return series.map((v, i) => `${i === 0 ? 'M' : 'L'}${((i / (series.length - 1)) * w).toFixed(1)} ${(h - ((v - lo) / span) * h).toFixed(1)}`).join('');
+}
+const ranking = computed(() => [...poisWithIds.value].sort((a, b) => sales(b) - sales(a)).map((p) => p.id));
+const mean = (list: readonly Poi[], field: string): number => {
+  const vs = list.map((p) => datumOf(p)?.[field]).filter((v): v is number => typeof v === 'number');
+  return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : 0;
+};
+const panel = computed(() => {
   const poi = selection.primary.value;
-  return poi ? { poi, d: datumOf(poi) } : null;
+  const d = datumOf(poi);
+  const m = modelBound.value;
+  if (!poi || !d || !m) return null;
+  const district = selectedDistrict.value;
+  const inDistrict = district ? districts.value.find((r) => r.district.id === district.id)?.pois ?? [] : [];
+  const cur = d.sales as number;
+  const hist = history(poi.id, cur);
+  const prevMonth = hist[hist.length - 2] ?? cur;
+  const augD = august.find((x) => x.id === poi.externalId);
+  const metrics = [
+    { key: 'sales', label: 'Ventas', value: cur, fmt: (v: number) => formatBadge(v), district: mean(inDistrict, 'sales'), network: mean(poisWithIds.value, 'sales') },
+    { key: 'margin', label: 'Margen', value: d.margin as number, fmt: (v: number) => `${(v * 100).toFixed(1)} %`, district: mean(inDistrict, 'margin'), network: mean(poisWithIds.value, 'margin') },
+    { key: 'conversion', label: 'Conversión', value: d.conversion as number, fmt: (v: number) => `${(v * 100).toFixed(1)} %`, district: mean(inDistrict, 'conversion'), network: mean(poisWithIds.value, 'conversion') },
+  ];
+  return {
+    poi,
+    d,
+    district,
+    rank: ranking.value.indexOf(poi.id) + 1,
+    total: ranking.value.length,
+    hist,
+    spark: sparkPath(hist, 200, 44),
+    monthDelta: prevMonth ? (cur - prevMonth) / prevMonth : 0,
+    yearDelta: augD ? (cur - (augD.sales as number)) / (augD.sales as number) : 0,
+    stock: d.stock as number,
+    metrics,
+    peak: hist.indexOf(Math.max(...hist)),
+  };
 });
+const compareA = ref<string | null>(null);
+const comparison = computed(() => {
+  const a = poisWithIds.value.find((p) => p.id === compareA.value);
+  const b = selection.primary.value;
+  if (!a || !b || a.id === b.id) return null;
+  const da = datumOf(a);
+  const db = datumOf(b);
+  if (!da || !db) return null;
+  const rows = (['sales', 'margin', 'conversion', 'stock'] as const).map((k) => ({ k, label: k === 'sales' ? 'Ventas' : k === 'margin' ? 'Margen' : k === 'conversion' ? 'Conversión' : 'Stock', a: da[k] as number, b: db[k] as number }));
+  return { a, b, rows, distance: Math.hypot(a.x - b.x, a.y - b.y) };
+});
+const fmtMetric = (k: string, v: number): string => (k === 'sales' ? formatBadge(v) : `${(v * 100).toFixed(k === 'stock' ? 0 : 1)} %`);
+const copied = ref(false);
+async function copyLink(): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(location.href);
+    copied.value = true;
+    setTimeout(() => (copied.value = false), 1500);
+  } catch {
+    copied.value = false;
+  }
+}
+function centerOn3d(): void {
+  const p = selection.primary.value;
+  if (!p) return;
+  view3d.value = 'iso';
+  requestAnimationFrame(() => camera.flyTo([p.x, p.y], 2.6, 700));
+}
+function orbitAround(): void {
+  centerOn3d();
+  setTimeout(() => camera.autoRotate(10), 750);
+}
+async function exportStore(): Promise<void> {
+  const p = selection.primary.value;
+  const m = modelBound.value;
+  if (!p || !m) return;
+  await downloadPng(m, tod.theme.value, { view: 'iso', iso: { ...isoOptions.value, fit: 'cover', zoom: 3, center: [p.x, p.y], selectedId: p.id, storeLabels: true }, scale: 2, fileName: `${p.label}.png` });
+}
+function routeTo(id: string): void {
+  const p = selection.primary.value;
+  if (!p) return;
+  selection.setMode('multi');
+  selection.add([p.id, id]);
+}
+watch(() => selection.primary.value?.id, () => {
+  if (isolated.value && isolated.value !== selection.primary.value?.id) isolated.value = null;
+});
+const calloutSeries = computed(() => (panel.value ? panel.value.hist.slice(-8) : []));
+
 const selectedDistrict = computed(() => {
   const p = selection.primary.value;
   const m = modelBound.value;
@@ -325,7 +436,7 @@ const selectedDistrict = computed(() => {
         ref="mainCard"
         class="span-2 dash-main"
         title="Ventas por tienda"
-        :subtitle="`Tamaño = ventas · color = margen · anillo = stock · ${multi ? 'clic para añadir a la selección' : 'clic para isócronas y vecinas'} · en 3D arrastra para orbitar`"
+        :subtitle="`Tamaño = ventas · anillo = stock (continuo, discontinuo, doble) · ${multi ? 'clic para añadir a la selección' : 'clic para isócronas y vecinas'} · en 3D arrastra para orbitar`"
         :model="modelBound"
         :theme="tod.theme.value"
         :kpis="kpis"
@@ -353,6 +464,21 @@ const selectedDistrict = computed(() => {
             <path :d="`M${route.polyline.map((q) => `${q[0].toFixed(1)} ${q[1].toFixed(1)}`).join('L')}`" class="dash-route-line" />
           </g>
           <path v-if="pairPolygon" class="dash-pair" :d="`M${pairPolygon.map((q) => `${q[0].toFixed(1)} ${q[1].toFixed(1)}`).join('L')}Z`" />
+          <!-- Callout desplegable junto a la tienda seleccionada. -->
+          <g v-if="panel && view3d === '2d'" class="dash-callout" :transform="`translate(${(panel.poi.x > 1000 ? panel.poi.x - 118 : panel.poi.x + 14).toFixed(1)} ${Math.max(6, panel.poi.y - 58).toFixed(1)})`">
+            <rect width="104" height="52" rx="8" class="dash-callout-bg" />
+            <rect width="104" height="12" rx="8" class="dash-callout-head" />
+            <rect y="6" width="104" height="6" class="dash-callout-head" />
+            <text x="6" y="8.6" class="dash-callout-title">{{ panel.poi.label }} · #{{ panel.rank }}</text>
+            <text x="6" y="22" class="dash-callout-k">Ventas</text><text x="98" y="22" class="dash-callout-v">{{ formatBadge(panel.d.sales as number) }}</text>
+            <text x="6" y="31" class="dash-callout-k">Margen</text><text x="98" y="31" class="dash-callout-v">{{ ((panel.d.margin as number) * 100).toFixed(1) }} %</text>
+            <text x="6" y="40" class="dash-callout-k">Stock</text>
+            <rect x="40" y="36" width="58" height="4" rx="2" class="dash-callout-track" />
+            <rect x="40" y="36" :width="(58 * panel.stock).toFixed(1)" height="4" rx="2" class="dash-callout-fill" :data-state="panel.stock < 0.15 ? 'alert' : panel.stock < 0.35 ? 'warn' : 'ok'" />
+            <g transform="translate(6 43)">
+              <rect v-for="(v, i) in calloutSeries" :key="i" :x="i * 12" :y="(6 - (6 * v) / Math.max(...calloutSeries)).toFixed(1)" width="9" :height="((6 * v) / Math.max(...calloutSeries)).toFixed(1)" class="dash-callout-bar" :class="{ last: i === calloutSeries.length - 1 }" />
+            </g>
+          </g>
         </template>
         <template #tooltip="{ state }">
           <template v-if="state.poi">
@@ -372,32 +498,100 @@ const selectedDistrict = computed(() => {
         </template>
       </CitySketchCard>
 
-      <aside class="cs-card dash-detail">
-        <header class="cs-card-header"><h3 class="cs-card-title">Detalle</h3></header>
-        <div v-if="selectedDatum" class="dash-detail-body">
-          <h4>{{ selectedDatum.poi.label }} <small>{{ selectedDatum.poi.externalId }}</small></h4>
-          <p v-if="selectedDistrict" class="dash-hint">Distrito {{ selectedDistrict.name }}</p>
-          <dl v-if="selectedDatum.d">
-            <dt>Ventas</dt><dd>{{ formatBadge(selectedDatum.d.sales as number) }}</dd>
-            <dt>Margen</dt><dd>{{ ((selectedDatum.d.margin as number) * 100).toFixed(1) }} %</dd>
-            <dt>Conversión</dt><dd>{{ ((selectedDatum.d.conversion as number) * 100).toFixed(1) }} %</dd>
-            <dt>Stock</dt><dd>{{ ((selectedDatum.d.stock as number) * 100).toFixed(0) }} %</dd>
-            <dt>Formato</dt><dd>{{ selectedDatum.d.format }}</dd>
-          </dl>
-          <h5>Tiendas vecinas</h5>
-          <ul class="dash-list">
-            <li v-for="n in neighbors" :key="n.poi.id" @click="selection.select(n.poi.id)">
-              <span>{{ n.poi.label }}</span><small>{{ n.distance.toFixed(0) }} u</small><b v-if="n.datum">{{ formatBadge(n.datum.sales as number) }}</b>
-            </li>
-          </ul>
-          <div class="dash-detail-actions">
-            <button type="button" @click="selection.selectNeighborhood(selectedDatum.poi.id, 3)">Seleccionar vecindario</button>
-            <button type="button" @click="selection.selectWithin([selectedDatum.poi.x, selectedDatum.poi.y], 200)">Radio 200 u</button>
-            <button type="button" @click="selection.clear()">Limpiar</button>
+      <aside class="cs-card dash-detail" :class="{ 'dash-detail-open': panel }">
+        <header class="cs-card-header">
+          <div class="cs-card-titles">
+            <h3 class="cs-card-title">{{ panel ? panel.poi.label : 'Tienda' }}</h3>
+            <p v-if="panel" class="cs-card-subtitle">{{ panel.poi.externalId }} · {{ panel.d.format }} · {{ panel.district?.name ?? 'sin distrito' }}</p>
           </div>
+          <div v-if="panel" class="dash-rank" :title="`Puesto ${panel.rank} de ${panel.total} por ventas`">#{{ panel.rank }}<small>/{{ panel.total }}</small></div>
+        </header>
+        <div v-if="panel" class="dash-panel">
+          <section class="dash-panel-hero">
+            <div>
+              <span class="dash-panel-label">Ventas del mes</span>
+              <strong class="dash-panel-big">{{ formatBadge(panel.d.sales as number) }}</strong>
+              <span class="dash-delta" :data-tone="panel.monthDelta >= 0 ? 'positive' : 'negative'">{{ panel.monthDelta >= 0 ? '+' : '' }}{{ (panel.monthDelta * 100).toFixed(1) }} % vs mes anterior</span>
+              <span class="dash-delta" :data-tone="panel.yearDelta >= 0 ? 'positive' : 'negative'">{{ panel.yearDelta >= 0 ? '+' : '' }}{{ (panel.yearDelta * 100).toFixed(1) }} % vs agosto</span>
+            </div>
+            <svg class="dash-spark" viewBox="-2 -4 204 60" aria-label="Ventas de los últimos 12 meses">
+              <path :d="`${panel.spark}L200 52L0 52Z`" class="dash-spark-area" />
+              <path :d="panel.spark" class="dash-spark-line" />
+              <circle :cx="((panel.peak / 11) * 200).toFixed(1)" :cy="(44 - ((panel.hist[panel.peak]! - Math.min(...panel.hist)) / Math.max(1, Math.max(...panel.hist) - Math.min(...panel.hist))) * 44).toFixed(1)" r="3" class="dash-spark-peak" />
+              <circle cx="200" :cy="(44 - ((panel.hist[11]! - Math.min(...panel.hist)) / Math.max(1, Math.max(...panel.hist) - Math.min(...panel.hist))) * 44).toFixed(1)" r="3.5" class="dash-spark-now" />
+              <text x="0" y="58" class="dash-spark-axis">{{ MONTHS[0] }}</text>
+              <text x="200" y="58" class="dash-spark-axis" text-anchor="end">{{ MONTHS[11] }}</text>
+            </svg>
+          </section>
+
+          <section>
+            <h5>Frente a distrito y red</h5>
+            <table class="dash-table">
+              <thead><tr><th></th><th>Tienda</th><th>Distrito</th><th>Red</th></tr></thead>
+              <tbody>
+                <tr v-for="m in panel.metrics" :key="m.key">
+                  <td>{{ m.label }}</td>
+                  <td><b>{{ m.fmt(m.value) }}</b></td>
+                  <td :data-tone="m.value >= m.district ? 'positive' : 'negative'">{{ m.fmt(m.district) }}</td>
+                  <td :data-tone="m.value >= m.network ? 'positive' : 'negative'">{{ m.fmt(m.network) }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="dash-stock">
+              <span>Stock {{ (panel.stock * 100).toFixed(0) }} %</span>
+              <i class="dash-bar dash-bar-wide" :style="`--w:${(panel.stock * 100).toFixed(0)}%`" :data-state="panel.stock < 0.15 ? 'alert' : panel.stock < 0.35 ? 'warn' : 'ok'" />
+              <small>{{ panel.stock < 0.15 ? 'Alerta: reponer' : panel.stock < 0.35 ? 'Vigilar' : 'Correcto' }}</small>
+            </div>
+          </section>
+
+          <section>
+            <h5>Acciones</h5>
+            <div class="dash-actions-grid">
+              <button type="button" :class="{ on: showIsochrones }" @click="showIsochrones = !showIsochrones">Isócronas</button>
+              <button type="button" :class="{ on: isolated === panel.poi.id }" @click="isolated = isolated === panel.poi.id ? null : panel.poi.id">Aislar</button>
+              <button type="button" @click="selection.selectNeighborhood(panel.poi.id, 3)">Vecindario</button>
+              <button type="button" @click="selection.selectWithin([panel.poi.x, panel.poi.y], 200)">Radio 200 u</button>
+              <button type="button" @click="centerOn3d">Centrar en 3D</button>
+              <button type="button" @click="orbitAround">Orbitar</button>
+              <button type="button" :class="{ on: compareA === panel.poi.id }" @click="compareA = compareA === panel.poi.id ? null : panel.poi.id">{{ compareA === panel.poi.id ? 'Fijada como A' : 'Fijar para comparar' }}</button>
+              <button type="button" @click="exportStore">Exportar PNG</button>
+              <button type="button" @click="copyLink">{{ copied ? 'Enlace copiado' : 'Copiar enlace' }}</button>
+              <button type="button" @click="selection.clear()">Cerrar</button>
+            </div>
+          </section>
+
+          <section v-if="comparison">
+            <h5>Comparación · {{ comparison.a.label }} vs {{ comparison.b.label }}</h5>
+            <table class="dash-table">
+              <thead><tr><th></th><th>{{ comparison.a.label }}</th><th>{{ comparison.b.label }}</th><th>Δ</th></tr></thead>
+              <tbody>
+                <tr v-for="r in comparison.rows" :key="r.k">
+                  <td>{{ r.label }}</td><td>{{ fmtMetric(r.k, r.a) }}</td><td><b>{{ fmtMetric(r.k, r.b) }}</b></td>
+                  <td :data-tone="r.b >= r.a ? 'positive' : 'negative'">{{ r.k === 'sales' ? formatBadge(r.b - r.a) : `${((r.b - r.a) * 100).toFixed(1)} pp` }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="dash-hint">Distancia entre ambas: {{ comparison.distance.toFixed(0) }} u. <a href="#" @click.prevent="routeTo(comparison.a.id)">Trazar ruta</a>.</p>
+          </section>
+          <section v-else-if="compareA && compareA !== panel.poi.id" class="dash-hint">Tienda A fijada. Selecciona otra tienda para compararla.</section>
+
+          <section>
+            <h5>Tiendas vecinas</h5>
+            <ul class="dash-list dash-neighbors">
+              <li v-for="n in neighbors" :key="n.poi.id">
+                <span @click="selection.select(n.poi.id)">{{ n.poi.label }}</span>
+                <small>{{ n.distance.toFixed(0) }} u</small>
+                <b v-if="n.datum">{{ formatBadge(n.datum.sales as number) }}</b>
+                <button type="button" class="dash-mini" @click="routeTo(n.poi.id)">Ruta</button>
+              </li>
+            </ul>
+          </section>
           <p v-if="multi" class="dash-hint">{{ selection.count.value }} seleccionadas. Con dos o más, la ruta más corta entre las dos últimas se dibuja en 2D y 3D.</p>
         </div>
-        <div v-else class="dash-detail-body dash-hint">Selecciona una tienda con clic o con Tab + flechas + Enter. La selección vive en la URL.</div>
+        <div v-else class="dash-detail-body dash-hint">
+          <p>Haz clic en una tienda (o Tab + flechas + Enter) para desplegar su panel: histórico de 12 meses, puesto en el ranking, comparativa frente a distrito y red, stock, acciones de cámara, aislamiento, comparación entre dos tiendas, rutas a vecinas, exportación y enlace.</p>
+          <p>La selección vive en la URL.</p>
+        </div>
       </aside>
 
       <CitySketchCard
@@ -854,7 +1048,244 @@ const selectedDistrict = computed(() => {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+/* Panel de tienda */
+.dash-rank {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--d-terracotta);
+}
+.dash-rank small {
+  font-size: 12px;
+  color: var(--d-muted);
+  font-weight: 500;
+}
+.dash-panel {
+  padding: 8px 16px 14px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: dash-unfold 350ms ease;
+}
+@keyframes dash-unfold {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.dash-panel h5 {
+  margin: 4px 0 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--d-muted);
+}
+.dash-panel-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: end;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: color-mix(in oklch, var(--d-panel), var(--d-sage) 25%);
+}
+.dash-panel-label {
+  display: block;
+  font-size: 11px;
+  color: var(--d-muted);
+}
+.dash-panel-big {
+  display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  margin: 2px 0 4px;
+}
+.dash-delta {
+  display: block;
+  font-size: 11px;
+}
+.dash-delta[data-tone='positive'],
+.dash-table td[data-tone='positive'] {
+  color: oklch(45% 0.13 150);
+}
+.dash-delta[data-tone='negative'],
+.dash-table td[data-tone='negative'] {
+  color: oklch(50% 0.18 25);
+}
+.dash[data-phase='dusk'] .dash-delta[data-tone='positive'],
+.dash[data-phase='night'] .dash-delta[data-tone='positive'],
+.dash[data-phase='dusk'] .dash-table td[data-tone='positive'],
+.dash[data-phase='night'] .dash-table td[data-tone='positive'] {
+  color: oklch(78% 0.13 150);
+}
+.dash[data-phase='dusk'] .dash-delta[data-tone='negative'],
+.dash[data-phase='night'] .dash-delta[data-tone='negative'],
+.dash[data-phase='dusk'] .dash-table td[data-tone='negative'],
+.dash[data-phase='night'] .dash-table td[data-tone='negative'] {
+  color: oklch(78% 0.15 25);
+}
+.dash-spark {
+  width: 100%;
+  height: 64px;
+  overflow: visible;
+}
+.dash-spark-area {
+  fill: var(--d-terracotta);
+  opacity: 0.15;
+}
+.dash-spark-line {
+  fill: none;
+  stroke: var(--d-terracotta);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.dash-spark-peak {
+  fill: var(--d-panel);
+  stroke: var(--d-moss);
+  stroke-width: 1.5;
+}
+.dash-spark-now {
+  fill: var(--d-terracotta);
+}
+.dash-spark-axis {
+  font-size: 8px;
+  fill: var(--d-muted);
+}
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.dash-table th {
+  text-align: right;
+  font-weight: 500;
+  color: var(--d-muted);
+  padding: 2px 0 4px;
+}
+.dash-table th:first-child,
+.dash-table td:first-child {
+  text-align: left;
+}
+.dash-table td {
+  text-align: right;
+  padding: 4px 0;
+  border-top: 1px solid var(--d-line);
+  font-variant-numeric: tabular-nums;
+}
+.dash-stock {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.dash-bar-wide {
+  width: auto;
+}
+.dash-bar[data-state='ok']::after {
+  background: var(--cs-status-ok, #0f8a6c);
+}
+.dash-bar[data-state='warn']::after {
+  background: var(--cs-status-warn, #c47a00);
+}
+.dash-bar[data-state='alert']::after {
+  background: var(--cs-status-alert, #d6336c);
+}
+.dash-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.dash-actions-grid button,
+.dash-mini {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--d-line);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background 300ms ease, color 300ms ease;
+}
+.dash-actions-grid button.on {
+  background: var(--d-moss);
+  color: var(--d-sand);
+  border-color: transparent;
+}
+.dash-mini {
+  padding: 2px 8px;
+  font-size: 11px;
+}
+.dash-neighbors li {
+  grid-template-columns: 1fr auto auto auto;
+}
+.dash-neighbors span {
+  cursor: pointer;
+}
+.dash-panel a {
+  color: var(--d-terracotta);
+}
+/* Callout SVG en el mapa 2D */
+.dash-callout {
+  pointer-events: none;
+  animation: dash-unfold 300ms ease;
+}
+.dash-callout-bg {
+  fill: oklch(97% 0.015 85);
+  stroke: oklch(42% 0.17 262);
+  stroke-width: 0.8;
+  filter: drop-shadow(0 2px 3px oklch(0% 0 0 / 0.25));
+}
+.dash-callout-head {
+  fill: oklch(42% 0.17 262);
+}
+.dash-callout-title {
+  font-size: 6.5px;
+  font-weight: 700;
+  fill: oklch(92% 0.17 95);
+}
+.dash-callout-k {
+  font-size: 6px;
+  fill: oklch(40% 0.03 60);
+}
+.dash-callout-v {
+  font-size: 6.5px;
+  font-weight: 700;
+  text-anchor: end;
+  fill: oklch(22% 0.03 60);
+  font-variant-numeric: tabular-nums;
+}
+.dash-callout-track {
+  fill: oklch(85% 0.02 80);
+}
+.dash-callout-fill[data-state='ok'] {
+  fill: #0f8a6c;
+}
+.dash-callout-fill[data-state='warn'] {
+  fill: #c47a00;
+}
+.dash-callout-fill[data-state='alert'] {
+  fill: #d6336c;
+}
+.dash-callout-bar {
+  fill: oklch(42% 0.17 262);
+  opacity: 0.45;
+}
+.dash-callout-bar.last {
+  opacity: 1;
+  fill: oklch(80% 0.17 95);
+  stroke: oklch(42% 0.17 262);
+  stroke-width: 0.6;
+}
 @media (prefers-reduced-motion: reduce) {
+  .dash-panel,
+  .dash-callout {
+    animation: none;
+  }
   .dash-gap-halo {
     animation: none;
   }

@@ -20,6 +20,17 @@ export const DATA_DARK: DataTokens = {
   status: { ok: '#2aa88a', warn: '#bd8a12', alert: '#dc5278' },
 };
 
+/** Identidad de tienda: amarillo con azul (estilo de las tiendas del grupo). */
+export const STORE_BRAND = {
+  facade: 'oklch(90% 0.17 95)',
+  band: 'oklch(42% 0.17 262)',
+  sign: 'oklch(42% 0.17 262)',
+  signText: 'oklch(92% 0.17 95)',
+  glass: 'oklch(70% 0.06 240)',
+  canopy: 'oklch(42% 0.17 262)',
+} as const;
+const STORE_BRAND_DARK = { ...STORE_BRAND, facade: 'oklch(84% 0.17 95)', glass: 'oklch(80% 0.1 90)' } as const;
+
 const base: Theme = {
   name: 'blueprint',
   scheme: 'light',
@@ -38,6 +49,8 @@ const base: Theme = {
       'amber-200': 'oklch(92% 0.06 80)',
       'red-500': 'oklch(58% 0.2 25)',
       'coral-500': 'oklch(68% 0.17 35)',
+      'brand-yellow': 'oklch(90% 0.17 95)',
+      'brand-blue': 'oklch(42% 0.17 262)',
       white: 'oklch(100% 0 0)',
     },
     fontFamilies: {
@@ -80,8 +93,9 @@ const base: Theme = {
     },
     lot: { stroke: 'inkMuted', strokeWidth: 0.4, opacity: 0.5 },
     label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.04 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
     canvas: { background: 'surface', grid: 'ink-300' },
+    store: STORE_BRAND,
   },
   sketch: { technique: 'none', intensity: 0.5 },
   data: DATA_LIGHT,
@@ -120,7 +134,8 @@ const blueprint: Theme = deepMerge(base, {
     },
     lot: { stroke: 'inkMuted', strokeWidth: 0.35, opacity: 0.45 },
     canvas: { background: 'surface', grid: 'ink-300' },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
+    store: STORE_BRAND_DARK,
   },
 } satisfies DeepPartial<Theme>);
 
@@ -187,7 +202,7 @@ const minimalMono: Theme = deepMerge(base, {
       plaza: { fill: 'plaza', stroke: 'ink-300', pattern: 'none', opacity: 1 },
     },
     lot: { stroke: 'ink-300', strokeWidth: 0.3, opacity: 0.6 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'inkMuted', size: 6 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 6 },
     canvas: { background: 'surface' },
   },
 } satisfies DeepPartial<Theme>);
@@ -214,7 +229,7 @@ const retailWarm: Theme = deepMerge(base, {
       street: { stroke: 'surface', widthScale: 1, casing: 'ink-300' },
       alley: { stroke: 'surface', widthScale: 0.9, casing: 'ink-300', dash: '3 2' },
     },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 8 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 8 },
   },
 } satisfies DeepPartial<Theme>);
 
@@ -252,7 +267,8 @@ const darkOps: Theme = deepMerge(base, {
     },
     lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.5 },
     label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.06 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
+    store: STORE_BRAND_DARK,
     canvas: { background: 'surface', grid: 'ink-300' },
   },
 } satisfies DeepPartial<Theme>);
@@ -298,7 +314,7 @@ const cityDay: Theme = deepMerge(base, {
     },
     lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.5 },
     label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.04 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
     canvas: { background: 'surface' },
     building: {
       // arena, estuco, terracota, ladrillo, hormigon, salvia, ocre, crema, gris calido, rosa viejo
@@ -349,7 +365,8 @@ const cityDusk: Theme = deepMerge(base, {
     },
     lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.45 },
     label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.05 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
+    store: STORE_BRAND_DARK,
     canvas: { background: 'surface' },
     building: {
       facades: ['oklch(46% 0.06 290)', 'oklch(50% 0.05 270)', 'oklch(42% 0.07 310)', 'oklch(54% 0.04 260)', 'oklch(48% 0.08 330)', 'oklch(44% 0.04 240)', 'oklch(52% 0.06 40)', 'oklch(47% 0.05 20)'],
@@ -402,7 +419,8 @@ const cityNight: Theme = deepMerge(base, {
     },
     lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.4 },
     label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.05 },
-    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    poi: { fill: 'brand-yellow', stroke: 'brand-blue', ring: 'brand-blue', size: 7 },
+    store: STORE_BRAND_DARK,
     canvas: { background: 'surface' },
     building: {
       facades: ['oklch(32% 0.02 265)', 'oklch(36% 0.03 280)', 'oklch(30% 0.03 250)', 'oklch(38% 0.02 60)', 'oklch(34% 0.04 300)', 'oklch(28% 0.02 240)', 'oklch(36% 0.04 30)'],

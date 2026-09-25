@@ -312,6 +312,12 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
   const success = resolveColor(theme, 'success');
   const shadowInk = dark ? shiftOklch(surface, -14, 0.01) : ink;
   const waterFill0 = resolveColor(theme, theme.components.block.water.fill);
+  const stk = theme.components.store;
+  const storeGlass = stk?.glass ?? `oklch(${dark ? 78 : 62}% 0.06 230)`;
+  const storeBand = stk?.band ?? accent;
+  const storeCanopy = stk?.canopy ?? accent;
+  const storeSign = stk?.sign ?? accent;
+  const storeSignText = stk?.signText ?? surface;
   const seedRng = (label: string) => createRng(model.seed, label);
   const floorH0 = 5.5;
 
@@ -372,7 +378,11 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         `.${prefix}-iso .cs-floors{fill:none;stroke:${ink};stroke-width:0.35;stroke-opacity:${dark ? 0.3 : 0.12}}` +
         `.${prefix}-iso .cs-win{fill:${night ? shiftOklch(surface, 4) : shiftOklch(ink, dark ? -30 : 55)};stroke:none;opacity:${night ? 0.9 : 0.55}}` +
         `.${prefix}-iso .cs-win-lit{fill:oklch(88% 0.12 85);stroke:none}` +
-        `.${prefix}-iso .cs-storefront{fill:oklch(${dark ? 78 : 62}% 0.06 230);stroke:none;opacity:0.85}` +
+        `.${prefix}-iso .cs-storefront{fill:${storeGlass};stroke:${storeBand};stroke-width:0.35;opacity:0.92}` +
+        `.${prefix}-iso .cs-store-band{fill:${storeBand};stroke:none}` +
+        `.${prefix}-iso .cs-store-canopy{fill:${storeCanopy};stroke:${edge};stroke-width:0.25}` +
+        `.${prefix}-iso .cs-store-sign{fill:${storeSign};stroke:${edge};stroke-width:0.3}` +
+        `.${prefix}-iso .cs-sign-text{fill:${storeSignText};font-family:var(--cs-font-display);font-weight:800;letter-spacing:0.04em}` +
         `.${prefix}-iso .cs-shadows{fill:${shadowInk};opacity:${(o.shadows * (dark ? 1 : 0.6)).toFixed(2)}}` +
         `.${prefix}-iso .cs-shadow{stroke:none}` +
         `.${prefix}-iso .cs-halo{fill:${accentAlt};opacity:0.28}` +
@@ -626,8 +636,9 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     const c = centroid(fp);
     const luFill = resolveColor(theme, theme.components.block[block.landUse].fill);
     const pal = theme.components.building;
-    let baseColor = poi ? accentAlt : luFill;
-    let roofColor = shiftOklch(baseColor, dark ? 9 : 3, poi ? 0.01 : -0.01);
+    const storeTok = theme.components.store;
+    let baseColor = poi ? (storeTok?.facade ?? accentAlt) : luFill;
+    let roofColor = poi ? (dark ? 'oklch(40% 0.03 80)' : 'oklch(72% 0.03 85)') : shiftOklch(baseColor, dark ? 9 : 3, -0.01);
     let awning: string | null = null;
     if (typology === 'tower' && pal?.glass?.length) {
       baseColor = lrng.pick(pal.glass);
@@ -639,7 +650,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     } else if (typology === 'house' && pal) {
       roofColor = lrng.pick(pal.roofs);
     }
-    if (poi && pal) awning = lrng.pick(pal.awnings);
+    if (poi) awning = storeTok?.canopy ?? (pal ? lrng.pick(pal.awnings) : null);
     const ridge = typology === 'house' ? Math.min(6, Math.sqrt(a) * 0.28) : 0;
     const b: Building = { kind: 'building', id: lot.id, footprint: fp, height, depth: pr.uv(c[0], c[1])[1], baseColor, poi, lot, block, landmark, roofColor, awning, typology, ridge, overrides: poi ? (model.meta.params.overrides.pois?.[poi.id] ?? poi.overrides) : undefined };
     buildings.push(b);
@@ -824,6 +835,24 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     let storePath = '';
     let awningPath = '';
     let balconyPath = '';
+    let bandPath = '';
+    let canopyPath = '';
+    let signPath = '';
+    let signText = '';
+    // Fachada principal de la tienda: pared cuyo punto medio esta mas cerca del frente del lote.
+    let frontIdx = -1;
+    if (b.poi) {
+      let bd = Infinity;
+      for (let i = 0; i < n; i++) {
+        const a = fp[i]!;
+        const c = fp[(i + 1) % n]!;
+        const d = dist([(a[0] + c[0]) / 2, (a[1] + c[1]) / 2], b.lot.frontPoint);
+        if (d < bd) {
+          bd = d;
+          frontIdx = i;
+        }
+      }
+    }
     const wrng = seedRng(`win:${b.id}`);
     const tower = b.typology === 'tower';
     const winStep = tower ? 3.6 : 5.4;
@@ -853,11 +882,32 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
       if (o.floors && b.height >= floorH * 2 && wallLen >= 6) {
         for (let z = floorH; z < b.height - 1.5; z += floorH) floorsPath += `M${pt(at(0, z))}L${pt(at(wallLen, z))}`;
       }
-      // Escaparate en planta baja de tiendas y toldo sobre el.
+      // Tiendas: zocalo y franja superior de marca, escaparate amplio, marquesina y rotulo en la fachada principal.
+      const isFront = b.poi !== null && frontIdx === i;
       if (b.poi && wallLen >= 5 && b.height >= floorH) {
-        storePath += `M${pt(at(0.8, 0.6))}L${pt(at(wallLen - 0.8, 0.6))}L${pt(at(wallLen - 0.8, floorH - 1.2))}L${pt(at(0.8, floorH - 1.2))}Z`;
-      }
-      if (b.awning && wallLen >= 6 && b.height >= floorH && cosL > -0.2) {
+        storePath += `M${pt(at(0.8, 0.9))}L${pt(at(wallLen - 0.8, 0.9))}L${pt(at(wallLen - 0.8, floorH - 1.3))}L${pt(at(0.8, floorH - 1.3))}Z`;
+        bandPath += `M${pt(at(0, 0))}L${pt(at(wallLen, 0))}L${pt(at(wallLen, 0.9))}L${pt(at(0, 0.9))}Z`;
+        if (b.height >= floorH * 1.5) bandPath += `M${pt(at(0, b.height - 1.7))}L${pt(at(wallLen, b.height - 1.7))}L${pt(at(wallLen, b.height - 0.3))}L${pt(at(0, b.height - 0.3))}Z`;
+        if (isFront && wallLen >= 8) {
+          const on: Vec2 = [-dir[1], dir[0]];
+          const out = 1.4;
+          const cp = (d: number, z: number): Vec2 => pr.p(a[0] + dir[0] * d + on[0] * out, a[1] + dir[1] * d + on[1] * out, z);
+          canopyPath += `M${pt(at(1, floorH - 1.3))}L${pt(cp(1, floorH - 1.6))}L${pt(cp(wallLen - 1, floorH - 1.6))}L${pt(at(wallLen - 1, floorH - 1.3))}Z`;
+          // Rotulo sobre el alero: panel vertical con el nombre de la tienda proyectado en el plano de la fachada.
+          const sh = 3;
+          const z0 = b.height;
+          signPath += `M${pt(at(0.6, z0))}L${pt(at(wallLen - 0.6, z0))}L${pt(at(wallLen - 0.6, z0 + sh))}L${pt(at(0.6, z0 + sh))}Z`;
+          const label = b.poi.label;
+          const fs = 1.9;
+          const textW = label.length * fs * 0.62;
+          if (textW <= wallLen - 2.4 && o.detail !== 'low') {
+            const e0 = at(0, 0);
+            const e1 = at(1, 0);
+            const org = at((wallLen - textW) / 2, z0 + sh * 0.5 - fs * 0.38);
+            signText = `<text class="cs-sign-text" font-size="${fs}" transform="matrix(${fmt(e1[0] - e0[0], 3)} ${fmt(e1[1] - e0[1], 3)} 0 ${fmt(pr.kz, 3)} ${fmt(org[0], P)} ${fmt(org[1], P)})">${escapeXml(label)}</text>`;
+          }
+        }
+      } else if (b.awning && wallLen >= 6 && b.height >= floorH && cosL > -0.2) {
         awningPath += `M${pt(at(0.5, floorH - 1.2))}L${pt(at(wallLen - 0.5, floorH - 1.2))}L${pt(at(wallLen - 0.5, floorH - 0.2))}L${pt(at(0.5, floorH - 0.2))}Z`;
       }
       // Ventanas: columnas cada ~5.4 unidades, una fila por planta, solo en fachadas cercanas.
@@ -897,6 +947,8 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     if (winPath) parts.push(`<path class="cs-win" d="${winPath}"/>`);
     if (litPath) parts.push(`<path class="cs-win-lit" d="${litPath}"/>`);
     if (storePath) parts.push(`<path class="cs-storefront" d="${storePath}"/>`);
+    if (bandPath) parts.push(`<path class="cs-store-band" d="${bandPath}"/>`);
+    if (canopyPath) parts.push(`<path class="cs-store-canopy" d="${canopyPath}"/>`);
     if (awningPath) parts.push(`<path class="cs-awning" d="${awningPath}" fill="${b.awning ?? accent}"/>`);
     if (balconyPath) parts.push(`<path class="cs-balcony" d="${balconyPath}" fill="${shiftOklch(base, dark ? 6 : -6)}"/>`);
     const roofBase = fogMix(b.roofColor, surface, fog);
@@ -981,6 +1033,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         }
       }
     }
+    if (signPath) parts.push(`<path class="cs-store-sign" d="${signPath}"/>${signText}`);
     if (b.landmark) {
       const rc = centroid(fp);
       const a0 = pr.p(rc[0], rc[1], b.height);

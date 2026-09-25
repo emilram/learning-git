@@ -505,6 +505,19 @@ export interface ComponentTokens {
   readonly label: { readonly fill: string; readonly halo: string; readonly font: string; readonly letterSpacing: number };
   readonly poi: { readonly fill: string; readonly stroke: string; readonly ring: string; readonly size: number };
   readonly canvas: { readonly background: string; readonly grid?: string };
+  /**
+   * Identidad de tienda (literales OKLCH/hex): fachada, franja superior, rotulo y
+   * texto del rotulo, vidrio del escaparate y marquesina. Se usa en los marcadores
+   * 2D (via poi) y en los edificios de tienda de la vista 3D.
+   */
+  readonly store?: {
+    readonly facade: string;
+    readonly band: string;
+    readonly sign: string;
+    readonly signText: string;
+    readonly glass: string;
+    readonly canopy: string;
+  };
   /** Paletas de la vista 3D: fachadas, azoteas y toldos (literales OKLCH). Si faltan, se derivan del uso de suelo. */
   readonly building?: {
     readonly facades: readonly string[];

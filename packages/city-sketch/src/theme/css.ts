@@ -63,6 +63,15 @@ export function themeVariables(theme: Theme): Record<string, string> {
   vars['--cs-poi-stroke'] = resolveColor(theme, c.poi.stroke);
   vars['--cs-poi-ring'] = resolveColor(theme, c.poi.ring);
   vars['--cs-poi-size'] = String(c.poi.size);
+  const st = c.store;
+  if (st) {
+    vars['--cs-store-facade'] = st.facade;
+    vars['--cs-store-band'] = st.band;
+    vars['--cs-store-sign'] = st.sign;
+    vars['--cs-store-sign-text'] = st.signText;
+    vars['--cs-store-glass'] = st.glass;
+    vars['--cs-store-canopy'] = st.canopy;
+  }
   theme.data.categorical.forEach((c, i) => (vars[`--cs-data-cat-${i + 1}`] = c));
   vars['--cs-status-ok'] = theme.data.status.ok;
   vars['--cs-status-warn'] = theme.data.status.warn;

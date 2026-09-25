@@ -126,7 +126,7 @@ const isoEffective = computed<Partial<IsoOptions>>(() => {
   const base = props.iso ?? {};
   const rotation = ((base.rotation ?? 35) + orbitRotation.value) % 360;
   const pitch = Math.max(20, Math.min(89, (base.pitch ?? 55) + orbitPitch.value));
-  const lowDetail = dragging.value || flying.value;
+  const lowDetail = dragging.value || flying.value || autoOrbit.value;
   return {
     ...base,
     rotation,
@@ -326,10 +326,15 @@ function setOrbit(rotation: number, pitch: number, resetCenter = true): void {
   orbitPitch.value = pitch - (props.iso?.pitch ?? 55);
   if (resetCenter) flyTo(null, null, 400);
 }
-/** Incremento relativo de camara (para autorotacion) sin tocar el centro. */
+/** Incremento relativo de camara (para autorotacion) sin tocar el centro. Baja el detalle mientras dure el movimiento. */
+let orbitTimer: ReturnType<typeof setTimeout> | null = null;
+const autoOrbit = shallowRef(false);
 function orbitBy(dRotation: number, dPitch = 0): void {
   orbitRotation.value += dRotation;
   orbitPitch.value += dPitch;
+  autoOrbit.value = true;
+  if (orbitTimer) clearTimeout(orbitTimer);
+  orbitTimer = setTimeout(() => (autoOrbit.value = false), 220);
 }
 function getOrbit(): { rotation: number; pitch: number } {
   return { rotation: isoEffective.value.rotation ?? 0, pitch: isoEffective.value.pitch ?? 0 };
@@ -350,6 +355,7 @@ watch(
 );
 onScopeDispose(() => {
   if (fadeTimer) clearTimeout(fadeTimer);
+  if (orbitTimer) clearTimeout(orbitTimer);
 });
 
 defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, orbitBy, getOrbit, flyTo, dragging, flying });
