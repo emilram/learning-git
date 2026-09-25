@@ -4,7 +4,7 @@
  * leyenda, acciones (2D/3D, reset zoom, exportar) y el renderer.
  * Toda la card se adapta a su ancho, no al viewport.
  */
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { CityModel, ElementStyle, Poi, Block, Theme } from '../core/types';
 import type { IsoOptions } from '../core/svg/iso';
 import type { IsochroneBand } from '../core/analysis/isochrone';
@@ -75,6 +75,12 @@ defineSlots<{
 
 const sketch = ref<InstanceType<typeof CitySketch> | null>(null);
 const localView = ref<'2d' | 'iso'>(props.view);
+watch(
+  () => props.view,
+  (v) => {
+    if (v && v !== localView.value) localView.value = v;
+  },
+);
 const view = computed({
   get: () => localView.value,
   set: (v) => {

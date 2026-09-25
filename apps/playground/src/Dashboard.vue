@@ -4,7 +4,7 @@
  * externalId, metricas → tamano/color/anillo/badge/altura, heatmap, isocronas,
  * comparacion de periodos, seleccion sincronizada con la URL y vista 3D.
  */
-import { computed, ref, watch } from 'vue';
+import { computed, onScopeDispose, ref, watch } from 'vue';
 import { CitySketchCard, CitySketchCompare, useCityModel, useStoreBinding, useUrlState, computeIsochrones, formatBadge, type StoreDatum, type Kpi } from '@empresa/city-sketch/vue';
 import { THEME_PRESETS } from '@empresa/city-sketch/theme';
 import { createRng, type PoiSpec } from '@empresa/city-sketch';
@@ -51,6 +51,9 @@ const isoOptions = computed(() => ({
   fit: 'cover' as const,
   zoom: 1.35,
   traffic: 0.6,
+  focus: true,
+  groundOverlays: isoOverlays.value,
+  links: isoLinks.value,
   lotHeight: (_lot: unknown, block: { density: number }, poi: { id: string } | null) => (poi ? (heights.value.get(poi.id) ?? 20) : 4 + block.density * 10),
 }));
 
@@ -94,6 +97,54 @@ const isochrones = computed(() => {
   if (!m || !id) return [];
   const poi = m.pois.find((p) => p.id === id);
   return poi ? computeIsochrones(m, [poi], [120, 240, 360]) : [];
+});
+
+// Superficies y enlaces para la vista 3D: isocronas de la seleccion y sus 3 vecinas mas cercanas.
+const isoOverlays = computed(() =>
+  [...isochrones.value].sort((a, b) => b.distance - a.distance).map((b, i) => ({ polygon: b.polygon, fill: 'oklch(62% 0.17 250)', opacity: 0.14 + i * 0.1 })),
+);
+const neighbors = computed(() => {
+  const m = modelBound.value;
+  const id = selected.value;
+  if (!m || !id) return [];
+  const s = m.pois.find((p) => p.id === id);
+  if (!s) return [];
+  return m.pois
+    .filter((p) => p.id !== id)
+    .map((p) => ({ poi: p, d: Math.hypot(p.x - s.x, p.y - s.y), datum: september.find((x) => x.id === p.externalId) }))
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 3);
+});
+const isoLinks = computed(() => {
+  const m = modelBound.value;
+  const s = m?.pois.find((p) => p.id === selected.value);
+  if (!s) return [];
+  return neighbors.value.map((n) => ({ from: [s.x, s.y] as const, to: [n.poi.x, n.poi.y] as const, dash: true }));
+});
+
+// Tour ejecutivo: recorre las 6 tiendas con mas ventas.
+const touring = ref(false);
+let tourTimer: ReturnType<typeof setInterval> | null = null;
+const topStores = computed(() => [...september].sort((a, b) => (b.sales as number) - (a.sales as number)).slice(0, 6).map((d) => poisWithIds.value.find((p) => p.externalId === d.id)?.id).filter((x): x is string => !!x));
+function toggleTour(): void {
+  if (touring.value) {
+    touring.value = false;
+    if (tourTimer) clearInterval(tourTimer);
+    tourTimer = null;
+    return;
+  }
+  touring.value = true;
+  view3d.value = 'iso';
+  let i = 0;
+  const next = (): void => {
+    url.selected.value = topStores.value[i % topStores.value.length] ?? null;
+    i++;
+  };
+  next();
+  tourTimer = setInterval(next, 3200);
+}
+onScopeDispose(() => {
+  if (tourTimer) clearInterval(tourTimer);
 });
 
 // Filtro por formato sincronizado con la URL.
@@ -149,16 +200,19 @@ watch(model, () => (view3d.value = '2d'));
         <h1>Red de tiendas · Septiembre 2026</h1>
         <p>40 tiendas simuladas sobre una ciudad sintética (semilla <code>retail-mx-2026</code>). Generación {{ lastMs.toFixed(0) }} ms{{ generating ? ', regenerando…' : '' }}.</p>
       </div>
-      <label class="dash-toggle"><input v-model="onlyFlagship" type="checkbox" /> Solo flagship</label>
+      <div class="dash-actions">
+        <label class="dash-toggle"><input v-model="onlyFlagship" type="checkbox" /> Solo flagship</label>
+        <button type="button" class="dash-tour" :class="{ on: touring }" @click="toggleTour">{{ touring ? '■ Detener tour' : '▶ Tour ejecutivo' }}</button>
+      </div>
     </header>
 
     <div class="dash-grid">
       <CitySketchCard
         class="span-2"
         title="Ventas por tienda"
-        subtitle="Tamaño = ventas · color = margen · anillo = stock · clic para isócronas"
+        subtitle="Tamaño = ventas · color = margen · anillo = stock · clic para isócronas · en 3D arrastra para orbitar"
         :model="modelBound"
-        :theme="THEME_PRESETS['retail-warm']"
+        :theme="THEME_PRESETS['city-day']"
         :kpis="kpis"
         :poi-overrides="binding.overrides.value"
         :badges="binding.badges.value"
@@ -167,6 +221,7 @@ watch(model, () => (view3d.value = '2d'));
         :selected-id="selected"
         :filter="filter"
         :iso="isoOptions"
+        :view="view3d"
         :generating="generating"
         @store:select="url.selected.value = $event.id === url.selected.value ? null : $event.id"
         @update:view="view3d = $event"
@@ -199,10 +254,10 @@ watch(model, () => (view3d.value = '2d'));
       />
 
       <CitySketchCard
-        title="Vista 3D · altura = ventas"
-        subtitle="dark-ops · rotación 30° · lotHeight desde useStoreBinding"
+        title="Vista 3D nocturna · altura = ventas"
+        subtitle="city-dusk · foco en la selección · vuelo de cámara"
         :model="modelBound"
-        :theme="THEME_PRESETS['dark-ops']"
+        :theme="THEME_PRESETS['city-dusk']"
         view="iso"
         :iso="isoOptions"
         :poi-overrides="binding.overrides.value"
@@ -240,7 +295,13 @@ watch(model, () => (view3d.value = '2d'));
             <dt>Stock</dt><dd>{{ ((selectedDatum.d.stock as number) * 100).toFixed(0) }} %</dd>
             <dt>Formato</dt><dd>{{ selectedDatum.d.format }}</dd>
           </dl>
-          <p class="dash-hint">Las isócronas (120/240/360 unidades por calle) se dibujan en la card principal. La selección vive en la URL (<code>?dash.sel=…</code>).</p>
+          <h5>Tiendas vecinas</h5>
+          <ul class="dash-neighbors">
+            <li v-for="n in neighbors" :key="n.poi.id" @click="url.selected.value = n.poi.id">
+              <span>{{ n.poi.label }}</span><small>{{ n.d.toFixed(0) }} u</small><b v-if="n.datum">{{ formatBadge(n.datum.sales as number) }}</b>
+            </li>
+          </ul>
+          <p class="dash-hint">Las isócronas y los enlaces a vecinas se dibujan en 2D y 3D. La selección vive en la URL (<code>?dash.sel=…</code>).</p>
         </div>
         <div v-else class="dash-detail-body dash-hint">Selecciona una tienda con clic o con Tab + flechas + Enter.</div>
       </aside>
@@ -274,6 +335,47 @@ watch(model, () => (view3d.value = '2d'));
 .dash-toggle {
   font-size: 13px;
   white-space: nowrap;
+}
+.dash-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.dash-tour {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--pg-line);
+  background: var(--pg-ink);
+  color: white;
+  cursor: pointer;
+}
+.dash-tour.on {
+  background: oklch(58% 0.2 25);
+}
+.dash-neighbors {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.dash-neighbors li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--pg-line);
+  cursor: pointer;
+}
+.dash-neighbors small {
+  color: var(--pg-muted);
+}
+.dash-detail-body h5 {
+  margin: 8px 0 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--pg-muted);
 }
 .dash-grid {
   display: grid;

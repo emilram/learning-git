@@ -42,7 +42,8 @@ const { model } = useCityModel(() => ({ seed: 'demo-1', mode: 'grid-jitter' }));
 
 - **Edificios**: sombra proyectada al suelo, iluminación continua por orientación de cada pared, oclusión en la base, líneas de planta, ventanas (encendidas de noche en temas oscuros), escaparate en planta baja de las tiendas, azotea con parapeto y equipos, torres hito en el centro.
 - **Entorno**: agua con degradado, olas y orilla; parques con árboles; árboles de alineación en avenidas; pasos de cebra en cruces de avenidas; tráfico; niebla de profundidad; cielo; brújula; nombres de calle y de distrito proyectados.
-- **Datos**: `lotHeight(lot, block, poi)` mapea métricas a altura; `selectedId` resalta una tienda (halo y anillo pulsante); los `overrides` de tiendas se aplican a su edificio y pin.
+- **Diversidad**: cada tema define paletas de fachadas, azoteas y toldos (`components.building`); `variety` controla cuánta variación se aplica por lote. Los presets `city-day` (arena, terracota, asfalto) y `city-dusk` (atardecer con ventanas encendidas) están pensados para demos.
+- **Datos y selección**: `lotHeight(lot, block, poi)` mapea métricas a altura; `selectedId` + `focus` resaltan una tienda y atenúan las demás; `groundOverlays` dibuja isócronas o zonas en el suelo; `links` traza arcos entre tiendas; `center` sitúa la cámara. En Vue, al seleccionar una tienda la cámara **vuela** hacia ella (`flyTo`) y el dashboard incluye un **tour ejecutivo** que recorre las mejores tiendas.
 - **Cámara y detalle**: `rotation`, `pitch`, `fit` (`cover` recorta a la card, `contain` muestra toda la ciudad), `zoom`, `lightAzimuth`, `lightElevation`, `shadows`, `fog`, y `detail` (`high`, `medium`, `low`) para controlar peso y coste.
 - **Vue**: `<CitySketch view="iso" />` permite **arrastrar para orbitar** (durante el gesto baja a `detail: 'low'` y recupera el detalle al soltar), hover y click sobre edificios con tooltip, y emite `iso:change` con la cámara resultante. El botón ⟲ de la card restablece la cámara.
 
@@ -80,7 +81,7 @@ Eventos: `store:hover`, `store:select`, `block:select`, `viewport:change`, `upda
 |--------|--------|-------|
 | 1 Arquitectura | ✅ | `docs/ARCHITECTURE.md`, `types.ts`, `params.ts` |
 | 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, calles que respetan el agua (avenidas como puentes), SVG 2D y **vista 3D isométrica** (`serializeIsoSvg`). 68 tests. |
-| 3 Temas y boceto | ◐ | 5 presets OKLCH en 3 capas, rough.js y filtro SVG ya funcionan; faltan ejemplos SVG y medición de coste. |
+| 3 Temas y boceto | ◐ | 7 presets OKLCH en 3 capas (incl. `city-day` y `city-dusk` con paletas de fachadas), rough.js y filtro SVG; faltan ejemplos SVG y medición de coste. |
 | 4 Adaptador Vue | ✅ | `CitySketchCard`, `CitySketch`, `CitySketchCompare`, capas `StreetLayer`/`BlockLayer`/`LabelLayer`/`StoreLayer`/`DataOverlayLayer`/`CanvasStreetLayer`; composables `useCityModel` (worker + caché), `useSketchDimensions`, `useZoomPan`, `useHitTest`, `useTooltip`, `useStoreBinding`, `useUrlState`; exportación SVG/PNG; heatmap, isócronas, comparación, animaciones, a11y. Dashboard con 40 tiendas en `apps/playground` (#dashboard). |
 | 5 Playground y plantillas | ◐ | Playground con sliders desde `PARAM_SPECS` y vista 2D/3D. Falta arrastre de tiendas, guardado de plantillas y JSON Schema. |
 | 6 Guía, benchmarks, limitaciones | ☐ | |

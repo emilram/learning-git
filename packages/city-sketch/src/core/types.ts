@@ -461,7 +461,9 @@ export type ThemePresetName =
   | 'hand-sketch'
   | 'minimal-mono'
   | 'retail-warm'
-  | 'dark-ops';
+  | 'dark-ops'
+  | 'city-day'
+  | 'city-dusk';
 
 /** Color en OKLCH como string CSS (`oklch(L C H / A)`). */
 export type Oklch = `oklch(${string})`;
@@ -502,6 +504,12 @@ export interface ComponentTokens {
   readonly label: { readonly fill: string; readonly halo: string; readonly font: string; readonly letterSpacing: number };
   readonly poi: { readonly fill: string; readonly stroke: string; readonly ring: string; readonly size: number };
   readonly canvas: { readonly background: string; readonly grid?: string };
+  /** Paletas de la vista 3D: fachadas, azoteas y toldos (literales OKLCH). Si faltan, se derivan del uso de suelo. */
+  readonly building?: {
+    readonly facades: readonly string[];
+    readonly roofs: readonly string[];
+    readonly awnings: readonly string[];
+  };
 }
 
 export type SketchTechnique = 'none' | 'rough' | 'filter';

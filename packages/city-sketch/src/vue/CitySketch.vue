@@ -6,7 +6,7 @@
  * Canvas para calles y manzanas cuando el modelo supera `canvasThreshold`.
  * En `view="iso"` delega al serializador 3D (string) manteniendo zoom y eventos.
  */
-import { computed, nextTick, ref, shallowRef, useId, watch } from 'vue';
+import { computed, nextTick, onScopeDispose, ref, shallowRef, useId, watch } from 'vue';
 import type { Block, CityModel, ElementStyle, Poi, Theme } from '../core/types';
 import type { IsochroneBand } from '../core/analysis/isochrone';
 import { patternDefs, poiSymbolDef, serializeSvg, sketchFilterDef } from '../core/svg/serialize';
@@ -50,6 +50,8 @@ const props = withDefaults(
     filter?: ReadonlySet<string> | null | undefined;
     /** Arrastrar para rotar la camara en vista iso. */
     orbit?: boolean | undefined;
+    /** Volar la camara a la tienda seleccionada en vista iso. */
+    flyTo?: boolean | undefined;
   }>(),
   {
     view: '2d',
@@ -65,6 +67,7 @@ const props = withDefaults(
     selectedId: null,
     filter: null,
     orbit: true,
+    flyTo: true,
   },
 );
 
@@ -113,12 +116,64 @@ const modelWithOverrides = computed<CityModel | null>(() => {
 const orbitRotation = shallowRef(0);
 const orbitPitch = shallowRef(0);
 const dragging = shallowRef(false);
+const flying = shallowRef(false);
+const camCenter = shallowRef<readonly [number, number] | null>(null);
+const camZoom = shallowRef<number | null>(null);
 const isoEffective = computed<Partial<IsoOptions>>(() => {
   const base = props.iso ?? {};
   const rotation = ((base.rotation ?? 35) + orbitRotation.value) % 360;
   const pitch = Math.max(20, Math.min(89, (base.pitch ?? 55) + orbitPitch.value));
-  return { ...base, rotation, pitch, selectedId: props.selectedId ?? base.selectedId ?? null, ...(dragging.value ? { detail: 'low' as const } : {}) };
+  const lowDetail = dragging.value || flying.value;
+  return {
+    ...base,
+    rotation,
+    pitch,
+    selectedId: props.selectedId ?? base.selectedId ?? null,
+    ...(camCenter.value ? { center: camCenter.value } : {}),
+    ...(camZoom.value ? { zoom: camZoom.value } : {}),
+    ...(lowDetail ? { detail: 'low' as const } : {}),
+  };
 });
+// Vuelo de camara (modo cover): interpola centro y zoom con easing; detalle bajo durante el vuelo.
+let flightRaf = 0;
+function flyTo(target: readonly [number, number] | null, zoom: number | null, duration = 550): void {
+  const m = props.model;
+  if (!m) return;
+  cancelAnimationFrame(flightRaf);
+  const from: readonly [number, number] = camCenter.value ?? [m.bounds.w / 2, m.bounds.h / 2];
+  const to: readonly [number, number] = target ?? [m.bounds.w / 2, m.bounds.h / 2];
+  const z0 = camZoom.value ?? props.iso?.zoom ?? 1.5;
+  const z1 = zoom ?? props.iso?.zoom ?? 1.5;
+  if (prefersReducedMotion() || duration <= 0) {
+    camCenter.value = target;
+    camZoom.value = zoom;
+    return;
+  }
+  flying.value = true;
+  const t0 = performance.now();
+  const step = (): void => {
+    const u = Math.min(1, (performance.now() - t0) / duration);
+    const e = 1 - (1 - u) ** 3;
+    camCenter.value = [from[0] + (to[0] - from[0]) * e, from[1] + (to[1] - from[1]) * e];
+    camZoom.value = z0 + (z1 - z0) * e;
+    if (u < 1) flightRaf = requestAnimationFrame(step);
+    else {
+      camCenter.value = target;
+      camZoom.value = zoom;
+      flying.value = false;
+    }
+  };
+  flightRaf = requestAnimationFrame(step);
+}
+watch(
+  () => [props.selectedId, props.view] as const,
+  ([id, view]) => {
+    if (view !== 'iso' || !props.flyTo || (props.iso?.fit ?? 'contain') !== 'cover') return;
+    const poi = id ? poiById.value.get(id) : undefined;
+    if (poi) flyTo([poi.x, poi.y], (props.iso?.zoom ?? 1.5) * 1.35);
+    else flyTo(null, null);
+  },
+);
 const stringSvg = computed(() => {
   const m = modelWithOverrides.value;
   if (!m || !useString.value) return '';
@@ -129,6 +184,7 @@ watch(() => [props.iso?.rotation, props.iso?.pitch], () => {
   orbitRotation.value = 0;
   orbitPitch.value = 0;
 });
+onScopeDispose(() => cancelAnimationFrame(flightRaf));
 const stringHtml = computed(() => (typeof stringSvg.value === 'string' ? '' : stringSvg.value.svg));
 
 const visiblePois = computed(() => {
@@ -265,9 +321,10 @@ const tooltipState = computed(() => tooltip.state.value);
 function setOrbit(rotation: number, pitch: number): void {
   orbitRotation.value = rotation - (props.iso?.rotation ?? 35);
   orbitPitch.value = pitch - (props.iso?.pitch ?? 55);
+  flyTo(null, null, 400);
 }
 
-defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, dragging });
+defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, flyTo, dragging, flying });
 </script>
 
 <template>

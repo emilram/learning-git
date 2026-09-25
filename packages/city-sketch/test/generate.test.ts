@@ -205,3 +205,34 @@ describe('agua', () => {
     expect(hi).toContain('class="cs-win"');
   });
 });
+
+describe('temas realistas y foco', () => {
+  it('city-day y city-dusk existen y diversifican fachadas', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    const m = generateCity({ seed: 'var', mode: 'grid-jitter', size: { w: 500, h: 400 }, pois: { count: 4 } });
+    const day = serializeIsoSvg(m, THEME_PRESETS['city-day'], { detail: 'medium' }).svg;
+    const flat = serializeIsoSvg(m, THEME_PRESETS['city-day'], { detail: 'medium', variety: 0 }).svg;
+    const roofFills = new Set([...day.matchAll(/class="cs-roof" d="[^"]+" fill="([^"]+)"/g)].map((x) => x[1]));
+    const flatFills = new Set([...flat.matchAll(/class="cs-roof" d="[^"]+" fill="([^"]+)"/g)].map((x) => x[1]));
+    expect(roofFills.size).toBeGreaterThan(flatFills.size);
+    expect(day).toContain('cs-awning');
+    expect(THEME_PRESETS['city-dusk'].scheme).toBe('dark');
+  });
+  it('focus atenua las demas tiendas y dibuja overlays, enlaces y centro', async () => {
+    const { serializeIsoSvg } = await import('../src/core/svg/iso');
+    const m = generateCity({ seed: 'focus', mode: 'grid-jitter', size: { w: 500, h: 400 }, pois: { count: 6 } });
+    const sel = m.pois[0]!;
+    const out = serializeIsoSvg(m, THEME_PRESETS['city-day'], {
+      detail: 'low',
+      fit: 'cover',
+      selectedId: sel.id,
+      center: [sel.x, sel.y],
+      groundOverlays: [{ polygon: [[0, 0], [100, 0], [100, 100]], fill: 'red' }],
+      links: [{ from: [sel.x, sel.y], to: [m.pois[1]!.x, m.pois[1]!.y] }],
+    }).svg;
+    expect((out.match(/cs-building cs-store[^"]*cs-dim/g) ?? []).length).toBe(5);
+    expect(out).toContain('cs-halo-selected');
+    expect(out).toContain('data-layer="ground-overlays"');
+    expect(out).toContain('data-layer="links"');
+  });
+});

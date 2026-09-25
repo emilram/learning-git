@@ -175,8 +175,8 @@ const retailWarm: Theme = deepMerge(base, {
   name: 'retail-warm',
   primitives: {
     colors: {
-      'paper-0': 'oklch(97% 0.015 70)',
-      'paper-1': 'oklch(94% 0.03 70)',
+      'paper-0': 'oklch(95% 0.02 75)',
+      'paper-1': 'oklch(90% 0.035 75)',
       'ink-900': 'oklch(30% 0.05 40)',
       'ink-600': 'oklch(52% 0.06 40)',
       'ink-300': 'oklch(82% 0.03 60)',
@@ -235,7 +235,103 @@ const darkOps: Theme = deepMerge(base, {
   },
 } satisfies DeepPartial<Theme>);
 
+const cityDay: Theme = deepMerge(base, {
+  name: 'city-day',
+  scheme: 'light',
+  primitives: {
+    colors: {
+      'paper-0': 'oklch(88% 0.035 80)',
+      'paper-1': 'oklch(85% 0.045 75)',
+      'ink-900': 'oklch(24% 0.03 50)',
+      'ink-600': 'oklch(44% 0.03 50)',
+      'ink-300': 'oklch(72% 0.02 70)',
+      'blue-200': 'oklch(68% 0.11 215)',
+      'green-300': 'oklch(70% 0.13 140)',
+      'green-500': 'oklch(48% 0.13 145)',
+      'amber-200': 'oklch(83% 0.07 60)',
+      'coral-500': 'oklch(58% 0.21 28)',
+      'blue-500': 'oklch(52% 0.15 240)',
+      'asphalt-500': 'oklch(48% 0.012 260)',
+      'asphalt-400': 'oklch(56% 0.012 260)',
+      'asphalt-300': 'oklch(63% 0.01 260)',
+      'sidewalk-200': 'oklch(80% 0.025 80)',
+    },
+  },
+  components: {
+    street: {
+      avenue: { stroke: 'asphalt-500', widthScale: 1, casing: 'sidewalk-200' },
+      street: { stroke: 'asphalt-400', widthScale: 1, casing: 'sidewalk-200' },
+      alley: { stroke: 'asphalt-300', widthScale: 0.9, casing: 'sidewalk-200' },
+    },
+    block: {
+      retail: { fill: 'retail', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      residential: { fill: 'residential', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      park: { fill: 'park', stroke: 'green-500', pattern: 'none', opacity: 1 },
+      water: { fill: 'water', stroke: 'blue-500', pattern: 'none', opacity: 1 },
+      plaza: { fill: 'plaza', stroke: 'ink-300', pattern: 'dots', opacity: 1 },
+    },
+    lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.5 },
+    label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.04 },
+    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    canvas: { background: 'surface' },
+    building: {
+      facades: ['oklch(80% 0.07 55)', 'oklch(84% 0.05 80)', 'oklch(74% 0.09 40)', 'oklch(79% 0.03 95)', 'oklch(70% 0.05 60)', 'oklch(81% 0.02 250)', 'oklch(76% 0.06 25)', 'oklch(86% 0.03 70)'],
+      roofs: ['oklch(58% 0.12 35)', 'oklch(62% 0.1 45)', 'oklch(68% 0.03 80)', 'oklch(55% 0.02 260)', 'oklch(64% 0.08 60)'],
+      awnings: ['oklch(58% 0.2 25)', 'oklch(60% 0.15 250)', 'oklch(62% 0.16 145)', 'oklch(74% 0.17 80)', 'oklch(50% 0.12 320)'],
+    },
+  },
+} satisfies DeepPartial<Theme>);
+
+const cityDusk: Theme = deepMerge(base, {
+  name: 'city-dusk',
+  scheme: 'dark',
+  primitives: {
+    colors: {
+      'paper-0': 'oklch(32% 0.05 290)',
+      'paper-1': 'oklch(38% 0.05 285)',
+      'ink-900': 'oklch(94% 0.02 80)',
+      'ink-600': 'oklch(78% 0.04 80)',
+      'ink-300': 'oklch(50% 0.05 290)',
+      'blue-200': 'oklch(34% 0.09 250)',
+      'green-300': 'oklch(40% 0.08 150)',
+      'green-500': 'oklch(60% 0.1 150)',
+      'amber-200': 'oklch(44% 0.06 300)',
+      'coral-500': 'oklch(76% 0.18 55)',
+      'blue-500': 'oklch(82% 0.1 200)',
+      'red-500': 'oklch(68% 0.2 25)',
+      'asphalt-500': 'oklch(26% 0.03 285)',
+      'asphalt-400': 'oklch(30% 0.03 285)',
+      'sidewalk-200': 'oklch(46% 0.05 290)',
+    },
+  },
+  components: {
+    street: {
+      avenue: { stroke: 'asphalt-500', widthScale: 1, casing: 'sidewalk-200' },
+      street: { stroke: 'asphalt-400', widthScale: 1, casing: 'sidewalk-200' },
+      alley: { stroke: 'asphalt-400', widthScale: 0.9, casing: 'sidewalk-200' },
+    },
+    block: {
+      retail: { fill: 'retail', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      residential: { fill: 'residential', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      park: { fill: 'park', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      water: { fill: 'water', stroke: 'ink-300', pattern: 'none', opacity: 1 },
+      plaza: { fill: 'plaza', stroke: 'ink-300', pattern: 'dots', opacity: 1 },
+    },
+    lot: { stroke: 'ink-300', strokeWidth: 0.35, opacity: 0.45 },
+    label: { fill: 'ink', halo: 'surface', font: 'fontBody', letterSpacing: 0.05 },
+    poi: { fill: 'accentAlt', stroke: 'surface', ring: 'accent', size: 7 },
+    canvas: { background: 'surface' },
+    building: {
+      facades: ['oklch(46% 0.06 290)', 'oklch(50% 0.05 270)', 'oklch(42% 0.07 310)', 'oklch(54% 0.04 260)', 'oklch(48% 0.08 330)', 'oklch(44% 0.04 240)'],
+      roofs: ['oklch(40% 0.05 290)', 'oklch(36% 0.06 300)', 'oklch(44% 0.03 270)'],
+      awnings: ['oklch(72% 0.18 55)', 'oklch(70% 0.15 340)', 'oklch(75% 0.12 200)', 'oklch(78% 0.16 90)'],
+    },
+  },
+} satisfies DeepPartial<Theme>);
+
 export const THEME_PRESETS: Readonly<Record<ThemePresetName, Theme>> = {
+  'city-day': cityDay,
+  'city-dusk': cityDusk,
   blueprint,
   'hand-sketch': handSketch,
   'minimal-mono': minimalMono,

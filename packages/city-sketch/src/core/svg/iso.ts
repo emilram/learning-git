@@ -80,6 +80,16 @@ export interface IsoOptions {
   readonly sky: boolean;
   /** Tienda resaltada. */
   readonly selectedId: string | null;
+  /** Con una tienda seleccionada, atenua las demas tiendas y sus halos. */
+  readonly focus: boolean;
+  /** Centro de camara en coordenadas de mundo (modo cover). Por defecto el centro del lienzo. */
+  readonly center: Vec2 | null;
+  /** Superficies en el suelo (isocronas, zonas): se dibujan sobre las calles y bajo las sombras. */
+  readonly groundOverlays: readonly { readonly polygon: Polygon; readonly fill: string; readonly opacity?: number; readonly stroke?: string }[];
+  /** Enlaces entre puntos de mundo (arcos elevados). */
+  readonly links: readonly { readonly from: Vec2; readonly to: Vec2; readonly stroke?: string; readonly width?: number; readonly dash?: boolean }[];
+  /** Diversidad de fachadas 0-1 (0 = color del uso de suelo). */
+  readonly variety: number;
 }
 
 export const DEFAULT_ISO_OPTIONS: IsoOptions = {
@@ -113,6 +123,11 @@ export const DEFAULT_ISO_OPTIONS: IsoOptions = {
   districtLabels: false,
   sky: true,
   selectedId: null,
+  focus: true,
+  center: null,
+  groundOverlays: [],
+  links: [],
+  variety: 0.8,
 };
 
 interface Projector {
@@ -201,6 +216,8 @@ interface Building {
   readonly lot: Lot;
   readonly block: Block;
   readonly landmark: boolean;
+  readonly roofColor: string;
+  readonly awning: string | null;
   readonly overrides: ElementStyle | undefined;
 }
 interface Tree {
@@ -291,7 +308,8 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
   if (o.fit === 'cover') {
     const cw = w / o.zoom;
     const ch = (h * pr.kv) / o.zoom;
-    vb = [w / 2 - cw / 2, h / 2 - maxH * 0.25 - ch / 2, cw, ch];
+    const cc = o.center ? pr.p(o.center[0], o.center[1], 0) : ([w / 2, h / 2] as Vec2);
+    vb = [cc[0] - cw / 2, cc[1] - maxH * 0.25 - ch / 2, cw, ch];
   }
   const depthRange: [number, number] = [cb.y, cb.y + cb.h];
   const fogT = (screenY: number): number => {
@@ -352,6 +370,9 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         `.${prefix}-iso .cs-compass-t{font-family:var(--cs-font-body);font-size:7px;font-weight:700;fill:${ink};text-anchor:middle;dominant-baseline:middle}` +
         `.${prefix}-iso .cs-building:hover .cs-roof-top{filter:brightness(1.12)}` +
         `.${prefix}-iso .cs-building.cs-selected .cs-roof-top{filter:brightness(1.25)}` +
+        `.${prefix}-iso .cs-building.cs-dim{opacity:0.55;filter:saturate(0.35)}` +
+        `.${prefix}-iso .cs-poi-marker.cs-dim{opacity:0.45}` +
+        `.${prefix}-iso .cs-awning{stroke:none;opacity:0.95}` +
         `</style>`,
     );
   }
@@ -468,6 +489,15 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     parts.push(`</g>`);
   }
 
+  // Superficies de datos en el suelo (isocronas, zonas).
+  if (o.groundOverlays.length) {
+    parts.push(`<g data-layer="ground-overlays">`);
+    for (const g of o.groundOverlays) {
+      parts.push(`<path d="${poly3(g.polygon, 0)}" fill="${g.fill}" fill-opacity="${(g.opacity ?? 0.35).toFixed(2)}"${g.stroke ? ` stroke="${g.stroke}" stroke-width="0.8"` : ' stroke="none"'}/>`);
+    }
+    parts.push(`</g>`);
+  }
+
   // Entidades: edificios, arboles, coches.
   const poiByLot = new Map<string, Poi>();
   for (const poi of model.pois) if (poi.anchor.kind === 'lot') poiByLot.set(poi.anchor.lotId, poi);
@@ -490,8 +520,18 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     height = Math.max(1, height);
     const fp = ensurePositive(lot.polygon);
     const c = centroid(fp);
-    const baseColor = poi ? accentAlt : resolveColor(theme, theme.components.block[block.landUse].fill);
-    const b: Building = { kind: 'building', id: lot.id, footprint: fp, height, depth: pr.uv(c[0], c[1])[1], baseColor, poi, lot, block, landmark, overrides: poi ? (model.meta.params.overrides.pois?.[poi.id] ?? poi.overrides) : undefined };
+    const luFill = resolveColor(theme, theme.components.block[block.landUse].fill);
+    const pal = theme.components.building;
+    let baseColor = poi ? accentAlt : luFill;
+    let roofColor = shiftOklch(baseColor, dark ? 9 : 3, poi ? 0.01 : -0.01);
+    let awning: string | null = null;
+    if (!poi && pal && o.variety > 0 && lrng.chance(o.variety)) {
+      baseColor = fogMix(lrng.pick(pal.facades), luFill, block.landUse === 'retail' ? 0.25 : 0.1);
+      roofColor = lrng.chance(0.55) ? lrng.pick(pal.roofs) : shiftOklch(baseColor, dark ? 8 : 4);
+      if (block.landUse === 'retail' && lrng.chance(0.5)) awning = lrng.pick(pal.awnings);
+    }
+    if (poi && pal) awning = lrng.pick(pal.awnings);
+    const b: Building = { kind: 'building', id: lot.id, footprint: fp, height, depth: pr.uv(c[0], c[1])[1], baseColor, poi, lot, block, landmark, roofColor, awning, overrides: poi ? (model.meta.params.overrides.pois?.[poi.id] ?? poi.overrides) : undefined };
     buildings.push(b);
     entities.push(b);
   }
@@ -573,9 +613,11 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
 
   // Halos bajo tiendas.
   parts.push(`<g data-layer="halos">`);
+  const focusing = o.focus && o.selectedId !== null && buildings.some((b) => b.poi?.id === o.selectedId);
   for (const b of buildings) {
     if (!b.poi) continue;
     const sel = b.poi.id === o.selectedId;
+    if (focusing && !sel) continue;
     parts.push(`<path class="${sel ? 'cs-halo cs-halo-selected' : 'cs-halo'}" d="${poly3(growPolygon(b.footprint, sel ? 11 : 6), 0)}"/>`);
   }
   parts.push(`</g>`);
@@ -619,7 +661,8 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     const fp = b.footprint;
     const n = fp.length;
     const selected = b.poi !== null && b.poi.id === o.selectedId;
-    const cls = `cs-building${b.poi ? ' cs-store' : ''}${b.landmark ? ' cs-landmark' : ''}${selected ? ' cs-selected' : ''}`;
+    const dimmed = focusing && b.poi !== null && !selected;
+    const cls = `cs-building${b.poi ? ' cs-store' : ''}${b.landmark ? ' cs-landmark' : ''}${selected ? ' cs-selected' : ''}${dimmed ? ' cs-dim' : ''}`;
     const c0 = centroid(fp);
     const fog = fogT(pr.p(c0[0], c0[1], 0)[1]);
     const base = fogMix(b.baseColor, surface, fog);
@@ -629,6 +672,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     let winPath = '';
     let litPath = '';
     let storePath = '';
+    let awningPath = '';
     const wrng = seedRng(`win:${b.id}`);
     for (let i = 0; i < n; i++) {
       const a = fp[i]!;
@@ -655,9 +699,12 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
       if (o.floors && b.height >= floorH * 2 && wallLen >= 6) {
         for (let z = floorH; z < b.height - 1.5; z += floorH) floorsPath += `M${pt(at(0, z))}L${pt(at(wallLen, z))}`;
       }
-      // Escaparate en planta baja de tiendas.
+      // Escaparate en planta baja de tiendas y toldo sobre el.
       if (b.poi && wallLen >= 5 && b.height >= floorH) {
         storePath += `M${pt(at(0.8, 0.6))}L${pt(at(wallLen - 0.8, 0.6))}L${pt(at(wallLen - 0.8, floorH - 1.2))}L${pt(at(0.8, floorH - 1.2))}Z`;
+      }
+      if (b.awning && wallLen >= 6 && b.height >= floorH && cosL > -0.2) {
+        awningPath += `M${pt(at(0.5, floorH - 1.2))}L${pt(at(wallLen - 0.5, floorH - 1.2))}L${pt(at(wallLen - 0.5, floorH - 0.2))}L${pt(at(0.5, floorH - 0.2))}Z`;
       }
       // Ventanas: columnas cada ~5.4 unidades, una fila por planta, solo en fachadas cercanas.
       // Subpaths relativos: los vectores (ancho, alto) son iguales para todas las ventanas de la pared.
@@ -685,13 +732,14 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     if (winPath) parts.push(`<path class="cs-win" d="${winPath}"/>`);
     if (litPath) parts.push(`<path class="cs-win-lit" d="${litPath}"/>`);
     if (storePath) parts.push(`<path class="cs-storefront" d="${storePath}"/>`);
-    const roofL = dark ? 12 : 6;
-    parts.push(`<path class="cs-roof" d="${poly3(fp, b.height)}" fill="${shiftOklch(base, roofL - 3, b.poi ? 0.01 : -0.01)}"/>`);
+    if (awningPath) parts.push(`<path class="cs-awning" d="${awningPath}" fill="${b.awning ?? accent}"/>`);
+    const roofBase = fogMix(b.roofColor, surface, fog);
+    parts.push(`<path class="cs-roof" d="${poly3(fp, b.height)}" fill="${shiftOklch(roofBase, -2)}"/>`);
     const fpArea = area(fp);
     if (fpArea > 140) {
       const inner = insetPolygon(fp, fp.map(() => 1.6));
       if (inner) {
-        parts.push(`<path class="cs-roof-top" d="${poly3(inner, b.height)}" fill="${shiftOklch(base, roofL + (b.poi ? 4 : 2), b.poi ? 0.02 : -0.005)}"/>`);
+        parts.push(`<path class="cs-roof-top" d="${poly3(inner, b.height)}" fill="${shiftOklch(roofBase, b.poi ? 6 : 3, b.poi ? 0.02 : 0)}"/>`);
         // Equipos de azotea en edificios grandes (detalle alto).
         if (o.detail === 'high' && fpArea > 320 && !b.poi && wrng.chance(0.6)) {
           const rc = centroid(inner);
@@ -713,9 +761,30 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         }
       }
     }
+    if (b.landmark) {
+      const rc = centroid(fp);
+      const a0 = pr.p(rc[0], rc[1], b.height);
+      const a1 = pr.p(rc[0], rc[1], b.height + 9);
+      parts.push(`<line x1="${fmt(a0[0], P)}" y1="${fmt(a0[1], P)}" x2="${fmt(a1[0], P)}" y2="${fmt(a1[1], P)}" stroke="${shiftOklch(ink, dark ? -30 : 20)}" stroke-width="0.6"/><circle cx="${fmt(a1[0], P)}" cy="${fmt(a1[1], P)}" r="1" fill="oklch(65% 0.24 25)"/>`);
+    }
     parts.push(`</g>`);
   }
   parts.push(`</g>`);
+
+  // Enlaces (arcos elevados entre puntos del suelo).
+  if (o.links.length) {
+    parts.push(`<g data-layer="links" fill="none" stroke-linecap="round">`);
+    for (const l of o.links) {
+      const a = pr.p(l.from[0], l.from[1], 0);
+      const c = pr.p(l.to[0], l.to[1], 0);
+      const mid: Vec2 = [(l.from[0] + l.to[0]) / 2, (l.from[1] + l.to[1]) / 2];
+      const lift = Math.min(60, dist(l.from, l.to) * 0.35 + 12);
+      const m = pr.p(mid[0], mid[1], lift);
+      const stroke = l.stroke ?? accent;
+      parts.push(`<path d="M${pt(a)}Q${pt(m)} ${pt(c)}" stroke="${surface}" stroke-width="${((l.width ?? 1.6) + 1.4).toFixed(1)}" stroke-opacity="0.7"/><path d="M${pt(a)}Q${pt(m)} ${pt(c)}" stroke="${stroke}" stroke-width="${(l.width ?? 1.6).toFixed(1)}"${l.dash ? ' stroke-dasharray="4 3"' : ''}/><circle cx="${fmt(c[0], P)}" cy="${fmt(c[1], P)}" r="2.2" fill="${stroke}" stroke="${surface}" stroke-width="1"/>`);
+    }
+    parts.push(`</g>`);
+  }
 
   // Pins.
   const pinSize = theme.components.poi.size;
@@ -734,7 +803,7 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     const head: Vec2 = [foot[0], foot[1] - stem];
     const sz = (poi.kind === 'flagship' ? 1.3 : poi.kind === 'kiosk' ? 0.75 : 1) * pinSize;
     const sel = poi.id === o.selectedId;
-    const cls = `cs-poi-marker cs-kind-${poi.kind}${ov?.className ? ` ${ov.className}` : ''}${sel ? ' cs-selected' : ''}`;
+    const cls = `cs-poi-marker cs-kind-${poi.kind}${ov?.className ? ` ${ov.className}` : ''}${sel ? ' cs-selected' : ''}${focusing && !sel ? ' cs-dim' : ''}`;
     const labelW = poi.label.length * 4.9 + 8;
     const labelY = head[1] - sz - 4;
     parts.push(
