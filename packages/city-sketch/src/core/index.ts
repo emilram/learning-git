@@ -14,6 +14,6 @@ export { extractFaces } from './graph/faces';
 export { createContext } from './context';
 export * as geom from './geom/polygon';
 export * as vec from './geom/vec';
-export { serializeIsoSvg, DEFAULT_ISO_OPTIONS, shiftOklch, isoOptionsKey, type IsoOptions } from './svg/iso';
+export { serializeIsoSvg, DEFAULT_ISO_OPTIONS, shiftOklch, isoOptionsKey, type IsoOptions, type IsoCallout } from './svg/iso';
 export { computeIsochrones, snapToStreet, type IsochroneBand } from './analysis/isochrone';
 export * from './analysis/stats';

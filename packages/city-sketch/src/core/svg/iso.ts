@@ -86,6 +86,12 @@ export interface IsoOptions {
   readonly center: Vec2 | null;
   /** Superficies en el suelo (isocronas, zonas): se dibujan sobre las calles y bajo las sombras. */
   readonly groundOverlays: readonly { readonly polygon: Polygon; readonly fill: string; readonly opacity?: number; readonly stroke?: string }[];
+  /** Anillos en el suelo (radios de busqueda): circulos de mundo proyectados. */
+  readonly groundRings: readonly { readonly center: Vec2; readonly radius: number; readonly stroke?: string; readonly fill?: string }[];
+  /** Ids de tienda visibles; null = todas. Las ocultas se dibujan como edificios corrientes sin pin. */
+  readonly visibleIds: ReadonlySet<string> | null;
+  /** Callout desplegable junto a la tienda seleccionada (en espacio de pantalla, dentro del viewport). */
+  readonly callout: IsoCallout | null;
   /** Trazados sobre el suelo (rutas): polilineas de mundo con halo. */
   readonly groundPaths: readonly { readonly polyline: readonly Vec2[]; readonly stroke?: string; readonly width?: number; readonly dash?: boolean }[];
   /** Enlaces entre puntos de mundo (arcos elevados). */
@@ -98,6 +104,18 @@ export interface IsoOptions {
   readonly furniture: boolean;
   /** Tipologias: casas con tejado a dos aguas, torres de vidrio y balcones. */
   readonly typologies: boolean;
+}
+
+export interface IsoCallout {
+  readonly title: string;
+  readonly subtitle?: string;
+  readonly rows: readonly { readonly label: string; readonly value: string }[];
+  /** Serie corta (barras) p. ej. ultimos meses. */
+  readonly series?: readonly number[];
+  /** Barra de progreso 0-1 con color. */
+  readonly bar?: { readonly label: string; readonly value: number; readonly color: string };
+  /** Botones; al hacer clic el componente Vue emite store:action con el id. */
+  readonly actions?: readonly { readonly id: string; readonly label: string; readonly active?: boolean }[];
 }
 
 export const DEFAULT_ISO_OPTIONS: IsoOptions = {
@@ -134,6 +152,9 @@ export const DEFAULT_ISO_OPTIONS: IsoOptions = {
   focus: true,
   center: null,
   groundOverlays: [],
+  groundRings: [],
+  visibleIds: null,
+  callout: null,
   groundPaths: [],
   links: [],
   variety: 0.8,
@@ -419,6 +440,21 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         `.${prefix}-iso .cs-lamp-head{fill:${night ? 'oklch(92% 0.14 85)' : shiftOklch(ink, dark ? -10 : 40)}}` +
         `.${prefix}-iso .cs-lamp-glow{fill:oklch(88% 0.14 85);opacity:${night ? 0.16 : 0}}` +
         `.${prefix}-iso .cs-headlight{fill:oklch(95% 0.06 95);opacity:0.95}` +
+        `.${prefix}-iso .cs-callout{pointer-events:none}` +
+        `.${prefix}-iso .cs-callout-bg{fill:${surface};fill-opacity:0.97;stroke:${storeBand};stroke-width:0.8;filter:drop-shadow(0 2px 3px oklch(0% 0 0 / 0.3))}` +
+        `.${prefix}-iso .cs-callout-head{fill:${storeBand}}` +
+        `.${prefix}-iso .cs-callout-leader{stroke:${storeBand};stroke-width:1;stroke-dasharray:2 2}` +
+        `.${prefix}-iso .cs-callout-title{font-family:var(--cs-font-display);font-size:7px;font-weight:700;fill:${storeSignText}}` +
+        `.${prefix}-iso .cs-callout-sub{font-family:var(--cs-font-body);font-size:5.2px;fill:${storeSignText};opacity:0.85}` +
+        `.${prefix}-iso .cs-callout-k{font-family:var(--cs-font-body);font-size:6px;fill:${shiftOklch(ink, dark ? -10 : 20)}}` +
+        `.${prefix}-iso .cs-callout-v{font-family:var(--cs-font-body);font-size:6.5px;font-weight:700;fill:${ink};text-anchor:end;font-variant-numeric:tabular-nums}` +
+        `.${prefix}-iso .cs-callout-track{fill:${shiftOklch(surface, dark ? 12 : -10)}}` +
+        `.${prefix}-iso .cs-callout-bar{fill:${storeBand};opacity:0.45}.${prefix}-iso .cs-callout-bar.cs-last{opacity:1;fill:${storeSignText};stroke:${storeBand};stroke-width:0.5}` +
+        `.${prefix}-iso .cs-callout-btn{pointer-events:all;cursor:pointer}` +
+        `.${prefix}-iso .cs-callout-btn rect{fill:none;stroke:${storeBand};stroke-width:0.6}` +
+        `.${prefix}-iso .cs-callout-btn text{font-family:var(--cs-font-body);font-size:4.8px;font-weight:600;fill:${ink};text-anchor:middle}` +
+        `.${prefix}-iso .cs-callout-btn:hover rect,.${prefix}-iso .cs-callout-btn.cs-on rect{fill:${storeBand}}` +
+        `.${prefix}-iso .cs-callout-btn:hover text,.${prefix}-iso .cs-callout-btn.cs-on text{fill:${storeSignText}}` +
         `.${prefix}-iso .cs-glass .cs-wall{stroke-opacity:0.35}` +
         `.${prefix}-iso .cs-glass .cs-win{opacity:${night ? 0.9 : 0.75}}` +
         `</style>`,
@@ -591,6 +627,16 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
     parts.push(`</g>`);
   }
 
+  if (o.groundRings.length) {
+    parts.push(`<g data-layer="ground-rings">`);
+    for (const r of o.groundRings) {
+      const q: Vec2[] = [];
+      for (let k = 0; k < 48; k++) q.push(pr.p(r.center[0] + Math.cos((k / 48) * Math.PI * 2) * r.radius, r.center[1] + Math.sin((k / 48) * Math.PI * 2) * r.radius, 0));
+      const d = `M${q.map(pt).join('L')}Z`;
+      parts.push(`<path d="${d}" fill="${r.fill ?? r.stroke ?? accent}" fill-opacity="${r.fill ? 0.18 : 0.08}" stroke="${r.stroke ?? accent}" stroke-width="1.2" stroke-dasharray="5 3"/>`);
+    }
+    parts.push(`</g>`);
+  }
   if (o.groundPaths.length) {
     parts.push(`<g data-layer="ground-paths" fill="none" stroke-linecap="round" stroke-linejoin="round">`);
     for (const gp of o.groundPaths) {
@@ -610,7 +656,8 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
   for (const lot of model.lots) {
     const block = blockById.get(lot.blockId);
     if (!block || SKIP_LANDUSE.has(block.landUse)) continue;
-    const poi = poiByLot.get(lot.id) ?? null;
+    const poiRaw = poiByLot.get(lot.id) ?? null;
+    const poi = poiRaw && o.visibleIds && !o.visibleIds.has(poiRaw.id) ? null : poiRaw;
     if (!o.buildings && !poi) continue;
     const a = area(lot.polygon);
     if (a < 60) continue;
@@ -1062,18 +1109,21 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
   // Pins.
   const pinSize = theme.components.poi.size;
   parts.push(`<g data-layer="pois">`);
-  const pinned = [...model.pois]
+  const pinned = model.pois
+    .filter((poi) => !o.visibleIds || o.visibleIds.has(poi.id))
     .map((poi) => {
       const b = poi.anchor.kind === 'lot' ? buildings.find((x) => x.id === (poi.anchor as { lotId: string }).lotId) : undefined;
       const basePt: Vec2 = b ? centroid(b.footprint) : [poi.x, poi.y];
       return { poi, base: basePt, z: b ? b.height : 0, depth: pr.uv(basePt[0], basePt[1])[1] };
     })
     .sort((p, q) => p.depth - q.depth);
+  let selectedHead: Vec2 | null = null;
   for (const { poi, base, z } of pinned) {
     const ov = model.meta.params.overrides.pois?.[poi.id] ?? poi.overrides;
     const foot = pr.p(base[0], base[1], z);
     const stem = 8 + pinSize;
     const head: Vec2 = [foot[0], foot[1] - stem];
+    if (poi.id === o.selectedId) selectedHead = head;
     const sz = (poi.kind === 'flagship' ? 1.3 : poi.kind === 'kiosk' ? 0.75 : 1) * pinSize;
     const sel = poi.id === o.selectedId;
     const cls = `cs-poi-marker cs-kind-${poi.kind}${ov?.className ? ` ${ov.className}` : ''}${sel ? ' cs-selected' : ''}${focusing && !sel ? ' cs-dim' : ''}`;
@@ -1090,7 +1140,64 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
         `<title>${escapeXml(poi.label)}</title></g>`,
     );
   }
-  parts.push(`</g><g data-layer="overlay"></g></g>`);
+  parts.push(`</g>`);
+  // Callout desplegable junto al pin seleccionado.
+  if (o.callout && selectedHead) {
+    const c = o.callout;
+    const W = 128;
+    const rowH = 9;
+    const pad = 6;
+    let H = 15 + (c.subtitle ? 7 : 0) + c.rows.length * rowH + (c.bar ? 10 : 0) + (c.series?.length ? 16 : 0) + (c.actions?.length ? 14 : 0) + pad;
+    H = Math.round(H);
+    const right = selectedHead[0] + 26 + W <= vb[0] + vb[2] - 4;
+    const x0 = right ? selectedHead[0] + 22 : selectedHead[0] - 22 - W;
+    const y0 = Math.max(vb[1] + 4, Math.min(vb[1] + vb[3] - H - 4, selectedHead[1] - H * 0.4));
+    const ax = right ? x0 : x0 + W;
+    const out: string[] = [];
+    out.push(`<g class="cs-callout" data-layer="callout">`);
+    out.push(`<line class="cs-callout-leader" x1="${fmt(selectedHead[0], P)}" y1="${fmt(selectedHead[1], P)}" x2="${fmt(ax, P)}" y2="${fmt(y0 + 8, P)}"/>`);
+    out.push(`<rect class="cs-callout-bg" x="${fmt(x0, P)}" y="${fmt(y0, P)}" width="${W}" height="${H}" rx="7"/>`);
+    out.push(`<path class="cs-callout-head" d="M${fmt(x0, P)} ${fmt(y0 + 7, P)}a7 7 0 0 1 7 -7h${W - 14}a7 7 0 0 1 7 7v${c.subtitle ? 14 : 8}h-${W}z"/>`);
+    out.push(`<text class="cs-callout-title" x="${fmt(x0 + pad, P)}" y="${fmt(y0 + 9.5, P)}">${escapeXml(c.title)}</text>`);
+    let y = y0 + 15;
+    if (c.subtitle) {
+      out.push(`<text class="cs-callout-sub" x="${fmt(x0 + pad, P)}" y="${fmt(y, P)}">${escapeXml(c.subtitle)}</text>`);
+      y += 7;
+    }
+    y += 6;
+    for (const r of c.rows) {
+      out.push(`<text class="cs-callout-k" x="${fmt(x0 + pad, P)}" y="${fmt(y, P)}">${escapeXml(r.label)}</text><text class="cs-callout-v" x="${fmt(x0 + W - pad, P)}" y="${fmt(y, P)}">${escapeXml(r.value)}</text>`);
+      y += rowH;
+    }
+    if (c.bar) {
+      const bw = W - pad * 2 - 34;
+      out.push(`<text class="cs-callout-k" x="${fmt(x0 + pad, P)}" y="${fmt(y, P)}">${escapeXml(c.bar.label)}</text><rect class="cs-callout-track" x="${fmt(x0 + pad + 34, P)}" y="${fmt(y - 4, P)}" width="${bw}" height="4" rx="2"/><rect x="${fmt(x0 + pad + 34, P)}" y="${fmt(y - 4, P)}" width="${(bw * Math.max(0, Math.min(1, c.bar.value))).toFixed(1)}" height="4" rx="2" fill="${c.bar.color}"/>`);
+      y += 10;
+    }
+    if (c.series?.length) {
+      const n = c.series.length;
+      const mx = Math.max(...c.series, 1e-9);
+      const bw = (W - pad * 2 - (n - 1) * 2) / n;
+      for (let i = 0; i < n; i++) {
+        const h = (c.series[i]! / mx) * 12;
+        out.push(`<rect class="cs-callout-bar${i === n - 1 ? ' cs-last' : ''}" x="${fmt(x0 + pad + i * (bw + 2), P)}" y="${fmt(y + 12 - h - 2, P)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="1"/>`);
+      }
+      y += 16;
+    }
+    if (c.actions?.length) {
+      const n = c.actions.length;
+      const gap = 3;
+      const bw = (W - pad * 2 - (n - 1) * gap) / n;
+      for (let i = 0; i < n; i++) {
+        const a = c.actions[i]!;
+        const bx = x0 + pad + i * (bw + gap);
+        out.push(`<g class="cs-callout-btn${a.active ? ' cs-on' : ''}" data-cs-action="${escapeXml(a.id)}" role="button" tabindex="0"><rect x="${fmt(bx, P)}" y="${fmt(y - 2, P)}" width="${bw.toFixed(1)}" height="10" rx="5"/><text x="${fmt(bx + bw / 2, P)}" y="${fmt(y + 4.6, P)}">${escapeXml(a.label)}</text></g>`);
+      }
+    }
+    out.push(`</g>`);
+    parts.push(out.join(''));
+  }
+  parts.push(`<g data-layer="overlay"></g></g>`);
 
   // Brujula (fuera del viewport para que no la afecte el zoom).
   if (o.compass) {
@@ -1127,5 +1234,5 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
 
 /** Hash de opciones iso para claves de cache. */
 export function isoOptionsKey(o: Partial<IsoOptions>): string {
-  return cyrb53(JSON.stringify({ ...o, lotHeight: o.lotHeight ? 'fn' : undefined })).toString(16);
+  return cyrb53(JSON.stringify({ ...o, lotHeight: o.lotHeight ? 'fn' : undefined, visibleIds: o.visibleIds ? [...o.visibleIds].sort() : null })).toString(16);
 }

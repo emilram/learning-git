@@ -65,6 +65,10 @@ Las paletas se validaron con el validador de seis comprobaciones del skill *data
 
 Las tiendas van en **amarillo con azul** en todos los temas: los marcadores 2D usan `components.poi` (`brand-yellow` / `brand-blue`) y la vista 3D usa `components.store` (`facade`, `band`, `sign`, `signText`, `glass`, `canopy`; variables `--cs-store-*`). El edificio de tienda es un gran almacén de dos o tres plantas con fachada amarilla, zócalo y franja superior azules, escaparate amplio, marquesina en la fachada principal (la más cercana al frente del lote) y **rótulo con el nombre** proyectado sobre el alero. Para otra marca basta con sobrescribir `components.store` y `components.poi` en el tema.
 
+### Clic en tienda en 3D
+
+`IsoOptions.callout` dibuja un **callout desplegable dentro de la escena isométrica** junto al pin seleccionado (título, subtítulo, filas, barra de stock, mini serie y botones). Los botones llevan `data-cs-action` y `<CitySketch>` emite `store:action` con el id del botón (clic o Enter). `groundRings` proyecta círculos de radio en el suelo; `visibleIds` aísla tiendas en 3D (las ocultas se dibujan como edificios corrientes sin pin). La vista 3D es la vista por defecto del dashboard.
+
 ### Clic en tienda (dashboard)
 
 Al seleccionar una tienda se despliega un **callout** junto al marcador (ventas, margen, stock y últimos 8 meses) y el panel lateral con: puesto en el ranking, ventas del mes con variación mensual y anual, sparkline de 12 meses con pico marcado, tabla frente a la media del distrito y de la red, barra de stock con estado, y acciones: isócronas, aislar, vecindario, radio, centrar en 3D, orbitar, fijar para comparar (tabla A vs B con deltas y ruta), exportar PNG de la tienda, copiar enlace y rutas a cada vecina.

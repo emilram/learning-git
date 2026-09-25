@@ -74,8 +74,7 @@ const cameraPresets: { name: CameraPresetName; label: string }[] = [
   { name: 'bird', label: 'Cenital' },
   { name: 'street', label: 'A pie de calle' },
 ];
-const view3d = ref<'2d' | 'iso'>('2d');
-watch(model, () => (view3d.value = '2d'));
+const view3d = ref<'2d' | 'iso'>('iso');
 watch(view3d, (v) => {
   if (v !== 'iso') camera.stop();
 });
@@ -190,6 +189,8 @@ const isoOptions = computed(() => ({
     ...[...isochrones.value].sort((a, b) => b.distance - a.distance).map((b, i) => ({ polygon: b.polygon, fill: accent.value, opacity: 0.12 + i * 0.1 })),
     ...(pairPolygon.value ? [{ polygon: pairPolygon.value, fill: tod.theme.value.data.status.alert, opacity: 0.45 }] : []),
   ],
+  groundRings: radiusRing.value ? [{ center: radiusRing.value.center, radius: radiusRing.value.radius, stroke: tod.theme.value.data.categorical[1]! }] : [],
+  callout: calloutIso.value,
   groundPaths: route.value ? [{ polyline: route.value.polyline, stroke: tod.theme.value.data.categorical[1]!, width: 3 }] : [],
   links: selection.mode.value === 'single' && selection.primary.value ? neighbors.value.map((n) => ({ from: [selection.primary.value!.x, selection.primary.value!.y] as const, to: [n.poi.x, n.poi.y] as const, dash: true })) : [],
   lotHeight: (_lot: unknown, block: { density: number }, poi: { id: string } | null) => (poi ? (heights.value.get(poi.id) ?? 20) : 4 + block.density * 10),
@@ -389,6 +390,73 @@ watch(() => selection.primary.value?.id, () => {
   if (isolated.value && isolated.value !== selection.primary.value?.id) isolated.value = null;
 });
 const calloutSeries = computed(() => (panel.value ? panel.value.hist.slice(-8) : []));
+// Anillo de radio en el suelo (3D) y callout dentro de la escena isometrica con botones.
+const radiusRing = ref<{ center: readonly [number, number]; radius: number } | null>(null);
+watch(() => selection.primary.value?.id, () => (radiusRing.value = null));
+function selectRadius(r = 200): void {
+  const p = selection.primary.value;
+  if (!p) return;
+  radiusRing.value = { center: [p.x, p.y], radius: r };
+  selection.selectWithin([p.x, p.y], r);
+}
+const calloutIso = computed(() => {
+  const pn = panel.value;
+  if (!pn) return null;
+  const st = pn.stock;
+  const status = tod.theme.value.data.status;
+  return {
+    title: `${pn.poi.label} · #${pn.rank} de ${pn.total}`,
+    subtitle: `${pn.poi.externalId} · ${pn.district?.name ?? ''} · ${pn.monthDelta >= 0 ? '+' : ''}${(pn.monthDelta * 100).toFixed(1)} % mes`,
+    rows: [
+      { label: 'Ventas', value: formatBadge(pn.d.sales as number) },
+      { label: 'Margen', value: `${((pn.d.margin as number) * 100).toFixed(1)} %` },
+      { label: 'Conversión', value: `${((pn.d.conversion as number) * 100).toFixed(1)} %` },
+    ],
+    bar: { label: `Stock ${(st * 100).toFixed(0)} %`, value: st, color: st < 0.15 ? status.alert : st < 0.35 ? status.warn : status.ok },
+    series: calloutSeries.value,
+    actions: [
+      { id: 'neighbors', label: 'Vecinas', active: selection.mode.value === 'multi' && selection.count.value > 1 && !radiusRing.value },
+      { id: 'radius', label: 'Radio', active: !!radiusRing.value },
+      { id: 'isolate', label: 'Aislar', active: isolated.value === pn.poi.id },
+      { id: 'street', label: 'Calle' },
+      { id: 'compare', label: compareA.value === pn.poi.id ? 'Fijada' : 'Fijar', active: compareA.value === pn.poi.id },
+    ],
+  };
+});
+function onStoreAction(action: string): void {
+  const p = selection.primary.value;
+  if (!p) return;
+  switch (action) {
+    case 'neighbors':
+      selection.selectNeighborhood(p.id, 3);
+      break;
+    case 'radius':
+      if (radiusRing.value) {
+        radiusRing.value = null;
+        selection.select(p.id);
+      } else selectRadius(200);
+      break;
+    case 'isolate':
+      isolated.value = isolated.value === p.id ? null : p.id;
+      break;
+    case 'street':
+      view3d.value = 'iso';
+      camera.orbitTo(25, 34, false);
+      camera.flyTo([p.x, p.y], 3.2, 700);
+      break;
+    case 'top':
+      view3d.value = 'iso';
+      camera.orbitTo(30, 75, false);
+      camera.flyTo([p.x, p.y], 2.4, 700);
+      break;
+    case 'compare':
+      compareA.value = compareA.value === p.id ? null : p.id;
+      break;
+    case 'orbit':
+      orbitAround();
+      break;
+  }
+}
 
 const selectedDistrict = computed(() => {
   const p = selection.primary.value;
@@ -450,6 +518,7 @@ const selectedDistrict = computed(() => {
         :view="view3d"
         :generating="generating"
         @store:select="onSelect($event.id)"
+        @store:action="onStoreAction($event.action)"
         @update:view="view3d = $event"
       >
         <template #actions>
@@ -550,9 +619,11 @@ const selectedDistrict = computed(() => {
               <button type="button" :class="{ on: showIsochrones }" @click="showIsochrones = !showIsochrones">Isócronas</button>
               <button type="button" :class="{ on: isolated === panel.poi.id }" @click="isolated = isolated === panel.poi.id ? null : panel.poi.id">Aislar</button>
               <button type="button" @click="selection.selectNeighborhood(panel.poi.id, 3)">Vecindario</button>
-              <button type="button" @click="selection.selectWithin([panel.poi.x, panel.poi.y], 200)">Radio 200 u</button>
+              <button type="button" :class="{ on: !!radiusRing }" @click="onStoreAction('radius')">Radio 200 u</button>
               <button type="button" @click="centerOn3d">Centrar en 3D</button>
               <button type="button" @click="orbitAround">Orbitar</button>
+              <button type="button" @click="onStoreAction('street')">Escaparate</button>
+              <button type="button" @click="onStoreAction('top')">Cenital</button>
               <button type="button" :class="{ on: compareA === panel.poi.id }" @click="compareA = compareA === panel.poi.id ? null : panel.poi.id">{{ compareA === panel.poi.id ? 'Fijada como A' : 'Fijar para comparar' }}</button>
               <button type="button" @click="exportStore">Exportar PNG</button>
               <button type="button" @click="copyLink">{{ copied ? 'Enlace copiado' : 'Copiar enlace' }}</button>
@@ -589,7 +660,7 @@ const selectedDistrict = computed(() => {
           <p v-if="multi" class="dash-hint">{{ selection.count.value }} seleccionadas. Con dos o más, la ruta más corta entre las dos últimas se dibuja en 2D y 3D.</p>
         </div>
         <div v-else class="dash-detail-body dash-hint">
-          <p>Haz clic en una tienda (o Tab + flechas + Enter) para desplegar su panel: histórico de 12 meses, puesto en el ranking, comparativa frente a distrito y red, stock, acciones de cámara, aislamiento, comparación entre dos tiendas, rutas a vecinas, exportación y enlace.</p>
+          <p>Haz clic en una tienda en la vista 3D (o Tab + flechas + Enter) para desplegar el callout en la escena y este panel: histórico de 12 meses, puesto en el ranking, comparativa frente a distrito y red, stock, acciones de cámara, aislamiento, comparación entre dos tiendas, rutas a vecinas, exportación y enlace.</p>
           <p>La selección vive en la URL.</p>
         </div>
       </aside>

@@ -77,6 +77,8 @@ const props = withDefaults(
 const emit = defineEmits<{
   'store:hover': [payload: { id: string | null; poi: Poi | null; event: PointerEvent }];
   'store:select': [payload: { id: string; poi: Poi; event: Event }];
+  /** Boton de un callout 3D (IsoOptions.callout.actions). */
+  'store:action': [payload: { id: string | null; action: string; event: Event }];
   'block:select': [payload: { id: string; block: Block; event: Event }];
   'viewport:change': [payload: { k: number; x: number; y: number }];
   'iso:change': [payload: { rotation: number; pitch: number }];
@@ -132,6 +134,7 @@ const isoEffective = computed<Partial<IsoOptions>>(() => {
     rotation,
     pitch,
     selectedId: props.selectedId ?? base.selectedId ?? null,
+    visibleIds: props.filter ?? base.visibleIds ?? null,
     ...(camCenter.value ? { center: camCenter.value } : {}),
     ...(camZoom.value ? { zoom: camZoom.value } : {}),
     ...(lowDetail ? { detail: 'low' as const } : {}),
@@ -286,6 +289,11 @@ function onClick(e: MouseEvent): void {
     suppressClick = false;
     return;
   }
+  const actionEl = (e.target as Element | null)?.closest('[data-cs-action]');
+  if (actionEl) {
+    emit('store:action', { id: props.selectedId ?? null, action: actionEl.getAttribute('data-cs-action') ?? '', event: e });
+    return;
+  }
   const { poi, block } = resolveHit(e);
   if (poi) emit('store:select', { id: poi.id, poi, event: e });
   else if (block) emit('block:select', { id: block.id, block, event: e });
@@ -293,6 +301,12 @@ function onClick(e: MouseEvent): void {
 // Navegacion por teclado entre tiendas (orden por calle y posicion).
 const ordered = computed(() => [...visiblePois.value].sort((a, b) => (a.streetId ?? '').localeCompare(b.streetId ?? '') || a.x - b.x || a.y - b.y));
 function onKeydown(e: KeyboardEvent): void {
+  const actionEl = (e.target as Element | null)?.closest('[data-cs-action]');
+  if (actionEl && (e.key === 'Enter' || e.key === ' ')) {
+    e.preventDefault();
+    emit('store:action', { id: props.selectedId ?? null, action: actionEl.getAttribute('data-cs-action') ?? '', event: e });
+    return;
+  }
   const target = (e.target as Element | null)?.closest('.cs-poi-marker');
   if (!target) return;
   const id = target.getAttribute('data-id');

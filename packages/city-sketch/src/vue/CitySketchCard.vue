@@ -58,6 +58,7 @@ const props = withDefaults(
 const emit = defineEmits<{
   'store:hover': [payload: { id: string | null; poi: Poi | null; event: PointerEvent }];
   'store:select': [payload: { id: string; poi: Poi; event: Event }];
+  'store:action': [payload: { id: string | null; action: string; event: Event }];
   'block:select': [payload: { id: string; block: Block; event: Event }];
   'viewport:change': [payload: { k: number; x: number; y: number }];
   'update:view': [view: '2d' | 'iso'];
@@ -152,6 +153,7 @@ defineExpose({ sketch });
         :filter="filter"
         @store:hover="emit('store:hover', $event)"
         @store:select="emit('store:select', $event)"
+        @store:action="emit('store:action', $event)"
         @block:select="emit('block:select', $event)"
         @viewport:change="emit('viewport:change', $event)"
         @iso:change="emit('iso:change', $event)"

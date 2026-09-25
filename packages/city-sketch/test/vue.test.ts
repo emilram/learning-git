@@ -71,3 +71,24 @@ describe('useStoreBinding', () => {
     expect(formatBadge(0.42)).toBe('42%');
   });
 });
+
+describe('useStoreSelection', () => {
+  it('mantiene la tienda origen como principal al seleccionar vecindario o radio', async () => {
+    const { useStoreSelection } = await import('../src/vue/useStoreSelection');
+    const { generateCity } = await import('../src/core/generate');
+    const m = generateCity({ seed: 'sel', mode: 'grid-jitter', size: { w: 600, h: 400 }, pois: { count: 10 } });
+    const sel = useStoreSelection(() => m);
+    const origin = m.pois[2]!;
+    sel.select(origin.id);
+    expect(sel.primary.value?.id).toBe(origin.id);
+    sel.selectNeighborhood(origin.id, 3);
+    expect(sel.count.value).toBe(4);
+    expect(sel.primary.value?.id).toBe(origin.id);
+    sel.selectWithin([origin.x, origin.y], 1000);
+    expect(sel.count.value).toBe(10);
+    expect(sel.primary.value?.id).toBe(origin.id);
+    sel.setMode('single');
+    expect(sel.count.value).toBe(1);
+    expect(sel.primary.value?.id).toBe(origin.id);
+  });
+});

@@ -81,11 +81,18 @@ export function useStoreSelection(model: MaybeRefOrGetter<CityModel | null>, opt
     mode.value = m;
     if (m === 'single' && ids.value.size > 1) commit(new Set(primary.value ? [primary.value.id] : []));
   };
-  const withModel = (fn: (m: CityModel) => Iterable<string>): void => {
+  /** Selecciona un conjunto en modo multiple; `keep` (por defecto la principal actual) queda como principal. */
+  const withModel = (fn: (m: CityModel) => Iterable<string>, keep: string | null = primary.value?.id ?? null): void => {
     const m = toValue(model);
     if (!m) return;
-    const list = [...fn(m)];
+    const list = [...fn(m)].filter((id) => id !== keep);
+    if (keep) list.push(keep);
     if (mode.value === 'single') mode.value = 'multi';
+    // Reordenar: los ids nuevos se anaden al final en el orden de `list`, con `keep` el ultimo.
+    for (const id of list) {
+      const at = order.indexOf(id);
+      if (at >= 0) order.splice(at, 1);
+    }
     commit(new Set(list));
   };
   const selectWithin = (center: Vec2, radius: number): void => withModel((m) => storesWithin(m, center, radius).map((r) => r.poi.id));
@@ -93,10 +100,10 @@ export function useStoreSelection(model: MaybeRefOrGetter<CityModel | null>, opt
   const selectNeighborhood = (id: string, k = 3): void =>
     withModel((m) => {
       const p = poiById.value.get(id);
-      return p ? [p.id, ...nearestStores(m, p, k).map((r) => r.poi.id)] : [];
-    });
-  const selectWhere = (predicate: (poi: Poi) => boolean): void => withModel((m) => m.pois.filter(predicate).map((p) => p.id));
-  const invert = (): void => withModel((m) => m.pois.filter((p) => !ids.value.has(p.id)).map((p) => p.id));
+      return p ? [...nearestStores(m, p, k).map((r) => r.poi.id), p.id] : [];
+    }, id);
+  const selectWhere = (predicate: (poi: Poi) => boolean): void => withModel((m) => m.pois.filter(predicate).map((p) => p.id), null);
+  const invert = (): void => withModel((m) => m.pois.filter((p) => !ids.value.has(p.id)).map((p) => p.id), null);
 
   return { ids, mode, primary, pois, count: computed(() => ids.value.size), has, select, toggle, add, remove, clear, setMode, selectWithin, selectInPolygon, selectNeighborhood, selectWhere, invert };
 }
