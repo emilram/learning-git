@@ -308,8 +308,11 @@ export function serializeIsoSvg(model: CityModel, theme: Theme, opts: Partial<Is
   if (o.fit === 'cover') {
     const cw = w / o.zoom;
     const ch = (h * pr.kv) / o.zoom;
-    const cc = o.center ? pr.p(o.center[0], o.center[1], 0) : ([w / 2, h / 2] as Vec2);
-    vb = [cc[0] - cw / 2, cc[1] - maxH * 0.25 - ch / 2, cw, ch];
+    const raw = o.center ? pr.p(o.center[0], o.center[1], 0) : ([w / 2, h / 2] as Vec2);
+    // Mantener el encuadre dentro de la ciudad proyectada (con margen) para no mostrar terreno vacio.
+    const clampAxis = (v: number, lo: number, hi: number, size: number): number => (hi - lo <= size ? (lo + hi) / 2 : Math.max(lo + size / 2, Math.min(hi - size / 2, v)));
+    const cc: Vec2 = [clampAxis(raw[0], cb.x + 10, cb.x + cb.w - 10, cw), clampAxis(raw[1] - maxH * 0.25, cb.y - maxH * 0.5, cb.y + cb.h + 10, ch)];
+    vb = [cc[0] - cw / 2, cc[1] - ch / 2, cw, ch];
   }
   const depthRange: [number, number] = [cb.y, cb.y + cb.h];
   const fogT = (screenY: number): number => {
