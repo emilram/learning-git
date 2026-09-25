@@ -47,7 +47,37 @@ const { model } = useCityModel(() => ({ seed: 'demo-1', mode: 'grid-jitter' }));
 - **Cámara y detalle**: `rotation`, `pitch`, `fit` (`cover` recorta a la card, `contain` muestra toda la ciudad), `zoom`, `lightAzimuth`, `lightElevation`, `shadows`, `fog`, y `detail` (`high`, `medium`, `low`) para controlar peso y coste.
 - **Vue**: `<CitySketch view="iso" />` permite **arrastrar para orbitar** (durante el gesto baja a `detail: 'low'` y recupera el detalle al soltar), hover y click sobre edificios con tooltip, y emite `iso:change` con la cámara resultante. El botón ⟲ de la card restablece la cámara.
 
-Coste medido (ciudad de 500 calles, 280 edificios, Node 22): `high` ≈ 60 ms y ≈ 700 KB de SVG; `low` ≈ 30 ms y ≈ 330 KB.
+- **Tipologías (v5)**: casas con tejado a dos aguas en residencial de baja densidad, bloques con balcones, comercial bajo con toldo, torres de muro cortina (`components.building.glass`) con corona, y tiendas con altura por datos y tamaño por `kind`. Entorno: farolas en avenidas (con halo de noche), faros de coches, fuentes en plazas y caminos en parques. Se controlan con `typologies`, `lamps` y `furniture`. En modo `cover` se recortan las entidades fuera del encuadre.
+- **Rutas**: `groundPaths` dibuja polilíneas sobre el suelo (p. ej. la ruta más corta entre dos tiendas de `routeBetween`).
+
+Coste medido (ciudad de 500 calles, 430 edificios visibles, `cover` con zoom 1.35, Node 22): `high` ≈ 90 ms y ≈ 1.3 MB de SVG (las ventanas son ~35 %); `medium` (sin ventanas ni tráfico) ≈ 50 ms y ≈ 0.6 MB; `low` ≈ 30 ms. Para cards pequeñas se recomienda `medium`.
+
+## Color (v5)
+
+Los temas `city-day`, `city-dusk` y `city-night` usan primitivos con nombre de material (asfalto, acera, arena, terracota, agua) en OKLCH y paletas de fachadas, azoteas, toldos y vidrio. Cada tema expone `theme.data`:
+
+- `categorical`: 6 tonos en orden fijo (`--cs-data-cat-1..6`).
+- `status`: `ok` / `warn` / `alert` (`--cs-status-*`), que `useStoreBinding` usa para el anillo; el anillo lleva además **forma** (continuo, discontinuo, doble con pulso) para no depender solo del color.
+
+Las paletas se validaron con el validador de seis comprobaciones del skill *dataviz* sobre las superficies reales: categórica clara y oscura, y estado claro `#0f8a6c #c47a00 #d6336c` / oscuro `#2aa88a #bd8a12 #dc5278` pasan banda de luminosidad, croma, separación CVD, umbral de visión normal y contraste. `test/stats.test.ts` comprueba la banda de luminosidad de los estados de cada tema.
+
+## Utilidades de análisis (v5)
+
+Funciones puras del core, exportadas también desde `/vue`:
+
+| Función | Devuelve |
+|---|---|
+| `cityStats(model)` | calles, avenidas, longitud, manzanas, lotes, tiendas, área por uso de suelo, densidad |
+| `districtSummary(model, metric?)` | filas por distrito con tiendas y métrica agregada |
+| `storesWithin`, `storesInPolygon`, `nearestStores` | búsqueda espacial |
+| `routeBetween(model, a, b)` | ruta más corta por la red (Dijkstra con cola binaria), polilínea y calles |
+| `cannibalization(bands)` | pares de tiendas con solapamiento de cobertura (área, ratio, polígono) |
+| `coverageGaps(model, radius)` | candidatos a nueva tienda fuera de la cobertura, puntuados por distancia y densidad |
+| `coveredArea`, `hullOf`, `weightedCenter`, `districtAt`, `blockAt` | apoyo |
+
+Composables Vue: `useCityCamera` (presets `hero`/`bird`/`street`/`north`/`east`, `autoRotate`, `spin`, `flyTo`), `useStoreSelection` (simple/múltiple, radio, polígono, vecindario, predicado), `useTour` (pasos con selección, vista y cámara; progreso), `useTimeOfDay` (fase día/atardecer/noche con tema y luz coherentes; `<CitySketch crossfade>` funde entre temas).
+
+El dashboard de `apps/playground` (#dashboard) muestra todo: hora del día, presets de cámara, selección múltiple con ruta, cobertura con huecos numerados, canibalización, ventas por distrito y tour ejecutivo.
 
 ## Adaptador Vue (bloque 4)
 
@@ -80,9 +110,9 @@ Eventos: `store:hover`, `store:select`, `block:select`, `viewport:change`, `upda
 | Bloque | Estado | Notas |
 |--------|--------|-------|
 | 1 Arquitectura | ✅ | `docs/ARCHITECTURE.md`, `types.ts`, `params.ts` |
-| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, calles que respetan el agua (avenidas como puentes), SVG 2D y **vista 3D isométrica** (`serializeIsoSvg`). 68 tests. |
-| 3 Temas y boceto | ◐ | 7 presets OKLCH en 3 capas (incl. `city-day` y `city-dusk` con paletas de fachadas), rough.js y filtro SVG; faltan ejemplos SVG y medición de coste. |
-| 4 Adaptador Vue | ✅ | `CitySketchCard`, `CitySketch`, `CitySketchCompare`, capas `StreetLayer`/`BlockLayer`/`LabelLayer`/`StoreLayer`/`DataOverlayLayer`/`CanvasStreetLayer`; composables `useCityModel` (worker + caché), `useSketchDimensions`, `useZoomPan`, `useHitTest`, `useTooltip`, `useStoreBinding`, `useUrlState`; exportación SVG/PNG; heatmap, isócronas, comparación, animaciones, a11y. Dashboard con 40 tiendas en `apps/playground` (#dashboard). |
+| 2 Core | ✅ | PRNG sfc32, campo tensorial + RK4 + Jobard-Lefer, 6 modos, limpieza, caras, inset, lotes OBB/skeleton, uso de suelo, POIs, nombres, etiquetas, calles que respetan el agua, SVG 2D, **vista 3D isométrica** con tipologías y **utilidades de análisis** (`analysis/stats.ts`). 82 tests. |
+| 3 Temas y boceto | ◐ | 8 presets OKLCH en 3 capas (incl. `city-day`, `city-dusk` y `city-night` con materiales y paletas de fachadas), paletas de datos validadas (`theme.data`), rough.js y filtro SVG; faltan ejemplos SVG y medición de coste del boceto. |
+| 4 Adaptador Vue | ✅ | `CitySketchCard`, `CitySketch`, `CitySketchCompare`, capas `StreetLayer`/`BlockLayer`/`LabelLayer`/`StoreLayer`/`DataOverlayLayer`/`CanvasStreetLayer`; composables `useCityModel` (worker + caché), `useSketchDimensions`, `useZoomPan`, `useHitTest`, `useTooltip`, `useStoreBinding`, `useUrlState`, `useCityCamera`, `useStoreSelection`, `useTour`, `useTimeOfDay`; exportación SVG/PNG; heatmap, isócronas, comparación, animaciones, a11y. Dashboard con 40 tiendas en `apps/playground` (#dashboard). |
 | 5 Playground y plantillas | ◐ | Playground con sliders desde `PARAM_SPECS` y vista 2D/3D. Falta arrastre de tiendas, guardado de plantillas y JSON Schema. |
 | 6 Guía, benchmarks, limitaciones | ☐ | |
 

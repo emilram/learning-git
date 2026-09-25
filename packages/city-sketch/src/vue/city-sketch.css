@@ -40,6 +40,17 @@
 }
 
 /* Orbita 3D */
+.cs-string-host.cs-fade-out {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: cs-fade-out 650ms ease forwards;
+}
+@keyframes cs-fade-out {
+  to {
+    opacity: 0;
+  }
+}
 .cs-host.cs-orbit {
   cursor: grab;
 }
@@ -85,6 +96,27 @@
   stroke: var(--cs-poi-ring);
   stroke-width: 1.6;
   transition: stroke 300ms ease;
+}
+/* Seleccion multiple: anillo de acento grueso. */
+.cs-poi-marker.cs-multi .cs-poi-ring {
+  stroke: var(--cs-accent);
+  stroke-width: 2.6;
+}
+/* Estado con forma ademas de color: ok continuo, warn discontinuo, alert doble anillo con pulso. */
+.cs-poi-marker.cs-status-warn .cs-poi-ring {
+  stroke-dasharray: 2.4 1.6;
+  stroke-width: 1.8;
+}
+.cs-poi-marker.cs-status-alert .cs-poi-ring {
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 0 var(--cs-poi-ring));
+  animation: cs-ring-pulse 1.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes cs-ring-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
 }
 .cs-poi-marker .cs-poi-selection {
   fill: none;
@@ -370,6 +402,13 @@
 .cs-legend-ring::before {
   background: transparent;
   border: 2px solid var(--sw);
+}
+.cs-legend-ring[data-status='warn']::before {
+  border-style: dashed;
+}
+.cs-legend-ring[data-status='alert']::before {
+  outline: 1.5px solid var(--sw);
+  outline-offset: 1.5px;
 }
 .cs-legend-size i {
   display: inline-block;

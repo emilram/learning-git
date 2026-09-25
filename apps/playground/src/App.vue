@@ -68,7 +68,7 @@ const selectedBlock = ref<string | null>(null);
 const stats = computed(() => {
   const m = model.value;
   if (!m) return [];
-  const t = m.meta.timings ?? {};
+  const t: Partial<Record<string, number>> = m.meta.timings ?? {};
   return [
     ['calles', m.streets.length],
     ['manzanas', m.blocks.length],

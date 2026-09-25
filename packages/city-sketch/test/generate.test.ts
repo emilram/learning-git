@@ -161,7 +161,7 @@ describe('serializeIsoSvg', () => {
     const b = serializeIsoSvg(model, THEME_PRESETS['retail-warm']);
     expect(a.svg).toBe(b.svg);
     expect(a.svg).toContain('data-layer="buildings"');
-    expect(a.svg).toContain('class="cs-building cs-store"');
+    expect(a.svg).toMatch(/class="cs-building[^"]*cs-store"/);
     expect(a.svg).toContain('cs-pin-head');
     expect(a.elementCount.lots).toBeGreaterThan(10);
     expect(a.elementCount.pois).toBe(5);
@@ -230,7 +230,11 @@ describe('temas realistas y foco', () => {
       groundOverlays: [{ polygon: [[0, 0], [100, 0], [100, 100]], fill: 'red' }],
       links: [{ from: [sel.x, sel.y], to: [m.pois[1]!.x, m.pois[1]!.y] }],
     }).svg;
-    expect((out.match(/cs-building cs-store[^"]*cs-dim/g) ?? []).length).toBe(5);
+    // En modo cover se recortan los edificios fuera del encuadre: todas las tiendas visibles salvo la seleccionada van atenuadas.
+    const stores = (out.match(/cs-building[^"]*cs-store/g) ?? []).length;
+    const dimmed = (out.match(/cs-building[^"]*cs-store[^"]*cs-dim/g) ?? []).length;
+    expect(stores).toBeGreaterThanOrEqual(3);
+    expect(dimmed).toBe(stores - 1);
     expect(out).toContain('cs-halo-selected');
     expect(out).toContain('data-layer="ground-overlays"');
     expect(out).toContain('data-layer="links"');

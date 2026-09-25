@@ -19,3 +19,8 @@ export { useStoreBinding, formatBadge, type BindingSpec, type StoreBinding, type
 export { useUrlState, type UrlState, type UrlStateOptions } from './useUrlState';
 export { exportSvg, exportSvgString, exportPng, downloadPng, downloadBlob, type ExportOptions } from './useExport';
 export { computeIsochrones, snapToStreet, type IsochroneBand } from '../core/analysis/isochrone';
+export * from '../core/analysis/stats';
+export { useCityCamera, CAMERA_PRESETS, type CityCamera, type CameraPresetName, type CameraTarget } from './useCityCamera';
+export { useStoreSelection, type StoreSelection, type SelectionMode } from './useStoreSelection';
+export { useTour, type Tour, type TourStep, type TourOptions } from './useTour';
+export { useTimeOfDay, DAY_PHASES, type TimeOfDay, type DayPhase, type TimeOfDayOptions } from './useTimeOfDay';

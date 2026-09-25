@@ -69,6 +69,7 @@ defineSlots<{
   actions(): unknown;
   marker(props: { poi: Poi; size: number; style: string | undefined; badge: string | undefined; selected: boolean }): unknown;
   tooltip(props: { state: TooltipState }): unknown;
+  overlay(props: { model: CityModel }): unknown;
   legend(props: { legend: LegendGroups | undefined }): unknown;
   footer(): unknown;
 }>();
@@ -100,6 +101,7 @@ function doExportSvg(): void {
 async function doExportPng(): Promise<void> {
   if (props.model) await downloadPng(props.model, props.theme, { view: view.value, iso: props.iso, scale: 2 });
 }
+defineExpose({ sketch });
 </script>
 
 <template>
@@ -156,6 +158,7 @@ async function doExportPng(): Promise<void> {
       >
         <template #marker="p"><slot name="marker" v-bind="p" /></template>
         <template #tooltip="p"><slot name="tooltip" v-bind="p" /></template>
+        <template #overlay="p"><slot name="overlay" v-bind="p" /></template>
       </CitySketch>
       <div v-if="generating" class="cs-card-loading" aria-hidden="true"><span class="cs-spinner" /></div>
     </div>
@@ -170,7 +173,7 @@ async function doExportPng(): Promise<void> {
             <span class="cs-legend-size" v-for="e in legend.size" :key="e.label"><i :style="`--sz:${(e.size ?? 1) * 8}px`" />{{ e.label }}</span>
           </div>
           <div v-if="legend?.status?.length" class="cs-legend-row">
-            <span class="cs-legend-ring" v-for="e in legend.status" :key="e.label" :style="`--sw:${e.color}`">{{ e.label }}</span>
+            <span class="cs-legend-ring" v-for="e in legend.status" :key="e.label" :data-status="e.label" :style="`--sw:${e.color}`">{{ e.label }}</span>
           </div>
         </div>
       </slot>

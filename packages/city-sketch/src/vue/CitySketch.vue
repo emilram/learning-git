@@ -52,6 +52,8 @@ const props = withDefaults(
     orbit?: boolean | undefined;
     /** Volar la camara a la tienda seleccionada en vista iso. */
     flyTo?: boolean | undefined;
+    /** Fundido entre temas (dia/atardecer/noche) en vista iso. */
+    crossfade?: boolean | undefined;
   }>(),
   {
     view: '2d',
@@ -68,6 +70,7 @@ const props = withDefaults(
     filter: null,
     orbit: true,
     flyTo: true,
+    crossfade: true,
   },
 );
 
@@ -318,13 +321,38 @@ watch(
 
 const tooltipState = computed(() => tooltip.state.value);
 
-function setOrbit(rotation: number, pitch: number): void {
+function setOrbit(rotation: number, pitch: number, resetCenter = true): void {
   orbitRotation.value = rotation - (props.iso?.rotation ?? 35);
   orbitPitch.value = pitch - (props.iso?.pitch ?? 55);
-  flyTo(null, null, 400);
+  if (resetCenter) flyTo(null, null, 400);
+}
+/** Incremento relativo de camara (para autorotacion) sin tocar el centro. */
+function orbitBy(dRotation: number, dPitch = 0): void {
+  orbitRotation.value += dRotation;
+  orbitPitch.value += dPitch;
+}
+function getOrbit(): { rotation: number; pitch: number } {
+  return { rotation: isoEffective.value.rotation ?? 0, pitch: isoEffective.value.pitch ?? 0 };
 }
 
-defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, flyTo, dragging, flying });
+// Crossfade al cambiar de tema en vista iso: la imagen anterior se desvanece encima de la nueva.
+const fadeHtml = shallowRef('');
+let fadeTimer: ReturnType<typeof setTimeout> | null = null;
+watch(
+  () => props.theme.name,
+  (_n, _o) => {
+    if (!props.crossfade || props.view !== 'iso' || !stringHtml.value || prefersReducedMotion()) return;
+    fadeHtml.value = stringHtml.value;
+    if (fadeTimer) clearTimeout(fadeTimer);
+    fadeTimer = setTimeout(() => (fadeHtml.value = ''), 700);
+  },
+  { flush: 'sync' },
+);
+onScopeDispose(() => {
+  if (fadeTimer) clearTimeout(fadeTimer);
+});
+
+defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, orbitBy, getOrbit, flyTo, dragging, flying });
 </script>
 
 <template>
@@ -342,6 +370,7 @@ defineExpose({ zoomPan, hostEl: host, svgEl, setOrbit, flyTo, dragging, flying }
   >
     <CanvasStreetLayer v-if="model && useCanvas" :model="model" :theme="theme" :width="dims.width.value" :height="dims.height.value" :transform="zoomPan.transform.value" :view-box="viewBox" />
     <div v-if="model && useString" class="cs-string-host" v-html="stringHtml" />
+    <div v-if="fadeHtml" class="cs-string-host cs-fade-out" aria-hidden="true" v-html="fadeHtml" />
     <svg
       v-else-if="model"
       ref="svgEl"

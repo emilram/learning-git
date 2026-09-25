@@ -63,6 +63,10 @@ export function themeVariables(theme: Theme): Record<string, string> {
   vars['--cs-poi-stroke'] = resolveColor(theme, c.poi.stroke);
   vars['--cs-poi-ring'] = resolveColor(theme, c.poi.ring);
   vars['--cs-poi-size'] = String(c.poi.size);
+  theme.data.categorical.forEach((c, i) => (vars[`--cs-data-cat-${i + 1}`] = c));
+  vars['--cs-status-ok'] = theme.data.status.ok;
+  vars['--cs-status-warn'] = theme.data.status.warn;
+  vars['--cs-status-alert'] = theme.data.status.alert;
   vars['--cs-font-display'] = resolveFont(theme, 'fontDisplay');
   vars['--cs-font-body'] = resolveFont(theme, 'fontBody');
   return vars;

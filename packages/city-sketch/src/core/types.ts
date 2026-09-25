@@ -463,7 +463,8 @@ export type ThemePresetName =
   | 'retail-warm'
   | 'dark-ops'
   | 'city-day'
-  | 'city-dusk';
+  | 'city-dusk'
+  | 'city-night';
 
 /** Color en OKLCH como string CSS (`oklch(L C H / A)`). */
 export type Oklch = `oklch(${string})`;
@@ -509,6 +510,8 @@ export interface ComponentTokens {
     readonly facades: readonly string[];
     readonly roofs: readonly string[];
     readonly awnings: readonly string[];
+    /** Muro cortina de torres (opcional). */
+    readonly glass?: readonly string[];
   };
 }
 
@@ -524,12 +527,30 @@ export interface SketchStyle {
   readonly roughBlocks?: boolean;
 }
 
+/**
+ * Paletas de datos del tema (literales hex/OKLCH). Validadas con el validador de
+ * seis comprobaciones (banda de luminosidad, croma, separacion CVD, umbral de
+ * vision normal, contraste) sobre la superficie del tema.
+ */
+export interface DataTokens {
+  /** Hasta 6 tonos categoricos en orden fijo (nunca se ciclan). */
+  readonly categorical: readonly string[];
+  /** Tono OKLCH para rampas secuenciales. */
+  readonly sequentialHue: number;
+  /** Tonos OKLCH [negativo, neutro, positivo] para rampas divergentes. */
+  readonly divergingHues: readonly [number, number, number];
+  /** Colores de estado; siempre acompanados de forma (anillo continuo/discontinuo/doble). */
+  readonly status: { readonly ok: string; readonly warn: string; readonly alert: string };
+}
+
 export interface Theme {
   readonly name: string;
   readonly primitives: PrimitiveTokens;
   readonly semantic: SemanticTokens;
   readonly components: ComponentTokens;
   readonly sketch: SketchStyle;
+  /** Paletas de datos validadas para la superficie del tema. */
+  readonly data: DataTokens;
   /** Esquema de color que declara el tema (afecta `color-scheme`). */
   readonly scheme: 'light' | 'dark';
 }

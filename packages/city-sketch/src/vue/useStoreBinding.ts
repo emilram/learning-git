@@ -77,9 +77,9 @@ function oklchInterpolator(a: readonly [number, number, number], b: readonly [nu
 }
 
 const STATUS_COLOR: Record<'ok' | 'warn' | 'alert', string> = {
-  ok: 'var(--cs-success)',
-  warn: 'oklch(75% 0.16 80)',
-  alert: 'var(--cs-danger)',
+  ok: 'var(--cs-status-ok)',
+  warn: 'var(--cs-status-warn)',
+  alert: 'var(--cs-status-alert)',
 };
 
 export function useStoreBinding(pois: MaybeRefOrGetter<readonly Poi[]>, data: MaybeRefOrGetter<readonly StoreDatum[]>, spec: MaybeRefOrGetter<BindingSpec>): StoreBinding {
